@@ -1,0 +1,17 @@
+@import "./preflight.css";
+
+:root {
+  --color-blue-light-0: #edf5ff;
+  --color-blue-light-1: #babec4;
+  --color-blue-light-2: #46505e;
+  --color-blue-dark-0: #0f151c;
+  --color-blue-dark-1: #141d28;
+  --color-blue-dark-2: #17222f;
+  --color-error: #ff7979;
+  --color-accent: #7c75ff;
+}
+
+body {
+  background-color: var(--color-blue-dark-0);
+  color: var(--color-blue-light-0);
+}

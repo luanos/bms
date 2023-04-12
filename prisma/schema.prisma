@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgres"
+  url      = "postgres://bms:example@localhost:5432/bms"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String     @id @default(uuid())
+  username       String
+  password       String
+  ownedWaypoints Waypoint[] @relation(name: "waypoint_owner")
+  Waypoint       Waypoint[] @relation(name: "waypoint_visible")
+}
+
+enum WorldType {
+  OVERWORLD
+  NETHER
+  END
+}
+
+enum Visibility {
+  ALL
+  SELECT
+  PRIVATE
+}
+
+model Waypoint {
+  id         String     @id @default(uuid())
+  owner      User       @relation(name: "waypoint_owner", fields: [ownerId], references: [id])
+  ownerId    String
+  name       String
+  worldType  WorldType // OVERWORLD, NETHER, END
+  visibility Visibility // ALL, SELECT, PRIVATE
+  visibleTo  User[]     @relation(name: "waypoint_visible")
+  xCoord     Int
+  yCoord     Int
+  zCoord     Int
+}

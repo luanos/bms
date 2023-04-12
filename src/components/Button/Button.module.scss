@@ -1,0 +1,22 @@
+.button {
+  background-color: var(--color-blue-dark-1);
+  border: 1px solid var(--color-blue-light-2);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.125rem 0.375rem;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition-duration: 0.25s;
+  transition-property: border-color, background-color;
+
+  &:focus-visible {
+    border-color: var(--color-accent);
+  }
+
+  &:active {
+    background-color: var(--color-blue-dark-2);
+  }
+}

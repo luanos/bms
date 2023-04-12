@@ -1,0 +1,25 @@
+{
+  "extends": "next/core-web-vitals",
+  "plugins": ["import"],
+  "rules": {
+    "import/no-duplicates": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          ["internal", "sibling", "index", "parent"],
+          "type",
+          "object"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/alt-text": "off"
+  }
+}

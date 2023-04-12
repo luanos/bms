@@ -1,0 +1,11 @@
+.wrapper {
+  isolation: isolate;
+}
+
+.mapWrapper {
+}
+
+.sideBarWrapper {
+  position: fixed;
+  z-index: 1;
+}
