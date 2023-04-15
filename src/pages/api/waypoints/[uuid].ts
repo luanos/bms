@@ -1,53 +1,36 @@
-import { z } from "zod";
-
-import prisma from "~/client";
 import { authenticated } from "~/session";
-
-let waypointUpdateInput = z.object({
-  worldType: z.enum(["OVERWORLD", "NETHER", "END"]),
-  visibility: z.enum(["ALL", "SELECT", "PRIVATE"]),
-  name: z.string(),
-  select: z.string().array().optional(),
-  xCoord: z.number(),
-  yCoord: z.number(),
-  zCoord: z.number(),
-});
+import { WaypointUpdateInput } from "~/types";
+import {
+  checkWaypoint,
+  deleteWaypoint,
+  getVisibleWaypoints,
+  updateWaypoint,
+} from "~/waypoints";
 
 export default authenticated(async (req, res, user) => {
   // Query structure is given by file path
   const { uuid } = req.query as { uuid: string };
+  let result = await checkWaypoint(user.id, uuid);
+  if (result === "NOT_FOUND")
+    return res.status(404).send({ status: "error", message: "Not found" });
 
-  let wp = await prisma.waypoint.findFirst({ where: { id: uuid } });
-  if (!wp) {
-    res.status(404).send({ status: "error", message: "waypoint not found" });
-    return;
-  }
-  // Authorization check
-  if (wp.ownerId !== user.id) {
-    res.status(401).send({ status: "error", message: "unauthorized" });
-    return;
-  }
+  if (result === "UNAUTHORIZED")
+    return res.status(403).send({ status: "error", message: "Forbidden" });
 
   if (req.method === "DELETE") {
-    await prisma.waypoint.delete({ where: { id: uuid } });
-    res.status(200).send({ status: "success" });
-    return;
+    await deleteWaypoint(uuid);
+    return res.status(200).send(await getVisibleWaypoints(user.id));
   }
-  if (req.method === "PATCH") {
-    let input;
-    try {
-      input = waypointUpdateInput.parse(JSON.parse(req.body));
-    } catch {
-      res.status(400).send({ status: "error" });
-      return;
-    }
+  if (req.method === "PUT") {
+    let parseResult = WaypointUpdateInput.safeParse(JSON.parse(req.body));
 
-    await prisma.waypoint.update({
-      where: { id: uuid },
-      data: input,
-    });
-    res.status(200).send({ status: "success" });
-    return;
+    if (!parseResult.success) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "Bad user input" });
+    }
+    await updateWaypoint(uuid, parseResult.data);
+    return res.status(200).send(await getVisibleWaypoints(user.id));
   }
   res.status(400).send({ status: "error", message: "unknown method" });
 });

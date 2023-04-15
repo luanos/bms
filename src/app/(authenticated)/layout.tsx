@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
+import { DebugMap } from "~/components/DebugMap";
 import { getSession } from "~/session";
+import { AppStoreProvider } from "~/state";
+import { getVisibleWaypoints } from "~/waypoints";
 
 export default async function AuthenticatedLayout({
   children,
@@ -12,5 +15,13 @@ export default async function AuthenticatedLayout({
   if (!session?.user) {
     redirect("/login");
   }
-  return children;
+
+  const waypoints = await getVisibleWaypoints(session.user.id);
+
+  return (
+    <AppStoreProvider user={session.user} waypoints={waypoints}>
+      {children}
+      <DebugMap />
+    </AppStoreProvider>
+  );
 }

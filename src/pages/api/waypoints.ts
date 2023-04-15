@@ -1,40 +1,24 @@
-import { z } from "zod";
-
-import prisma from "~/client";
 import { authenticated } from "~/session";
-
-let waypointAddInput = z.object({
-  worldType: z.enum(["OVERWORLD", "NETHER", "END"]),
-  visibility: z.enum(["ALL", "SELECT", "PRIVATE"]),
-  name: z.string(),
-  select: z.string().array().optional(),
-  xCoord: z.number(),
-  yCoord: z.number(),
-  zCoord: z.number(),
-});
+import { WayppintAddInput } from "~/types";
+import { createWaypoint, getVisibleWaypoints } from "~/waypoints";
 
 export default authenticated(async (req, res, user) => {
-  let parseResult = waypointAddInput.safeParse(JSON.parse(req.body));
-
-  if (!parseResult.success) {
-    res
-      .status(400)
-      .send({ status: "error", message: parseResult.error.message });
-    return;
+  if (req.method === "GET") {
+    return res.status(200).send(await getVisibleWaypoints(user.id));
   }
-  let { select, ...input } = parseResult.data;
 
-  await prisma.waypoint.create({
-    data: {
-      ...input,
-      owner: {
-        connect: {
-          id: user.id,
-        },
-      },
-    },
-  });
+  if (req.method === "POST") {
+    let parseResult = WayppintAddInput.safeParse(JSON.parse(req.body));
 
-  res.status(200).send({ status: "success" });
-  return;
-}, "POST");
+    if (!parseResult.success) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "Bad user input" });
+    }
+    await createWaypoint(user.id, parseResult.data);
+
+    return res.status(200).send(await getVisibleWaypoints(user.id));
+  }
+
+  return res.status(404).send({ status: "error", message: "Unknown method" });
+});

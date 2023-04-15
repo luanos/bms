@@ -1,14 +1,33 @@
 @import "./preflight.css";
 
 :root {
-  --color-blue-light-0: #edf5ff;
-  --color-blue-light-1: #babec4;
-  --color-blue-light-2: #46505e;
-  --color-blue-dark-0: #0f151c;
-  --color-blue-dark-1: #141d28;
-  --color-blue-dark-2: #17222f;
-  --color-error: #ff7979;
-  --color-accent: #7c75ff;
+  /* Color Palette */
+  --col-blue-light-0: #edf5ff;
+  --col-blue-light-1: #babec4;
+  --col-blue-light-2: #46505e;
+  --col-blue-dark-0: #0f151c;
+  --col-blue-dark-1: #141d28;
+  --col-blue-dark-2: #17222f;
+  --col-red-400: #ff7979;
+  --col-violet-400: #7c75ff;
+  /* UI Colors */
+  --col-accent: var(--col-violet-400);
+  --col-accent-contrast: #fff;
+  --col-error: var(--col-red-400);
+  --col-error-contrast: #fff;
+  --col-surface-800: hsl(0, 0%, 90%);
+
+  /* Font Sizes */
+  --fsize-xs: 14px;
+  --fsize-m: 16px;
+
+  /* Radien */
+  --rad-s: 4px;
+  /* Durations */
+  --dur-s: 0.1s;
+}
+
+@supports (backdrop-filter: blur(15px)) {
 }
 
 body {

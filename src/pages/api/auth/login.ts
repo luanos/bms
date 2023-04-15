@@ -1,21 +1,14 @@
-import { z } from "zod";
-
 import prisma from "~/client";
 import { withSession } from "~/session";
-
-let loginInput = z.object({
-  username: z.string(),
-  password: z.string(),
-});
+import { LoginInput } from "~/types";
 
 export default withSession(async (req, res) => {
-  let parseResult = loginInput.safeParse(JSON.parse(req.body));
+  let parseResult = LoginInput.safeParse(JSON.parse(req.body));
   if (!parseResult.success) {
-    res.status(401).send({
+    return res.status(401).send({
       status: "error",
       message: "Benutzername oder Passwort falsch",
     });
-    return;
   }
   let input = parseResult.data;
 
@@ -24,11 +17,10 @@ export default withSession(async (req, res) => {
   });
 
   if (!userMaybe) {
-    res.status(401).send({
+    return res.status(401).send({
       status: "error",
       message: "Benutzername oder Passwort falsch",
     });
-    return;
   }
 
   const { password, ...user } = userMaybe;
@@ -37,16 +29,14 @@ export default withSession(async (req, res) => {
 
     await req.session.save();
 
-    res.status(200).send({
+    return res.status(200).send({
       status: "success",
       message: "Login successful",
     });
-    return;
   } else {
-    res.status(401).send({
+    return res.status(401).send({
       status: "error",
       message: "Benutzername oder Passwort falsch",
     });
-    return;
   }
 });

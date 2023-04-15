@@ -1,13 +1,13 @@
-import { User as DBUser } from "@prisma/client";
 import { IronSession, IronSessionOptions, unsealData } from "iron-session";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { cookies } from "next/headers";
 
+import { User } from "./types";
+
 if (!process.env.COOKIE_SECRET) {
   throw new Error("Cookie secret not set");
 }
-export type User = Omit<DBUser, "password">;
 
 declare module "iron-session" {
   interface IronSessionData {
@@ -31,7 +31,7 @@ export function authenticated(
       return;
     }
     if (method && method !== req.method) {
-      res.status(400).send({ status: "error", message: "Bad user input" });
+      res.status(400).send({ status: "error", message: "unknown method" });
     }
     return handler(req, res, req.session.user);
   };
