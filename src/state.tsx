@@ -1,9 +1,16 @@
 "use client";
 
-import { PropsWithChildren, createContext, useContext, useRef } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import { StoreApi, create, createStore, useStore } from "zustand";
 import { shallow } from "zustand/shallow";
 
+import { Message } from "./realtime/manager";
 import { User, Waypoint, WaypointAddInput, WaypointUpdateInput } from "./types";
 import { safeFetch } from "./utils";
 
@@ -111,6 +118,29 @@ export function AppStoreProvider({
   if (!storeRef.current) {
     storeRef.current = createAppContextStore(user, waypoints);
   }
+  useEffect(() => {
+    const eventSource = new EventSource("/api/realtime");
+    eventSource.addEventListener("message", (incoming) => {
+      let message: Message = JSON.parse(incoming.data);
+      if (message.type == "WAYPOINT_HIDE") {
+        let waypointId = message.data;
+        storeRef.current?.setState((app) => ({
+          waypoints: app.waypoints.filter(
+            (waypoint) => waypoint.id !== waypointId
+          ),
+        }));
+      }
+      if (
+        message.type == "WAYPOINT_SHOW" ||
+        message.type == "WAYPOINT_UPDATE"
+      ) {
+        let waypoint = message.data;
+        storeRef.current?.setState((app) => ({
+          waypoints: [...app.waypoints, waypoint],
+        }));
+      }
+    });
+  }, []);
   return (
     <AppStoreContext.Provider value={storeRef.current}>
       {children}

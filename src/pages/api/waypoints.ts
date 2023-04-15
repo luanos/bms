@@ -16,7 +16,6 @@ export default authenticated(async (req, res, user) => {
         .send({ status: "error", message: "Bad user input" });
     }
     await createWaypoint(user.id, parseResult.data);
-
     return res.status(200).send(await getVisibleWaypoints(user.id));
   }
 

@@ -1,36 +1,33 @@
 .root {
+  --_size: 60px; /* Set Size of Circle here */
+
+  height: calc(var(--_size) * 1.25);
+  width: var(--_size);
+
+  /* To be Changed after Debugging */
   position: absolute;
-  top: 50px;
-  right: 50px;
-  height: 75px;
-  width: 60px;
+  top: calc(25px - var(--_size) * 0.25);
+  right: 25px;
 }
 
 .avatarContainer {
   position: absolute;
   right: 0;
-  width: 60px;
-  height: 75px;
+  width: var(--_size);
+  height: calc(var(--_size) * 1.25);
   border-bottom-left-radius: 100vw;
   border-bottom-right-radius: 100vw;
   overflow: hidden;
   pointer-events: none;
-
-  .avatarBg {
-    position: absolute;
-    bottom: 0;
-    width: 60px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-  }
+  user-select: none;
 
   .avatarImgContainer {
     position: absolute;
     top: 0;
-    width: 45px;
-    height: 75px;
+    width: 75%;
+    height: 100%;
     left: 50%;
-    transform: translate(-50%, 20px);
+    transform: translate(-50%, 33.33%);
     transition: transform 0.75s;
 
     img {
@@ -44,7 +41,7 @@
   position: absolute;
   right: 0px;
   bottom: 0;
-  height: 60px;
+  height: var(--_size);
   border-top-right-radius: 100vw;
   border-bottom-right-radius: 100vw;
   overflow: hidden;
@@ -54,15 +51,15 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    height: 60px;
-    padding: 0.5rem 60px 0.5rem 1.5rem;
+    height: var(--_size);
+    padding: 0.5rem var(--_size) 0.5rem 1.5rem;
     border-radius: 100vw;
     color: #fff;
     background-color: var(--col-blue-dark-0);
-    transform: translateX(calc(100% - 60px));
+    transform: translateX(calc(100% - var(--_size)));
     transition: transform 1s;
 
-    font-size: 14px;
+    font-size: 0.875rem;
 
     .username {
       font-weight: bold;
@@ -70,12 +67,14 @@
 
     .logout {
       color: var(--col-error);
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     & > * {
       opacity: 0;
-      transition: opacity 0.5s 0s;
+      pointer-events: none;
+      transition-property: opacity, pointer-events;
+      transition-duration: 0.5s;
     }
   }
 }
@@ -91,7 +90,8 @@
     transition: transform 0.3s;
     & > * {
       opacity: 1;
-      transition: opacity 0.5s 0.2s;
+      pointer-events: auto;
+      transition-delay: 0.2s;
     }
   }
 }

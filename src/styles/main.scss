@@ -15,14 +15,14 @@
   --col-accent-contrast: #fff;
   --col-error: var(--col-red-400);
   --col-error-contrast: #fff;
-  --col-surface-800: hsl(0, 0%, 90%);
+  --col-surface-800: var(--col-blue-dark-2);
 
   /* Font Sizes */
   --fsize-xs: 14px;
   --fsize-m: 16px;
 
   /* Radien */
-  --rad-s: 4px;
+  --rad-s: 8px;
   /* Durations */
   --dur-s: 0.1s;
 }
@@ -31,6 +31,6 @@
 }
 
 body {
-  background-color: var(--color-blue-dark-0);
-  color: var(--color-blue-light-0);
+  background-color: var(--col-blue-dark-0);
+  color: var(--col-blue-light-0);
 }

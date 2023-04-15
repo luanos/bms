@@ -1,6 +1,6 @@
 .list {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.25em;
   border-bottom: 1px solid var(--col-surface-800);
 }
 
@@ -15,7 +15,6 @@
 
   font-size: var(--fsize-xs);
   font-weight: bold;
-  color: hsl(0, 0%, 35%);
 
   user-select: none;
   cursor: pointer;

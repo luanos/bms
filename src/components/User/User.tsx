@@ -17,13 +17,11 @@ export function User() {
           className={s.expandedContent}
           onMouseEnter={() => {
             if (timeoutRef.current) {
-              console.log("clear");
               clearTimeout(timeoutRef.current);
             }
             setActive(true);
           }}
           onMouseLeave={() => {
-            console.log("set");
             timeoutRef.current = setTimeout(() => setActive(false), 300);
           }}
         >
@@ -39,7 +37,6 @@ export function User() {
         </div>
       </div>
       <div className={s.avatarContainer}>
-        {/* <div className={s.avatarBg} onMouseEnter={() => setActive(true)} /> */}
         <div className={s.avatarImgContainer}>
           {/* TODO: DEBUGGING BILD ERSETZEN! */}
           <Image src="/heslig.png" alt="" fill />

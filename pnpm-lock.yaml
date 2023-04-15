@@ -10,9 +10,6 @@ dependencies:
   '@radix-ui/react-alert-dialog':
     specifier: ^1.0.3
     version: 1.0.3(@types/react@18.0.33)(react-dom@18.2.0)(react@18.2.0)
-  '@radix-ui/react-avatar':
-    specifier: ^1.0.2
-    version: 1.0.2(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-form':
     specifier: ^0.0.2
     version: 0.0.2(react-dom@18.2.0)(react@18.2.0)
@@ -79,6 +76,9 @@ dependencies:
   sass:
     specifier: ^1.61.0
     version: 1.61.0
+  server-only:
+    specifier: ^0.0.1
+    version: 0.0.1
   typescript:
     specifier: 5.0.4
     version: 5.0.4
@@ -404,21 +404,6 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.0
       '@radix-ui/react-primitive': 1.0.2(react-dom@18.2.0)(react@18.2.0)
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@radix-ui/react-avatar@1.0.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-XRL8z2l9V7hRLCPjHWg/34RBPZUGpmOjmsRSNvIh2DI28GyIWDChbcsDUVc63MzOItk6Q83Ob2KK8k2FUlXlGA==}
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@radix-ui/react-context': 1.0.0(react@18.2.0)
-      '@radix-ui/react-primitive': 1.0.2(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-use-callback-ref': 1.0.0(react@18.2.0)
-      '@radix-ui/react-use-layout-effect': 1.0.0(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -2929,6 +2914,10 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: false
 
   /shebang-command@2.0.0:

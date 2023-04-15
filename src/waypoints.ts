@@ -1,11 +1,40 @@
 import prisma from "./client";
+import Manager from "./realtime/manager";
 import { Waypoint, WaypointAddInput, WaypointUpdateInput } from "./types";
 
-export function updateWaypoint(
+const WaypointSelect = {
+  id: true,
+  name: true,
+  xCoord: true,
+  yCoord: true,
+  zCoord: true,
+  worldType: true,
+  owner: {
+    select: {
+      username: true,
+      id: true,
+    },
+  },
+  visibility: true,
+  visibleTo: {
+    select: {
+      username: true,
+      id: true,
+    },
+  },
+};
+
+export async function updateWaypoint(
   waypointId: string,
   { visibleTo, ...input }: WaypointUpdateInput
 ) {
-  return prisma.waypoint.update({
+  const oldWP = await prisma.waypoint.findFirst({
+    select: WaypointSelect,
+    where: { id: waypointId },
+  });
+
+  const newWP = await prisma.waypoint.update({
+    select: WaypointSelect,
     where: { id: waypointId },
     data: {
       ...input,
@@ -13,48 +42,43 @@ export function updateWaypoint(
       visibleTo: { connect: visibleTo?.map((userId) => ({ id: userId })) },
     },
   });
+
+  Manager.handleUpdateWaypoint(oldWP!, newWP);
+
+  return newWP;
 }
 
-export function createWaypoint(
+export async function createWaypoint(
   ownerId: string,
   { visibleTo, ...input }: WaypointAddInput
 ) {
-  return prisma.waypoint.create({
+  let waypoint = await prisma.waypoint.create({
+    select: WaypointSelect,
     data: {
       ...input,
       owner: { connect: { id: ownerId } },
       visibleTo: { connect: visibleTo.map((userId) => ({ id: userId })) },
     },
   });
+  Manager.handleCreateWaypoint(waypoint);
+  return waypoint;
 }
 
-export function deleteWaypoint(waypointId: string) {
-  return prisma.waypoint.delete({ where: { id: waypointId } });
+export async function deleteWaypoint(waypointId: string) {
+  let waypoint = await prisma.waypoint.findFirst({
+    select: WaypointSelect,
+    where: { id: waypointId },
+  });
+  Manager.handleDeleteWaypoint(waypoint!);
+  return prisma.waypoint.delete({
+    select: WaypointSelect,
+    where: { id: waypointId },
+  });
 }
 
 export function getVisibleWaypoints(userId: string): Promise<Waypoint[]> {
   return prisma.waypoint.findMany({
-    select: {
-      id: true,
-      name: true,
-      xCoord: true,
-      yCoord: true,
-      zCoord: true,
-      worldType: true,
-      owner: {
-        select: {
-          username: true,
-          id: true,
-        },
-      },
-      visibility: true,
-      visibleTo: {
-        select: {
-          username: true,
-          id: true,
-        },
-      },
-    },
+    select: WaypointSelect,
 
     where: {
       OR: [

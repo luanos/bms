@@ -1,5 +1,12 @@
-.canvas {
-  height: 100px;
-  width: 100px;
-  background-color: gray;
+.root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: -1;
+  position: relative;
+  img {
+    object-fit: cover;
+  }
 }

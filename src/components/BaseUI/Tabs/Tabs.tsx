@@ -4,6 +4,10 @@ import { ReactNode } from "react";
 
 import s from "./Tabs.module.scss";
 
+/* These Components only add Styling to the existing Radix-Components. Everything else is the same */
+
+/* List - Flex Element Holding Selectable Tabs*/
+
 interface TabsListProps extends RadixTabs.TabsListProps {}
 
 function List({ ...props }: TabsListProps) {
@@ -16,6 +20,8 @@ interface TabsTriggerProps extends RadixTabs.TabsTriggerProps {
   iconActive?: ReactNode;
   active?: boolean;
 }
+
+/* Trigger - Selectable Tabs as UI Elements */
 
 function Trigger({
   label,
@@ -34,4 +40,9 @@ function Trigger({
   );
 }
 
-export { List, Trigger };
+/* Other Radix Elements */
+
+const Root = RadixTabs.Root;
+const Content = RadixTabs.Content;
+
+export { Root, List, Trigger, Content };

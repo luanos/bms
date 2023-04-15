@@ -1,5 +1,13 @@
-import Link from "next/link";
+"use client";
+
+import { Laputa } from "~/components/Laputa";
+import { User } from "~/components/User";
 
 export default function Index() {
-  return <Link href="/" />;
+  return (
+    <>
+      <Laputa />
+      <User />
+    </>
+  );
 }

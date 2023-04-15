@@ -1,0 +1,22 @@
+.root {
+  .name {
+    color: #000;
+    font-weight: bold;
+  }
+  .info {
+    display: flex;
+    font-size: 0.75rem;
+  }
+}
+
+.coordinateDisplay {
+  border-collapse: collapse;
+  border: 1px solid hsl(0, 0%, 90%);
+  border-radius: var(--rad-s);
+  font-size: 0.75rem;
+
+  td {
+    padding: 0.15rem 0.25rem;
+    border: 1px solid hsl(0, 0%, 90%);
+  }
+}
