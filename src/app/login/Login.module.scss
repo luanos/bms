@@ -22,21 +22,21 @@
 .label {
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--color-blue-light-2);
+  color: var(--col-neutral-12);
 }
 
 .input {
   width: 300px;
   border-radius: 0.25rem;
   border: 1px solid transparent;
-  background-color: var(--color-blue-dark-2);
+  background-color: var(--col-neutral-3);
   padding: 0.25rem 0.5rem;
   outline: none;
 
   transition: border-color 0.25s;
 
   &:focus {
-    border-color: var(--color-accent);
+    border-color: var(--col-accent-8);
   }
 }
 
@@ -45,7 +45,7 @@
 }
 
 .msg {
-  color: var(--color-error);
+  color: var(--col-danger);
   font-size: 0.875rem;
   height: 2rem;
   text-align: center;

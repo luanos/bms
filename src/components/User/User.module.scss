@@ -54,20 +54,21 @@
     height: var(--_size);
     padding: 0.5rem var(--_size) 0.5rem 1.5rem;
     border-radius: 100vw;
-    color: #fff;
-    background-color: var(--col-blue-dark-0);
-    transform: translateX(calc(100% - var(--_size)));
-    transition: transform 1s;
-
-    font-size: 0.875rem;
+    background-color: var(--col-neutral-trans-2);
+    backdrop-filter: blur(var(--blur));
+    position: relative;
+    left: calc(100% - var(--_size));
+    transition-property: left, background-color;
+    transition-duration: 1s;
+    font-size: var(--fsize-s);
 
     .username {
       font-weight: bold;
     }
 
     .logout {
-      color: var(--col-error);
-      font-size: 0.75rem;
+      color: var(--col-danger);
+      font-size: var(--fsize-xs);
     }
 
     & > * {
@@ -86,8 +87,9 @@
     transition: transform 0.3s;
   }
   .expandedContent {
-    transform: translateX(0%);
-    transition: transform 0.3s;
+    left: 0;
+    transition-duration: 0.3s;
+    background-color: var(--col-neutral-1);
     & > * {
       opacity: 1;
       pointer-events: auto;

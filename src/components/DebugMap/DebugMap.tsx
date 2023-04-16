@@ -49,6 +49,7 @@ export function DebugMap() {
     <div
       className={s.root}
       onMouseMove={(e) => {
+        console.log("BLAL");
         const { left, top } = e.currentTarget.getBoundingClientRect();
         updateLocation(
           Math.round(e.clientX - left),
@@ -56,7 +57,7 @@ export function DebugMap() {
         );
       }}
     >
-      <Image src="/map.png" fill alt="" />
+      <Image src="/map2.jpg" fill alt="" />
       {events.map((event) => (
         <pre
           key={event.timestamp.getMilliseconds()}

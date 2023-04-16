@@ -9,6 +9,7 @@ const WaypointSelect = {
   yCoord: true,
   zCoord: true,
   worldType: true,
+  waypointType: true,
   owner: {
     select: {
       username: true,

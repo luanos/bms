@@ -1,4 +1,7 @@
+import Image from "next/image";
+
 import s from "./WaypointListEntry.module.scss";
+import { EpUser } from "~/components/Icons";
 import { useMap } from "~/state";
 import { Waypoint } from "~/types";
 
@@ -12,6 +15,7 @@ export function WaypointListEntry({ waypoint }: WaypointListEntryProps) {
   const map = useMap();
   return (
     <div className={s.root}>
+      <Image src="/natural-icon.png" alt="" width={16} height={16} />
       <h3
         className={s.name}
         onClick={() =>
@@ -22,7 +26,10 @@ export function WaypointListEntry({ waypoint }: WaypointListEntryProps) {
       </h3>
       <div className={s.info}>
         <span className={s.infoType}></span>
-        <span className={s.infoShared}>{waypoint.owner.username}</span>
+        <span className={s.infoShared}>
+          <EpUser />
+          {waypoint.owner.username}
+        </span>
       </div>
       <CoordinateDisplay
         world={waypoint.worldType}
@@ -43,15 +50,11 @@ interface CoordinateDisplayProps {
 
 function CoordinateDisplay({ world, x, y, z }: CoordinateDisplayProps) {
   return (
-    <table className={s.coordinateDisplay}>
-      <tbody>
-        <tr>
-          <td>{world}</td>
-          <td>{x}</td>
-          <td>{y}</td>
-          <td>{z}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className={s.coordinateDisplay}>
+      <span>{world.substring(0, 1)}</span>
+      <span>{x}</span>
+      <span>{y}</span>
+      <span>{z}</span>
+    </div>
   );
 }

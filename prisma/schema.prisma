@@ -27,15 +27,26 @@ enum Visibility {
   PRIVATE
 }
 
+enum WaypointType {
+  PRIVATE_BUILDING
+  PUBLIC_BUILDING
+  PRIVATE_FARM
+  PUBLIC_FARM
+  PORTAL
+  POINT_OF_INTEREST
+  OTHER
+}
+
 model Waypoint {
-  id         String     @id @default(uuid())
-  owner      User       @relation(name: "waypoint_owner", fields: [ownerId], references: [id])
-  ownerId    String
-  name       String
-  worldType  WorldType // OVERWORLD, NETHER, END
-  visibility Visibility // ALL, SELECT, PRIVATE
-  visibleTo  User[]     @relation(name: "waypoint_visible")
-  xCoord     Int
-  yCoord     Int
-  zCoord     Int
+  id           String       @id @default(uuid())
+  owner        User         @relation(name: "waypoint_owner", fields: [ownerId], references: [id])
+  ownerId      String
+  name         String
+  waypointType WaypointType
+  worldType    WorldType // OVERWORLD, NETHER, END
+  visibility   Visibility // ALL, SELECT, PRIVATE
+  visibleTo    User[]       @relation(name: "waypoint_visible")
+  xCoord       Int
+  yCoord       Int
+  zCoord       Int
 }

@@ -1,5 +1,5 @@
 import { authenticated } from "~/session";
-import { WayppintAddInput } from "~/types";
+import { WaypointAddInput } from "~/types";
 import { createWaypoint, getVisibleWaypoints } from "~/waypoints";
 
 export default authenticated(async (req, res, user) => {
@@ -8,7 +8,7 @@ export default authenticated(async (req, res, user) => {
   }
 
   if (req.method === "POST") {
-    let parseResult = WayppintAddInput.safeParse(JSON.parse(req.body));
+    let parseResult = WaypointAddInput.safeParse(JSON.parse(req.body));
 
     if (!parseResult.success) {
       return res

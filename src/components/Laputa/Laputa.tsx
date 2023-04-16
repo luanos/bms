@@ -133,6 +133,7 @@ function TabMyWaypoints() {
             xCoord: 0,
             yCoord: 0,
             zCoord: 0,
+            waypointType: "PRIVATE_BUILDING",
           })
         }
       >

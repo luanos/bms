@@ -1,22 +1,37 @@
 .root {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "icon name" "icon info";
+  color: var(--col-neutral-11);
   .name {
-    color: #000;
+    grid-area: name;
+    color: var(--col-neutral-12);
     font-weight: bold;
   }
   .info {
+    grid-area: info;
     display: flex;
     font-size: 0.75rem;
+  }
+  .infoShared {
+    img,
+    svg {
+      display: inline-block;
+    }
   }
 }
 
 .coordinateDisplay {
-  border-collapse: collapse;
-  border: 1px solid hsl(0, 0%, 90%);
+  display: inline-flex;
+  border: 1px solid var(--col-neutral-6);
   border-radius: var(--rad-s);
   font-size: 0.75rem;
 
-  td {
+  span {
     padding: 0.15rem 0.25rem;
-    border: 1px solid hsl(0, 0%, 90%);
+  }
+  span:not(:last-child) {
+    border-right: 1px solid var(--col-neutral-6);
   }
 }

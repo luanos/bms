@@ -20,8 +20,8 @@ export default async function AuthenticatedLayout({
 
   return (
     <AppStoreProvider user={session.user} waypoints={waypoints}>
-      {children}
       <DebugMap />
+      {children}
     </AppStoreProvider>
   );
 }
