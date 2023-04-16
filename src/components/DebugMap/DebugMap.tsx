@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import s from "./DebugMap.module.scss";
-import { Map, useMapHandle } from "../../state";
+import { Map, useMapHandle } from "../../client/state";
 
 interface Event {
   timestamp: Date;

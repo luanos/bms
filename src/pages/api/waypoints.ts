@@ -1,6 +1,6 @@
-import { authenticated } from "~/session";
+import { authenticated } from "~/server/session";
+import { createWaypoint, getVisibleWaypoints } from "~/server/waypoints";
 import { WaypointAddInput } from "~/types";
-import { createWaypoint, getVisibleWaypoints } from "~/waypoints";
 
 export default authenticated(async (req, res, user) => {
   if (req.method === "GET") {

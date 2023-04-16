@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import s from "./User.module.scss";
-import { useUser } from "~/state";
+import { useUser } from "~/client/state";
 
 export function User() {
   const [active, setActive] = useState(false);

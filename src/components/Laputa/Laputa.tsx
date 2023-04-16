@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import s from "./Laputa.module.scss";
 import { WaypointListEntry } from "./WaypointListEntry/WaypointListEntry";
 import { EpSearch, EpClose, EpCompass, EpExpand } from "../Icons";
+import { useUser, useWaypointUtils, useWaypoints } from "~/client/state";
 import * as Tabs from "~/components/BaseUI/Tabs";
-import { useUser, useWaypointUtils, useWaypoints } from "~/state";
 
 /** Debouncer for search query */
 function useDebouncedValue<T = any>(

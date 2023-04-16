@@ -3,7 +3,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { cookies } from "next/headers";
 
-import { User } from "./types";
+import { User } from "../types";
 
 if (!process.env.COOKIE_SECRET) {
   throw new Error("Cookie secret not set");

@@ -1,11 +1,11 @@
-import { authenticated } from "~/session";
-import { WaypointUpdateInput } from "~/types";
+import { authenticated } from "~/server/session";
 import {
   checkWaypoint,
   deleteWaypoint,
   getVisibleWaypoints,
   updateWaypoint,
-} from "~/waypoints";
+} from "~/server/waypoints";
+import { WaypointUpdateInput } from "~/types";
 
 export default authenticated(async (req, res, user) => {
   // Query structure is given by file path

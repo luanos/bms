@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
+import { useMap } from "~/client/state";
 import { EpUser } from "~/components/Icons";
-import { useMap } from "~/state";
 import { Waypoint } from "~/types";
 
 import type { WorldType } from "@prisma/client";

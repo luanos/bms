@@ -7,12 +7,17 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { StoreApi, create, createStore, useStore } from "zustand";
+import { StoreApi, createStore, useStore } from "zustand";
 import { shallow } from "zustand/shallow";
 
-import { Message } from "./realtime/manager";
-import { User, Waypoint, WaypointAddInput, WaypointUpdateInput } from "./types";
-import { safeFetch } from "./utils";
+import { Message } from "../server/RealTimeManager";
+import {
+  User,
+  Waypoint,
+  WaypointAddInput,
+  WaypointUpdateInput,
+} from "../types";
+import { safeFetch } from "../utils";
 
 interface AppState {
   user: User;

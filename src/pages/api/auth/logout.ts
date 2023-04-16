@@ -1,4 +1,4 @@
-import { withSession } from "~/session";
+import { withSession } from "~/server/session";
 
 export default withSession(async (req, res) => {
   req.session.destroy();

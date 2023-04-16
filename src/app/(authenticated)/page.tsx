@@ -1,10 +1,10 @@
 "use client";
 import s from "./Page.module.scss";
+import { useLocation } from "~/client/state";
 import { Pill } from "~/components/BaseUI/Pill";
 import { Separator } from "~/components/BaseUI/Separator";
 import { Laputa } from "~/components/Laputa";
 import { User } from "~/components/User";
-import { useLocation } from "~/state";
 
 export default function Index() {
   return (

@@ -1,5 +1,5 @@
-import prisma from "~/client";
-import { withSession } from "~/session";
+import prisma from "~/server/db";
+import { withSession } from "~/server/session";
 import { LoginInput } from "~/types";
 
 export default withSession(async (req, res) => {

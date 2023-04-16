@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-import { getSession } from "~/session";
+import { getSession } from "~/server/session";
 
 export default async function UnauthenticatedLayout({
   children,
