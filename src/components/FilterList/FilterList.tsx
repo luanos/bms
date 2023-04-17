@@ -15,7 +15,6 @@ export function FilterList({
   activeFilter,
 }: FilterListProps) {
   const [ref, percentage] = useScrollPercentage<HTMLDivElement>("horizontal");
-  console.log(percentage);
   return (
     <ToggleGroup.Root
       type="single"

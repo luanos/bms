@@ -4,12 +4,19 @@ import { memo, useEffect, useRef, useState } from "react";
 import s from "./WaypointList.module.scss";
 import { WaypointListEntry } from "./WaypointListEntry";
 
+import type Fuse from "fuse.js";
 import type { Waypoint } from "~/types";
-
-interface WaypointListProps {
+interface WaypointListTabProps {
   waypoints: Waypoint[];
   type: "EXPLORE" | "MY_WAYPOINTS";
 }
+
+interface WaypointListSearchProps {
+  type: "SEARCH";
+  waypoints: Fuse.FuseResult<Waypoint>[];
+}
+
+type WaypointListProps = WaypointListTabProps | WaypointListSearchProps;
 
 export const WaypointList = memo(function WaypointList({
   waypoints,
@@ -30,14 +37,23 @@ export const WaypointList = memo(function WaypointList({
         onMouseEnter={() => setTimeout(() => setActive(true), 10)}
         onMouseLeave={() => setActive(false)}
       >
-        {waypoints.map((waypoint, index) => (
-          <WaypointListEntry
-            type={type}
-            waypoint={waypoint}
-            key={waypoint.id}
-            onMouseEnter={() => setHoveredIndex(index)}
-          />
-        ))}
+        {type == "SEARCH"
+          ? waypoints.map((waypoint, index) => (
+              <WaypointListEntry
+                type={type}
+                waypoint={waypoint}
+                key={waypoint.item.id}
+                onMouseEnter={() => setHoveredIndex(index)}
+              />
+            ))
+          : waypoints.map((waypoint, index) => (
+              <WaypointListEntry
+                type={type}
+                waypoint={waypoint}
+                key={waypoint.id}
+                onMouseEnter={() => setHoveredIndex(index)}
+              />
+            ))}
         <div
           className={s.background}
           style={{

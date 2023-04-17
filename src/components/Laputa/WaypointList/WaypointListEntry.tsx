@@ -2,28 +2,89 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
+import { highlightString } from "~/client/highlightString";
 import { useFocusedWaypointActions, useUser } from "~/client/state";
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
 
 import type { WorldType } from "@prisma/client";
-import type { HTMLProps } from "react";
+import type Fuse from "fuse.js";
+import type { HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
 
-interface WaypointListEntryProps extends HTMLProps<HTMLDivElement> {
+interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;
   type: "EXPLORE" | "MY_WAYPOINTS";
 }
 
+interface WaypointListEntrySearchProps extends HTMLProps<HTMLDivElement> {
+  waypoint: Fuse.FuseResult<Waypoint>;
+  type: "SEARCH";
+}
+type WaypointListEntryProps =
+  | WaypointListEntrySearchProps
+  | WaypointListEntryTabProps;
+
+interface FormattedNameProps {
+  stringToFormat: string;
+  match?: Fuse.FuseResultMatch;
+}
+function FormattedName({ stringToFormat, match }: FormattedNameProps) {
+  if (!match) return <>{stringToFormat}</>;
+  const str = highlightString(stringToFormat, match.indices);
+
+  return (
+    <>
+      {str.map((a, i) =>
+        a.em ? (
+          <span className={s.highlight} key={i}>
+            {a.val}
+          </span>
+        ) : (
+          <>{a.val}</>
+        )
+      )}
+    </>
+  );
+}
+
 export function WaypointListEntry({
-  waypoint,
+  waypoint: waypointOrSearchResult,
   className,
   type,
   ...props
 }: WaypointListEntryProps) {
   const { user } = useUser();
   const { focusWaypoint } = useFocusedWaypointActions();
+
+  let waypoint: Waypoint;
+  let waypointName: ReactNode;
+  let ownerName: ReactNode;
+  if (type == "SEARCH") {
+    waypoint = waypointOrSearchResult.item;
+    waypointName = (
+      <FormattedName
+        stringToFormat={waypoint.name}
+        match={waypointOrSearchResult.matches?.find(
+          (match) => match.key == "name"
+        )}
+      />
+    );
+    ownerName = (
+      <FormattedName
+        stringToFormat={waypoint.owner.username}
+        match={waypointOrSearchResult.matches?.find(
+          (match) => match.key == "owner.username"
+        )}
+      />
+    );
+  } else {
+    waypoint = waypointOrSearchResult;
+    waypointName = waypoint.name;
+    ownerName = waypoint.owner.username;
+  }
+
   const owned = user.id == waypoint.owner.id;
   return (
     <div className={clsx(s.root, className)} {...props}>
@@ -33,7 +94,7 @@ export function WaypointListEntry({
         </div>
         <h3 className={s.name}>
           <button onClick={() => focusWaypoint(waypoint.id)}>
-            {waypoint.name}
+            {waypointName}
           </button>
         </h3>
         <CoordinateDisplay
@@ -56,7 +117,7 @@ export function WaypointListEntry({
             ) : (
               <>
                 <EpUser />
-                {waypoint.owner.username}
+                <span>{ownerName}</span>
               </>
             )}
           </span>

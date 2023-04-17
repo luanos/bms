@@ -1,3 +1,4 @@
+import Fuse from "fuse.js";
 import { atom, useAtom } from "jotai";
 import { useMemo, useRef } from "react";
 
@@ -66,15 +67,22 @@ interface WaypointSearchProps {
 
 function WaypointSearch({ query }: WaypointSearchProps) {
   const waypoints = useWaypoints();
-  // TODO: provisorischen filter durch richtigen filter ersetzen
-  const shownWaypoints = waypoints.filter((wp) => wp.name.includes(query));
+  const fuseInstance = useMemo(() => {
+    return new Fuse(waypoints, {
+      keys: ["name", "owner.username"],
+      includeMatches: true,
+    });
+  }, [waypoints]);
+  const shownWaypoints = useMemo(() => {
+    return fuseInstance.search(query);
+  }, [fuseInstance, query]);
 
   return (
     <>
       {shownWaypoints.length > 0
         ? `${shownWaypoints.length} results`
         : "no results"}
-      <WaypointList waypoints={shownWaypoints} type="EXPLORE" />
+      <WaypointList waypoints={shownWaypoints} type="SEARCH" />
     </>
   );
 }
