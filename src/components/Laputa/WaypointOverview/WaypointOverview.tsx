@@ -8,6 +8,7 @@ import { useUser, useWaypointActions, useWaypoints } from "~/client/state";
 import { useDebouncedValue } from "~/client/useDebouncedValue";
 import * as Tabs from "~/components/BaseUI/Tabs";
 import * as ToggleGroup from "~/components/BaseUI/ToggleGroup";
+import { FilterList } from "~/components/FilterList";
 import {
   EpSearch,
   EpClose,
@@ -121,91 +122,38 @@ function WaypointTabs() {
   );
 }
 
+type FilterValue = WaypointType | "ALL";
+
 function TabExplore() {
   const waypoints = useWaypoints();
-  const [activeFilter, setActiveFilter] = useState<WaypointType | "ALL">("ALL");
-  const toggleGroupRef = useRef<HTMLDivElement>(null);
-  // das muss doch einfacher gehen...
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    if (!toggleGroupRef.current) return;
-    const element = toggleGroupRef.current;
-    setWidth(element.scrollWidth);
-    let handleScroll = () => {
-      setScrollLeft(element.scrollLeft);
-    };
-
-    element.addEventListener("scroll", handleScroll);
-    return () => element.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const [availableFilters, displayedWaypoints] = useMemo(() => {
-    const [filtersSet, displayedWaypoints] = waypoints.reduce<
-      [Set<WaypointType>, Waypoint[]]
-    >(
-      ([set, waypoints], waypoint) => {
-        set.add(waypoint.waypointType);
-        if (activeFilter === "ALL" || waypoint.waypointType === activeFilter) {
-          waypoints.push(waypoint);
-        }
-        return [set, waypoints];
-      },
-      [new Set(), []]
+  const [activeFilter, setActiveFilter] = useState<FilterValue>("ALL");
+  // TODO: possible bug, what happens when a filter gets removed via rt and is
+  // still selected via activeFilter?
+  const availableFilters = useMemo(() => {
+    const availableFilterValues: FilterValue[] = ["ALL"];
+    waypoints.forEach((waypoint) =>
+      availableFilterValues.push(waypoint.waypointType)
     );
+    //
+    return Array.from(new Set(availableFilterValues)).map((value) => ({
+      value: value,
+      display: value == "ALL" ? "Alle" : waypointTypeDisplayName[value],
+    }));
+  }, [waypoints]);
 
-    return [Array.from(filtersSet), displayedWaypoints];
-  }, [activeFilter, waypoints]);
+  const displayedWaypoints = waypoints.filter(
+    (waypoint) => activeFilter == "ALL" || waypoint.waypointType == activeFilter
+  );
 
   return (
     <>
-      <ToggleGroup.Root
-        className={s.filterList}
-        ref={toggleGroupRef}
-        type="single"
-        value={activeFilter}
-        onValueChange={(value) =>
-          value && setActiveFilter(value as WaypointType)
+      <FilterList
+        filters={availableFilters}
+        activeFilter={activeFilter}
+        onFilterChange={(filter) =>
+          filter && setActiveFilter(filter as FilterValue)
         }
-        style={{
-          padding: "0.5rem .75rem 0.5rem",
-        }}
-      >
-        <ToggleGroup.Item value="ALL">Alle</ToggleGroup.Item>
-
-        {availableFilters.map((type) => (
-          <ToggleGroup.Item value={type} key={type}>
-            {waypointTypeDisplayName[type as WaypointType]}
-          </ToggleGroup.Item>
-        ))}
-        <button
-          className={s.chevronLeft}
-          data-visible={scrollLeft > 1}
-          onClick={() => {
-            toggleGroupRef.current?.scrollBy({
-              left: -225,
-              behavior: "smooth",
-            });
-          }}
-          aria-label="Filter-Optionen nach links scrollen"
-        >
-          <EpArrowRightBold />
-        </button>
-        <button
-          className={s.chevronRight}
-          data-visible={width - scrollLeft - 400 > 1}
-          onClick={() => {
-            toggleGroupRef.current?.scrollBy({
-              left: 225,
-              behavior: "smooth",
-            });
-          }}
-          aria-label="Filter-Optionen nach rechts scrollen"
-        >
-          <EpArrowRightBold />
-        </button>
-      </ToggleGroup.Root>
+      />
 
       <WaypointList type="EXPLORE" waypoints={displayedWaypoints} />
     </>
