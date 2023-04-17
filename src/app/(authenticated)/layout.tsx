@@ -19,7 +19,10 @@ export default async function AuthenticatedLayout({
   const waypoints = await getVisibleWaypoints(session.user.id);
 
   return (
-    <AppStoreProvider user={session.user} waypoints={waypoints}>
+    <AppStoreProvider
+      user={session.user}
+      waypoints={JSON.parse(JSON.stringify(waypoints))}
+    >
       <DebugMap />
       {children}
     </AppStoreProvider>

@@ -49,7 +49,6 @@ export function DebugMap() {
     <div
       className={s.root}
       onMouseMove={(e) => {
-        console.log("BLAL");
         const { left, top } = e.currentTarget.getBoundingClientRect();
         updateLocation(
           Math.round(e.clientX - left),

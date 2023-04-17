@@ -22,6 +22,9 @@ import { safeFetch } from "../utils";
 interface AppState {
   user: User;
   waypoints: Waypoint[];
+  // TODO: Possible Bug when focusedWaypointId is set but waypoint is getting
+  // hidden. the id could then reference a waypoint not present above
+  focusedWaypointId: string | null;
   map: Map | null;
   location: {
     xPos: number;
@@ -45,6 +48,8 @@ interface AppContext extends AppState {
   // waypoint related
   addWaypoint(input: WaypointAddInput): Promise<void>;
   deleteWaypoint(waypointId: string): Promise<void>;
+  focusWaypoint(waypointId: string): void;
+  blurWaypoint(): void;
   updateWaypoint(waypointId: string, input: WaypointUpdateInput): Promise<void>;
 }
 
@@ -55,7 +60,14 @@ function createAppContextStore(user: User, waypoints: Waypoint[]) {
     user,
     waypoints,
     map: null,
+    focusedWaypointId: null,
     location: null,
+    focusWaypoint(waypointId) {
+      set({ focusedWaypointId: waypointId });
+    },
+    blurWaypoint() {
+      set({ focusedWaypointId: null });
+    },
     async addWaypoint(input) {
       let response: Waypoint[] = await safeFetch("/api/waypoints", {
         method: "POST",
@@ -123,6 +135,7 @@ export function AppStoreProvider({
   if (!storeRef.current) {
     storeRef.current = createAppContextStore(user, waypoints);
   }
+
   useEffect(() => {
     const eventSource = new EventSource("/api/realtime");
     eventSource.addEventListener("message", (incoming) => {
@@ -135,13 +148,14 @@ export function AppStoreProvider({
           ),
         }));
       }
-      if (
-        message.type == "WAYPOINT_SHOW" ||
-        message.type == "WAYPOINT_UPDATE"
-      ) {
+      if (message.type == "WAYPOINT_UPDATE") {
+        // TODO: WAYPOINT_UPDATE implementieren
+        throw new Error("unimplemented");
+      }
+      if (message.type == "WAYPOINT_SHOW") {
         let waypoint = message.data;
         storeRef.current?.setState((app) => ({
-          waypoints: [...app.waypoints, waypoint],
+          waypoints: [waypoint, ...app.waypoints],
         }));
       }
     });
@@ -169,7 +183,24 @@ export function useWaypoints() {
   return useAppContext((app) => app.waypoints);
 }
 
-export function useWaypointUtils() {
+export function useFocusedWaypoint() {
+  return useAppContext(
+    ({ waypoints, focusedWaypointId }) =>
+      waypoints.find((waypoint) => waypoint.id === focusedWaypointId) ?? null
+  );
+}
+
+export function useFocusedWaypointActions() {
+  return useAppContext(
+    ({ focusWaypoint, blurWaypoint }) => ({
+      focusWaypoint,
+      blurWaypoint,
+    }),
+    shallow
+  );
+}
+
+export function useWaypointActions() {
   return useAppContext(
     ({ addWaypoint, deleteWaypoint, updateWaypoint }) => ({
       addWaypoint,

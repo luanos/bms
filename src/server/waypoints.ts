@@ -23,6 +23,8 @@ const WaypointSelect = {
       id: true,
     },
   },
+  updatedAt: true,
+  createdAt: true,
 };
 
 export async function updateWaypoint(
@@ -39,7 +41,8 @@ export async function updateWaypoint(
     where: { id: waypointId },
     data: {
       ...input,
-      // possible bug: what if visibleTo input is undefined? does it reset the field to [] or not do anything?
+      // TODO: possible bug: what if visibleTo input is undefined?
+      // does it reset the field to [] or not do anything?
       visibleTo: { connect: visibleTo?.map((userId) => ({ id: userId })) },
     },
   });
@@ -80,7 +83,9 @@ export async function deleteWaypoint(waypointId: string) {
 export function getVisibleWaypoints(userId: string): Promise<Waypoint[]> {
   return prisma.waypoint.findMany({
     select: WaypointSelect,
-
+    orderBy: {
+      updatedAt: "desc",
+    },
     where: {
       OR: [
         // own waypoints

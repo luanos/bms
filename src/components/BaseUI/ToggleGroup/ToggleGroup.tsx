@@ -1,23 +1,23 @@
 import * as RadixToggleGroup from "@radix-ui/react-toggle-group";
-import {
-  ToggleGroupMultipleProps,
-  ToggleGroupSingleProps,
-} from "@radix-ui/react-toggle-group";
 import clsx from "clsx";
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
 import s from "./ToggleGroup.module.scss";
 
 type ToggleGroupProps = ComponentProps<typeof RadixToggleGroup.Root>;
 
-function Root({ className, ...props }: ToggleGroupProps) {
+const Root = forwardRef<HTMLDivElement, ToggleGroupProps>(function RootBla(
+  { className, orientation = "horizontal", ...props },
+  ref
+) {
   return (
     <RadixToggleGroup.Root
+      ref={ref}
       {...props}
       className={clsx(s.root, className)}
     ></RadixToggleGroup.Root>
   );
-}
+});
 
 interface ItemProps extends RadixToggleGroup.ToggleGroupItemProps {}
 

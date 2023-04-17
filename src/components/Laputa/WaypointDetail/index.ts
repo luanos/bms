@@ -1,0 +1,1 @@
+export { WaypointDetail } from "./WaypointDetail";

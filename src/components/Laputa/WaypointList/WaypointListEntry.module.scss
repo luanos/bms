@@ -1,0 +1,131 @@
+.root {
+  position: relative;
+  height: var(--_list-entry-height);
+  width: var(--_laputa-width);
+  &:hover,
+  &:focus,
+  &:focus-within {
+    .actionsOverlay {
+      opacity: 1;
+      pointer-events: auto;
+      transition: var(--_action-overlay-trans-in-duration)
+        var(--_action-overlay-trans-in-delay);
+    }
+
+    .content {
+      mask-position: right;
+    }
+  }
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2rem auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "icon name" "icon info";
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--col-neutral-11);
+
+  &:first-child {
+    padding-top: 0.25rem;
+  }
+  &:last-child {
+    padding-bottom: 1rem;
+  }
+
+  // 79px == 64px (width of buttons) + 15px offset before fadeout starts
+  // 104px -> fadeout over 25px
+  mask-image: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+      calc(var(--_scrollbar-size) + var(--_scrollbar-distance) + 1rem + 79px),
+    rgba(0, 0, 0, 1)
+      calc(var(--_scrollbar-size) + var(--_scrollbar-distance) + 1rem + 104px)
+  );
+  mask-size: 130% 100%;
+}
+
+.iconWrapper {
+  grid-area: icon;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  isolation: isolate;
+}
+.name {
+  grid-area: name;
+  color: var(--col-neutral-12);
+  font-weight: bold;
+}
+.info {
+  grid-area: info;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.75rem;
+
+  .separator {
+    height: 1em;
+  }
+}
+.infoShared {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  img,
+  svg {
+    margin-top: 1px;
+    display: inline-block;
+  }
+}
+
+.coordinateDisplay {
+  grid-area: name;
+  display: inline-flex;
+  border: 1px solid var(--col-neutral-6);
+  border-radius: var(--rad-s);
+  font-size: 0.75rem;
+
+  span {
+    padding: 0.15rem 0.25rem;
+  }
+  span:not(:last-child) {
+    border-right: 1px solid var(--col-neutral-6);
+  }
+  display: none; /*TODO: Debugging Only */
+}
+
+.actionsOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding-right: calc(
+    var(--_scrollbar-size) + var(--_scrollbar-distance) + 1rem
+  );
+
+  color: var(--col-neutral-11);
+  font-size: 1.5rem;
+
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity var(--_action-overlay-trans-out-duration)
+    var(--_action-overlay-trans-out-delay);
+
+  button {
+    transition: color var(--dur-s);
+    &:hover,
+    &:focus {
+      color: var(--col-neutral-12);
+    }
+  }
+}

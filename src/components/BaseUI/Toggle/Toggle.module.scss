@@ -2,40 +2,44 @@
   display: flex;
   align-items: center;
   gap: 0.25em;
-  background-color: var(--col-surface-800);
+  background-color: var(--col-neutral-3);
   border-radius: var(--rad-s);
   padding: 0.125em 0.5em;
 
   font-size: var(--fsize-s);
   font-weight: bold;
-  color: hsl(0, 0%, 35%);
+  color: var(--col-neutral-11);
 
   user-select: none;
   cursor: pointer;
 
-  position: absolute; /* Debugging ONLY */
+  position: absolute; /* TODO: Debugging ONLY */
 
-  .iconWrapper {
-    position: relative;
-    height: 1.33em;
-    aspect-ratio: 1;
-    margin-left: -4px;
-    overflow: hidden;
-    isolation: isolate;
-
-    img {
-      object-fit: contain;
-      object-position: center;
-      pointer-events: none;
-    }
-    svg {
-      width: 100%;
-      height: 100%;
-    }
+  &:hover {
+    background-color: var(--col-neutral-4);
   }
 }
 
 .root[data-state="on"] {
-  color: var(--col-accent-contrast);
-  background-color: var(--col-accent);
+  color: var(--col-neutral-1);
+  background-color: var(--col-accent-8);
+}
+
+.iconWrapper {
+  position: relative;
+  height: 1.33em;
+  aspect-ratio: 1;
+  margin-left: -0.25em;
+  overflow: hidden;
+  isolation: isolate;
+
+  img {
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+  }
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }

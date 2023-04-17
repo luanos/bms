@@ -1,60 +1,17 @@
 .root {
+  --_laputa-width: 400px;
+  --_overview-topbar-height: 40px;
   position: absolute;
 
   top: 1rem;
   left: 1rem;
 
-  // TODO: max-height 100vh - 50px mit Scroll!!!
-
+  max-height: calc(100vh - 2rem);
   display: flex;
   flex-direction: column;
   background-color: var(--col-neutral-2);
-  width: 400px;
-
-  border-radius: 1.25rem;
+  width: var(--_laputa-width);
+  border-radius: var(--rad-m);
   box-shadow: 0px 0px 1rem #00000011;
   overflow: hidden;
-}
-
-.searchInput {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--col-neutral-4);
-
-  font-size: 1.5rem;
-
-  input {
-    background-color: inherit;
-    flex-grow: 1;
-    border: none !important;
-    outline: none !important;
-
-    /* Gets rid of all browser added 'Clear Input' Buttons */
-    &::-ms-clear {
-      display: none;
-      width: 0;
-      height: 0;
-    }
-    &::-ms-reveal {
-      display: none;
-      width: 0;
-      height: 0;
-    }
-    &::-webkit-search-decoration,
-    &::-webkit-search-cancel-button,
-    &::-webkit-search-results-button,
-    &::-webkit-search-results-decoration {
-      display: none;
-    }
-  }
-
-  svg {
-    height: 1.75rem;
-    height: auto;
-    aspect-ratio: 1;
-    cursor: pointer;
-  }
 }
