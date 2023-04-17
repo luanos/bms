@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import { atom, useAtom } from "jotai";
+import { useMemo, useRef } from "react";
 
 import s from "./WaypointOverview.module.scss";
 import { WaypointList } from "../WaypointList";
@@ -17,8 +18,10 @@ import { waypointTypeDisplayName } from "~/displaynames";
 
 import type { WaypointType } from "@prisma/client";
 
+const queryAtom = atom("");
+
 export function WaypointOverview() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useAtom(queryAtom);
   const input = useRef<HTMLInputElement>(null);
   const [debouncedQuery] = useDebouncedValue(query, 300);
 
@@ -76,10 +79,10 @@ function WaypointSearch({ query }: WaypointSearchProps) {
   );
 }
 
+const tabAtom = atom<"CLOSED" | "EXPLORE" | "MY_WAYPOINTS">("CLOSED");
+
 function WaypointTabs() {
-  const [activeTab, setActiveTab] = useState<
-    "CLOSED" | "EXPLORE" | "MY_WAYPOINTS"
-  >();
+  const [activeTab, setActiveTab] = useAtom(tabAtom);
   return (
     <Tabs.Root activationMode="manual" value={activeTab} className={s.tabRoot}>
       <Tabs.List
@@ -121,9 +124,11 @@ function WaypointTabs() {
 
 type FilterValue = WaypointType | "ALL";
 
+const activeFilterAtom = atom<FilterValue>("ALL");
+
 function TabExplore() {
   const waypoints = useWaypoints();
-  const [activeFilter, setActiveFilter] = useState<FilterValue>("ALL");
+  const [activeFilter, setActiveFilter] = useAtom(activeFilterAtom);
   // TODO: possible bug, what happens when a filter gets removed via rt and is
   // still selected via activeFilter?
   const availableFilters = useMemo(() => {
