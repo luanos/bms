@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { HTMLProps } from "react";
 
 import s from "./WaypointListEntry.module.scss";
 import {
@@ -12,9 +11,10 @@ import {
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
-import { Waypoint } from "~/types";
 
 import type { WorldType } from "@prisma/client";
+import type { HTMLProps } from "react";
+import type { Waypoint } from "~/types";
 
 interface WaypointListEntryProps extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;

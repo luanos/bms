@@ -1,7 +1,8 @@
 import c from "clsx";
-import { ButtonHTMLAttributes } from "react";
 
 import s from "./Button.module.scss";
+
+import type { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 

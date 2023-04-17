@@ -1,8 +1,9 @@
 import * as RadixTabs from "@radix-ui/react-tabs";
 import Image from "next/image";
-import { ReactNode } from "react";
 
 import s from "./Tabs.module.scss";
+
+import type { ReactNode } from "react";
 
 /* These Components only add Styling to the existing Radix-Components. Everything else is the same */
 

@@ -1,6 +1,7 @@
 import Manager from "./RealTimeManager";
 import prisma from "./db";
-import { Waypoint, WaypointAddInput, WaypointUpdateInput } from "../types";
+
+import type { Waypoint, WaypointAddInput, WaypointUpdateInput } from "../types";
 
 const WaypointSelect = {
   id: true,

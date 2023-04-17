@@ -4,7 +4,8 @@ import { memo, useEffect, useRef, useState } from "react";
 
 import s from "./WaypointList.module.scss";
 import { WaypointListEntry } from "./WaypointListEntry";
-import { Waypoint } from "~/types";
+
+import type { Waypoint } from "~/types";
 
 interface WaypointListProps {
   waypoints: Waypoint[];

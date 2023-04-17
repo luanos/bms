@@ -1,4 +1,3 @@
-import { WaypointType } from "@prisma/client";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -19,6 +18,8 @@ import {
 } from "~/components/Icons";
 import { waypointTypeDisplayName } from "~/displaynames";
 import { Waypoint } from "~/types";
+
+import type { WaypointType } from "@prisma/client";
 
 export function WaypointOverview() {
   const [query, setQuery] = useState("");

@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import { ReactNode, HTMLAttributes } from "react";
 
 import s from "./Pill.module.scss";
+
+import type { ReactNode, HTMLAttributes } from "react";
 
 interface PillProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;

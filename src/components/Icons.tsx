@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import type { SVGProps } from "react";
 
 export function EpUserFilled(props: SVGProps<SVGSVGElement>) {
   return (

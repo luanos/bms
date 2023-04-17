@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
 
 import { AppStoreProvider } from "~/client/state";
 import { DebugMap } from "~/components/DebugMap";
 import { getSession } from "~/server/session";
 import { getVisibleWaypoints } from "~/server/waypoints";
+
+import type { ReactNode } from "react";
 
 export default async function AuthenticatedLayout({
   children,

@@ -1,5 +1,4 @@
-import { NextApiResponse } from "next";
-
+import type { NextApiResponse } from "next";
 import type { User, Waypoint } from "~/types";
 
 interface WaypointHideMessage {

@@ -1,5 +1,6 @@
-import { Metadata } from "next";
 import { Lato } from "next/font/google";
+
+import type { Metadata } from "next";
 import "~/styles/main.scss";
 
 export const metadata: Metadata = {

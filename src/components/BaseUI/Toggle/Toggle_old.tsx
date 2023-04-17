@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
 import s from "./Toggle.module.scss";
+
+import type { InputHTMLAttributes } from "react";
 
 interface ToggleProps extends InputHTMLAttributes<HTMLInputElement> {
   type: "checkbox" | "radio";

@@ -1,5 +1,6 @@
 import { useFocusedWaypointActions } from "~/client/state";
-import { Waypoint } from "~/types";
+
+import type { Waypoint } from "~/types";
 
 interface WaypointDetailProps {
   waypoint: Waypoint;

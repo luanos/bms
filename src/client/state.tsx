@@ -1,23 +1,20 @@
 "use client";
 
-import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
-import { StoreApi, createStore, useStore } from "zustand";
+import { createContext, useContext, useEffect, useRef } from "react";
+import { createStore, useStore } from "zustand";
 import { shallow } from "zustand/shallow";
 
-import { Message } from "../server/RealTimeManager";
-import {
+import { safeFetch } from "../utils";
+
+import type { Message } from "../server/RealTimeManager";
+import type {
   User,
   Waypoint,
   WaypointAddInput,
   WaypointUpdateInput,
 } from "../types";
-import { safeFetch } from "../utils";
+import type { PropsWithChildren } from "react";
+import type { StoreApi } from "zustand";
 
 interface AppState {
   user: User;

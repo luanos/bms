@@ -1,8 +1,10 @@
 import * as RadixToggleGroup from "@radix-ui/react-toggle-group";
 import clsx from "clsx";
-import { ComponentProps, forwardRef } from "react";
+import { forwardRef } from "react";
 
 import s from "./ToggleGroup.module.scss";
+
+import type { ComponentProps } from "react";
 
 type ToggleGroupProps = ComponentProps<typeof RadixToggleGroup.Root>;
 

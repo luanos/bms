@@ -1,5 +1,6 @@
-import { Waypoint as DBWaypoint, User as DBUser } from "@prisma/client";
 import { z } from "zod";
+
+import type { Waypoint as DBWaypoint, User as DBUser } from "@prisma/client";
 
 export type User = Omit<DBUser, "password">;
 

@@ -1,4 +1,4 @@
-import { WaypointType, Visibility } from "@prisma/client";
+import type { WaypointType, Visibility } from "@prisma/client";
 
 export const waypointTypeDisplayName: Record<WaypointType, string> = {
   PRIVATE_BUILDING: "Bauwerk (Privat)",
