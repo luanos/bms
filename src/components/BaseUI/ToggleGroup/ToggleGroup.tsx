@@ -9,7 +9,7 @@ import type { ComponentProps } from "react";
 type ToggleGroupProps = ComponentProps<typeof RadixToggleGroup.Root>;
 
 const Root = forwardRef<HTMLDivElement, ToggleGroupProps>(function RootBla(
-  { className, orientation = "horizontal", ...props },
+  { className, ...props },
   ref
 ) {
   return (

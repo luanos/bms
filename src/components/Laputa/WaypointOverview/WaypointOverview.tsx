@@ -1,12 +1,10 @@
-import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import s from "./WaypointOverview.module.scss";
 import { WaypointList } from "../WaypointList";
 import { useUser, useWaypointActions, useWaypoints } from "~/client/state";
 import { useDebouncedValue } from "~/client/useDebouncedValue";
 import * as Tabs from "~/components/BaseUI/Tabs";
-import * as ToggleGroup from "~/components/BaseUI/ToggleGroup";
 import { FilterList } from "~/components/FilterList";
 import {
   EpSearch,
@@ -14,10 +12,8 @@ import {
   EpCompass,
   EpExpand,
   EpCirclePlus,
-  EpArrowRightBold,
 } from "~/components/Icons";
 import { waypointTypeDisplayName } from "~/displaynames";
-import { Waypoint } from "~/types";
 
 import type { WaypointType } from "@prisma/client";
 

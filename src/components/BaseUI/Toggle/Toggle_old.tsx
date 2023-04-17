@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { ChangeEventHandler, useState } from "react";
 
 import s from "./Toggle.module.scss";
 

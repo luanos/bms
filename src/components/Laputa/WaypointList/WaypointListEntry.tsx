@@ -2,12 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
-import {
-  useFocusedWaypoint,
-  useFocusedWaypointActions,
-  useMap,
-  useUser,
-} from "~/client/state";
+import { useFocusedWaypointActions, useUser } from "~/client/state";
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
@@ -27,7 +22,6 @@ export function WaypointListEntry({
   type,
   ...props
 }: WaypointListEntryProps) {
-  const map = useMap();
   const { user } = useUser();
   const { focusWaypoint } = useFocusedWaypointActions();
   const owned = user.id == waypoint.owner.id;

@@ -1,5 +1,4 @@
 import * as RadixToggle from "@radix-ui/react-toggle";
-import Image from "next/image";
 
 import s from "./Toggle.module.scss";
 

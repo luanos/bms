@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import s from "./DebugMap.module.scss";
 import { useMapHandle } from "../../client/state";
@@ -45,7 +45,7 @@ export function DebugMap() {
     registerMap(map);
 
     return () => unregisterMap();
-  }, []);
+  }, [pushEvent, registerMap, unregisterMap]);
 
   return (
     <div

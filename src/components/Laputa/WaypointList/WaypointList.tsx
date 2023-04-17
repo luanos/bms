@@ -1,4 +1,3 @@
-import { WaypointType } from "@prisma/client";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { memo, useEffect, useRef, useState } from "react";
 

@@ -1,5 +1,4 @@
 import * as RadixTabs from "@radix-ui/react-tabs";
-import Image from "next/image";
 
 import s from "./Tabs.module.scss";
 
