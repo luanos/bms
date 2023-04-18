@@ -1,0 +1,59 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  input,
+  textarea {
+    all: unset;
+    box-sizing: border-box;
+
+    background-color: var(--col-neutral-3);
+    border: 1px solid transparent;
+    border-radius: var(--rad-s);
+    padding: 0.25em 0.5em;
+    width: 100%;
+
+    transition-property: border-color;
+    transition-duration: 0.3s;
+
+    &:hover {
+      border-color: var(--col-neutral-8);
+      transition-duration: var(--dur-s);
+    }
+    &:focus {
+      border-color: var(--col-accent-8);
+      transition-duration: var(--dur-s);
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+}
+
+.field[data-invalid="true"] {
+  input {
+    border-color: var(--col-danger);
+  }
+}
+
+.label {
+  color: var(--col-neutral-11);
+  font-size: var(--fsize-s);
+  font-weight: bold;
+}
+
+.message {
+  color: var(--col-danger);
+  font-size: var(--fsize-xs);
+}
+
+.button {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--rad-s);
+}
+
+.submit {
+  color: green;
+  background-color: darkgreen;
+}

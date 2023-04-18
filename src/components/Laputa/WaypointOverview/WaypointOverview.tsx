@@ -6,6 +6,9 @@ import s from "./WaypointOverview.module.scss";
 import { WaypointList } from "../WaypointList";
 import { useUser, useWaypointActions, useWaypoints } from "~/client/state";
 import { useDebouncedValue } from "~/client/useDebouncedValue";
+import * as Dialog from "~/components/BaseUI/Dialog";
+import * as Form from "~/components/BaseUI/Form";
+import { InputCoordinates } from "~/components/BaseUI/InputCoordinates";
 import * as Tabs from "~/components/BaseUI/Tabs";
 import { FilterList } from "~/components/FilterList";
 import {
@@ -71,6 +74,7 @@ function WaypointSearch({ query }: WaypointSearchProps) {
     return new Fuse(waypoints, {
       keys: ["name", "owner.username"],
       includeMatches: true,
+      useExtendedSearch: true,
     });
   }, [waypoints]);
   const shownWaypoints = useMemo(() => {
@@ -79,9 +83,13 @@ function WaypointSearch({ query }: WaypointSearchProps) {
 
   return (
     <>
-      {shownWaypoints.length > 0
-        ? `${shownWaypoints.length} results`
-        : "no results"}
+      <div className={s.resultCount}>
+        {shownWaypoints.length > 1
+          ? `${shownWaypoints.length} Ergebnisse`
+          : shownWaypoints.length == 1
+          ? "1 Ergebnis"
+          : "Keine Ergebnisse"}
+      </div>
       <WaypointList waypoints={shownWaypoints} type="SEARCH" />
     </>
   );
@@ -180,24 +188,42 @@ function TabMyWaypoints() {
   return (
     <>
       <div className={s.buttonAddWrapper}>
-        <button
-          className={s.buttonAdd}
-          onClick={() => {
-            addWaypoint({
-              name: "Netherportal",
-              waypointType: "PORTAL",
-              worldType: "OVERWORLD",
-              visibility: "ALL",
-              xCoord: 0,
-              yCoord: 0,
-              zCoord: 0,
-              visibleTo: [],
-            });
-          }}
-        >
-          <EpCirclePlus />
-          Erstellen
-        </button>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <button className={s.buttonAdd}>
+              <EpCirclePlus />
+              Erstellen
+            </button>
+          </Dialog.Trigger>
+          <Dialog.Main title="Wegpunkt Erstellen">
+            <Form.Root>
+              <Form.Field name="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control required />
+                <Form.Message match="valueMissing">
+                  Ein Schild ohne Name ist genau wie du: Absolut nutzlos.
+                </Form.Message>
+              </Form.Field>
+              <Form.Field name="type">
+                <Form.Label>Kategorie</Form.Label>
+                <Form.Control></Form.Control>
+              </Form.Field>
+              <Form.Field name="location">
+                <Form.Label>Ort</Form.Label>
+                <Form.Control asChild>
+                  <InputCoordinates />
+                </Form.Control>
+              </Form.Field>
+              <Form.Field name="description">
+                <Form.Label>Beschreibung</Form.Label>
+                <Form.Control asChild>
+                  <textarea />
+                </Form.Control>
+              </Form.Field>
+              <Form.Submit>Erstellen</Form.Submit>
+            </Form.Root>
+          </Dialog.Main>
+        </Dialog.Root>
       </div>
       <WaypointList waypoints={ownWaypoints} type="MY_WAYPOINTS" />
     </>

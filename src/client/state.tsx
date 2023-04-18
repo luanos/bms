@@ -6,7 +6,7 @@ import { shallow } from "zustand/shallow";
 
 import { safeFetch } from "../utils";
 
-import type { Message } from "../server/RealTimeManager";
+import type { Message, ServerStatus } from "../server/RealTimeManager";
 import type {
   User,
   Waypoint,
@@ -18,6 +18,7 @@ import type { StoreApi } from "zustand";
 
 interface AppState {
   user: User;
+  serverStatus: ServerStatus | null;
   waypoints: Waypoint[];
   // TODO: Possible Bug when focusedWaypointId is set but waypoint is getting
   // hidden. the id could then reference a waypoint not present above
@@ -56,6 +57,7 @@ function createAppContextStore(user: User, waypoints: Waypoint[]) {
   return createStore<AppContext>((set, get) => ({
     user,
     waypoints,
+    serverStatus: null,
     map: null,
     focusedWaypointId: null,
     location: null,
@@ -155,6 +157,10 @@ export function AppStoreProvider({
           waypoints: [waypoint, ...app.waypoints],
         }));
       }
+      if (message.type == "SERVER_STATUS") {
+        let status = message.data;
+        storeRef.current?.setState({ serverStatus: status });
+      }
     });
   }, []);
   return (
@@ -214,6 +220,10 @@ export function useMap() {
 
 export function useLocation() {
   return useAppContext((app) => app.location);
+}
+
+export function useServerStatus() {
+  return useAppContext((app) => app.serverStatus);
 }
 
 export function useMapHandle() {

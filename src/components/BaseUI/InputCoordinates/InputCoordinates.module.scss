@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  input {
+    //Separators aren't visible without this
+    flex-shrink: 2;
+
+    // Borders
+    border-radius: 0;
+    &:first-child {
+      border-top-left-radius: var(--rad-s);
+      border-bottom-left-radius: var(--rad-s);
+    }
+    &:last-child {
+      border-top-right-radius: var(--rad-s);
+      border-bottom-right-radius: var(--rad-s);
+    }
+
+    // Gets rid of all browser added Arrow-Buttons on number-inputs
+    -moz-appearance: textfield !important;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+    }
+  }
+}
+.separator {
+  height: unset;
+  background-color: var(--col-neutral-2);
+}

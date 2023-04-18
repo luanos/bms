@@ -10,7 +10,7 @@ import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
 
 import type { WorldType } from "@prisma/client";
 import type Fuse from "fuse.js";
-import type { HTMLProps, ReactNode } from "react";
+import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
 
 interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
@@ -88,7 +88,10 @@ export function WaypointListEntry({
   const owned = user.id == waypoint.owner.id;
   return (
     <div className={clsx(s.root, className)} {...props}>
-      <div className={s.content}>
+      <div
+        className={s.content}
+        style={{ "--_gradient-size": owned ? "64px" : "24px" } as CSSProperties}
+      >
         <div className={s.iconWrapper}>
           <Image src="/natural-icon.png" alt="" fill />
         </div>

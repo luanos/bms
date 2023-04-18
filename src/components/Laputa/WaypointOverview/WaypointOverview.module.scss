@@ -9,6 +9,14 @@
   position: relative; // Needed for FilterToggleGroup Chevron Placement
 }
 
+.resultCount {
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  color: var(--col-neutral-11);
+  font-size: var(--fsize-s);
+}
+
 .searchInput {
   display: flex;
   gap: 1rem;

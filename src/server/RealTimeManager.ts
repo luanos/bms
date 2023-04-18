@@ -17,10 +17,21 @@ interface WaypointUpdateMessage {
   data: Waypoint;
 }
 
+interface ServerStatusMessage {
+  type: "SERVER_STATUS";
+  data: ServerStatus;
+}
+
 export type Message =
   | WaypointHideMessage
   | WaypointShowMessage
-  | WaypointUpdateMessage;
+  | WaypointUpdateMessage
+  | ServerStatusMessage;
+
+export type ServerStatus = {
+  state: "online" | "offline";
+  currentPlayers: string[];
+};
 
 /**
  * The RealTimeManager contains business logic to dispatch real-time events such
@@ -33,14 +44,42 @@ export type Message =
  */
 class RealTimeManager {
   clients: Set<Client> = new Set();
+  serverStatus: ServerStatus = { state: "offline", currentPlayers: [] };
+  // Timer for resetting the status to offline
+  timeoutId: NodeJS.Timeout | null = null;
   constructor() {}
 
   addClient(client: Client) {
     this.clients.add(client);
+    client.send({ type: "SERVER_STATUS", data: this.serverStatus });
     client.response.on("close", () => {
       this.clients.delete(client);
       client.response.end();
     });
+  }
+
+  setState(state: "online" | "offline") {
+    let previousState = this.serverStatus.state;
+    this.serverStatus.state = state;
+    if (state == "offline") {
+      this.serverStatus.currentPlayers = [];
+    }
+
+    if (state !== previousState) {
+      this.clients.forEach((client) =>
+        client.send({ type: "SERVER_STATUS", data: this.serverStatus })
+      );
+    }
+
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(
+      () => this.setState("offline"),
+      // MC server should ping every 10s. If no update happens in 20s,
+      // update the status to "offline".
+      6000
+    );
   }
 
   handleCreateWaypoint(waypoint: Waypoint) {

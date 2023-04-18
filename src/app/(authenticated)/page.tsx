@@ -1,6 +1,6 @@
 "use client";
 import s from "./Page.module.scss";
-import { useLocation } from "~/client/state";
+import { useLocation, useServerStatus } from "~/client/state";
 import { Pill } from "~/components/BaseUI/Pill";
 import { Separator } from "~/components/BaseUI/Separator";
 import { Laputa } from "~/components/Laputa";
@@ -12,10 +12,19 @@ export default function Index() {
       <Laputa />
       <User />
       <div className={s.mapOverlay}>
+        <StatusDisplay />
         <CoordinateDisplay />
       </div>
     </>
   );
+}
+
+function StatusDisplay() {
+  const status = useServerStatus();
+
+  if (!status) return null;
+
+  return <Pill>{status.state}</Pill>;
 }
 
 function CoordinateDisplay() {

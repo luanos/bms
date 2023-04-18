@@ -1,0 +1,1 @@
+export { InputCoordinates } from "./InputCoordinates";
