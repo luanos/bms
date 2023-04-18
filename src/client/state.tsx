@@ -18,6 +18,7 @@ import type { StoreApi } from "zustand";
 
 interface AppState {
   user: User;
+  allUsers: User[];
   serverStatus: ServerStatus | null;
   waypoints: Waypoint[];
   // TODO: Possible Bug when focusedWaypointId is set but waypoint is getting
@@ -53,10 +54,15 @@ interface AppContext extends AppState {
 
 type AppStore = StoreApi<AppContext>;
 
-function createAppContextStore(user: User, waypoints: Waypoint[]) {
+function createAppContextStore(
+  user: User,
+  allUsers: User[],
+  waypoints: Waypoint[]
+) {
   return createStore<AppContext>((set, get) => ({
     user,
     waypoints,
+    allUsers,
     serverStatus: null,
     map: null,
     focusedWaypointId: null,
@@ -122,17 +128,19 @@ function useAppContext<T>(
 }
 interface AppProviderProps {
   user: User;
+  allUsers: User[];
   waypoints: Waypoint[];
 }
 
 export function AppStoreProvider({
   user,
   waypoints,
+  allUsers,
   children,
 }: PropsWithChildren<AppProviderProps>) {
   const storeRef = useRef<StoreApi<AppContext>>();
   if (!storeRef.current) {
-    storeRef.current = createAppContextStore(user, waypoints);
+    storeRef.current = createAppContextStore(user, allUsers, waypoints);
   }
 
   useEffect(() => {
@@ -212,6 +220,10 @@ export function useWaypointActions() {
     }),
     shallow
   );
+}
+
+export function useAllUsers() {
+  return useAppContext((app) => app.allUsers);
 }
 
 export function useMap() {

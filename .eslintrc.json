@@ -22,8 +22,6 @@
     "@typescript-eslint/consistent-type-imports": "warn",
     "@next/next/no-img-element": "off",
     "jsx-a11y/alt-text": "off",
-    "no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "warn",
-    "unused-imports/no-unused-vars": "warn"
+    "no-unused-vars": "off"
   }
 }

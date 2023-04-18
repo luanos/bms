@@ -3,6 +3,8 @@ export {
   Field,
   Label,
   Control,
+  Select,
+  InputCoordinates,
   Message,
   ValidityState,
   Submit,

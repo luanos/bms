@@ -13,7 +13,11 @@ export default authenticated(async (req, res, user) => {
     if (!parseResult.success) {
       return res
         .status(400)
-        .send({ status: "error", message: "Bad user input" });
+        .send({
+          status: "error",
+          message: "Bad user input",
+          error: parseResult.error,
+        });
     }
     await createWaypoint(user.id, parseResult.data);
     return res.status(200).send(await getVisibleWaypoints(user.id));

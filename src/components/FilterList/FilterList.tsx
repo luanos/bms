@@ -1,5 +1,7 @@
 import s from "./FilterList.module.scss";
 import { EpArrowRightBold } from "../Icons";
+import { mergeRefs } from "~/client/mergeRefs";
+import { persistedScroll } from "~/client/persistedScroll";
 import { useScrollPercentage } from "~/client/useScrollPercentage";
 import * as ToggleGroup from "~/components/BaseUI/ToggleGroup";
 
@@ -9,18 +11,21 @@ interface FilterListProps {
   onFilterChange: (value: string) => void;
 }
 
+const usePersistedScroll = persistedScroll();
+
 export function FilterList({
   filters,
   onFilterChange,
   activeFilter,
 }: FilterListProps) {
-  const [ref, percentage] = useScrollPercentage<HTMLDivElement>("horizontal");
+  const [ref1, percentage] = useScrollPercentage<HTMLDivElement>("horizontal");
+  const ref2 = usePersistedScroll();
   return (
     <ToggleGroup.Root
       type="single"
       className={s.root}
       value={activeFilter}
-      ref={ref}
+      ref={mergeRefs([ref1, ref2])}
       onValueChange={onFilterChange}
     >
       {filters.map((filter) => (
@@ -34,7 +39,7 @@ export function FilterList({
             className={s.chevronLeft}
             data-visible={percentage > 0}
             onClick={() => {
-              ref.current?.scrollBy({
+              ref1.current?.scrollBy({
                 left: -225,
                 behavior: "smooth",
               });
@@ -47,7 +52,7 @@ export function FilterList({
             className={s.chevronRight}
             data-visible={percentage < 1}
             onClick={() => {
-              ref.current?.scrollBy({
+              ref1.current?.scrollBy({
                 left: 225,
                 behavior: "smooth",
               });

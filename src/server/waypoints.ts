@@ -8,6 +8,7 @@ const WaypointSelect = {
   name: true,
   xCoord: true,
   yCoord: true,
+  description: true,
   zCoord: true,
   worldType: true,
   waypointType: true,

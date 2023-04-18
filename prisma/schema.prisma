@@ -42,6 +42,7 @@ model Waypoint {
   owner        User         @relation(name: "waypoint_owner", fields: [ownerId], references: [id])
   ownerId      String
   name         String
+  description  String
   waypointType WaypointType
   worldType    WorldType // OVERWORLD, NETHER, END
   visibility   Visibility // ALL, SELECT, PRIVATE

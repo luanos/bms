@@ -72,13 +72,10 @@
 }
 
 .buttonAddWrapper {
-  white-space: nowrap;
-  height: var(--_overview-topbar-height);
-}
-
-.buttonAddWrapper {
   display: grid;
   place-items: center;
+  white-space: nowrap;
+  height: var(--_overview-topbar-height);
 }
 
 .buttonAdd {

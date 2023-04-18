@@ -1,7 +1,7 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 
 import s from "./Dialog.module.scss";
-import { EpClose } from "~/components/Icons";
+import { EpCloseBold } from "~/components/Icons";
 
 import type { ReactNode } from "react";
 
@@ -15,14 +15,22 @@ function Main({ title, description, children }: MainProps) {
   return (
     <RadixDialog.Portal>
       <RadixDialog.Overlay className={s.overlay} />
-      <RadixDialog.Content className={s.content}>
+      <RadixDialog.Content
+        className={s.content}
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+        onPointerDownOutside={(e) => {
+          e.preventDefault();
+        }}
+      >
         <RadixDialog.Title className={s.title}>{title}</RadixDialog.Title>
         <RadixDialog.Description className={s.description}>
           {description}
         </RadixDialog.Description>
         {children}
         <RadixDialog.Close className={s.close}>
-          <EpClose />
+          <EpCloseBold />
         </RadixDialog.Close>
       </RadixDialog.Content>
     </RadixDialog.Portal>

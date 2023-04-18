@@ -13,7 +13,7 @@ export default function Index() {
       <User />
       <div className={s.mapOverlay}>
         <StatusDisplay />
-        <CoordinateDisplay />
+        {/* <CoordinateDisplay /> */}
       </div>
     </>
   );

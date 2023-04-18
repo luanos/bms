@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { AppStoreProvider } from "~/client/state";
 import { DebugMap } from "~/components/DebugMap";
+import prisma from "~/server/db";
 import { getSession } from "~/server/session";
 import { getVisibleWaypoints } from "~/server/waypoints";
 
@@ -17,11 +18,15 @@ export default async function AuthenticatedLayout({
     redirect("/login");
   }
 
+  const users = await prisma.user.findMany({
+    where: { NOT: { id: session.user.id } },
+  });
   const waypoints = await getVisibleWaypoints(session.user.id);
 
   return (
     <AppStoreProvider
       user={session.user}
+      allUsers={users}
       waypoints={JSON.parse(JSON.stringify(waypoints))}
     >
       <DebugMap />

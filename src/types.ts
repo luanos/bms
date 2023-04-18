@@ -11,6 +11,7 @@ export type Waypoint = Omit<DBWaypoint, "ownerId"> & {
 
 export const WaypointUpdateInput = z.object({
   name: z.string().nonempty().optional(),
+  description: z.string().optional(),
   worldType: z.enum(["OVERWORLD", "NETHER", "END"]).optional(),
   visibility: z.enum(["ALL", "SELECT", "PRIVATE"]).optional(),
   visibleTo: z.string().array().optional(),
@@ -34,6 +35,7 @@ export type WaypointUpdateInput = z.infer<typeof WaypointUpdateInput>;
 
 export const WaypointAddInput = z.object({
   name: z.string().nonempty(),
+  description: z.string(),
   worldType: z.enum(["OVERWORLD", "NETHER", "END"]),
   visibility: z.enum(["ALL", "SELECT", "PRIVATE"]),
   visibleTo: z.string().array(),
