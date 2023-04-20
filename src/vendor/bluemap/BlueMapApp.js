@@ -161,7 +161,6 @@ export class BlueMapApp {
     }
 
     // map position address
-    window.addEventListener("hashchange", this.loadPageAddress);
     this.events.addEventListener("bluemapCameraMoved", this.cameraMoved);
     this.events.addEventListener("bluemapMapInteraction", this.mapInteraction);
 
@@ -253,7 +252,6 @@ export class BlueMapApp {
     await this.mapViewer.switchMap(map);
 
     if (resetCamera) this.resetCamera();
-    this.updatePageAddress();
 
     await Promise.all([
       this.initPlayerMarkerManager(),
@@ -276,7 +274,6 @@ export class BlueMapApp {
 
     controls.controls = this.mapControls;
     this.appState.controls.state = "perspective";
-    this.updatePageAddress();
   }
 
   /**
@@ -469,7 +466,6 @@ export class BlueMapApp {
         this.mapControls.reset();
         if (finished) {
           cm.controls = this.mapControls;
-          this.updatePageAddress();
         }
       }
     );
@@ -506,7 +502,6 @@ export class BlueMapApp {
         this.mapControls.reset();
         if (finished) {
           cm.controls = this.mapControls;
-          this.updatePageAddress();
         }
       }
     );
@@ -550,7 +545,6 @@ export class BlueMapApp {
       (finished) => {
         if (finished) {
           cm.controls = this.freeFlightControls;
-          this.updatePageAddress();
         }
       }
     );
@@ -767,12 +761,11 @@ export class BlueMapApp {
   };
 
   loadPageAddress = async () => {
-    // TODO: Maybe use custom encoding in url
     let hash =
       window.location.hash?.substring(1) || this.settings.startLocation || "";
     let values = hash.split(":");
 
-    if (values.length !== 10) return false;
+    if (values.length !== 9) return false;
 
     let controls = this.mapViewer.controlsManager;
     controls.controls = null;
@@ -784,7 +777,6 @@ export class BlueMapApp {
         return false;
       }
     }
-
     controls.position.x = parseFloat(values[1]);
     controls.position.y = parseFloat(values[2]);
     controls.position.z = parseFloat(values[3]);

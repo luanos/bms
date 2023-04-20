@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
 import { highlightString } from "~/client/highlightString";
-import { useFocusedWaypointActions, useUser } from "~/client/state";
+import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
@@ -57,6 +57,7 @@ export function WaypointListEntry({
 }: WaypointListEntryProps) {
   const { user } = useUser();
   const { focusWaypoint } = useFocusedWaypointActions();
+  const map = useMap();
 
   let waypoint: Waypoint;
   let waypointName: ReactNode;
@@ -96,7 +97,17 @@ export function WaypointListEntry({
           <Image src="/natural-icon.png" alt="" fill />
         </div>
         <h3 className={s.name}>
-          <button onClick={() => focusWaypoint(waypoint.id)}>
+          <button
+            onClick={() => {
+              focusWaypoint(waypoint.id);
+              map?.panToLocation(
+                waypoint.worldType,
+                waypoint.xCoord,
+                waypoint.yCoord,
+                waypoint.zCoord
+              );
+            }}
+          >
             {waypointName}
           </button>
         </h3>
