@@ -32,7 +32,6 @@ import { FreeFlightControls } from "./controls/freeflight/FreeFlightControls";
 import { MapControls } from "./controls/map/MapControls";
 import { Map as BlueMapMap } from "./map/Map";
 import { MarkerSet } from "./markers/MarkerSet";
-import { NormalMarkerManager } from "./markers/NormalMarkerManager";
 import { PlayerMarkerManager } from "./markers/PlayerMarkerManager";
 import {
   alert,
@@ -58,8 +57,6 @@ export class BlueMapApp {
 
     /** @type {PlayerMarkerManager} */
     this.playerMarkerManager = null;
-    /** @type {NormalMarkerManager} */
-    this.markerFileManager = null;
 
     /** @type {{
      *      version: string,
@@ -196,7 +193,6 @@ export class BlueMapApp {
       if (player.foreign) {
         let matchingMap = await this.findPlayerMap(player.playerUuid);
         if (matchingMap) {
-          this.mainMenu.closeAll();
           await this.switchMap(matchingMap.data.id, false);
           let playerMarker = this.playerMarkerManager.getPlayerMarker(
             player.playerUuid
@@ -253,10 +249,7 @@ export class BlueMapApp {
 
     if (resetCamera) this.resetCamera();
 
-    await Promise.all([
-      this.initPlayerMarkerManager(),
-      this.initMarkerFileManager(),
-    ]);
+    await this.initPlayerMarkerManager();
   }
 
   resetCamera() {
@@ -383,32 +376,6 @@ export class BlueMapApp {
         alert(this.events, e, "warning");
         this.playerMarkerManager.clear();
         this.playerMarkerManager.dispose();
-      });
-  }
-
-  initMarkerFileManager() {
-    if (this.markerFileManager) {
-      this.markerFileManager.clear();
-      this.markerFileManager.dispose();
-    }
-
-    const map = this.mapViewer.map;
-    if (!map) return;
-
-    this.markerFileManager = new NormalMarkerManager(
-      this.mapViewer.markers,
-      map.data.dataUrl + "live/markers.json",
-      this.events
-    );
-    return this.markerFileManager
-      .update()
-      .then(() => {
-        this.markerFileManager.setAutoUpdateInterval(1000 * 10);
-      })
-      .catch((e) => {
-        alert(this.events, e, "warning");
-        this.markerFileManager.clear();
-        this.markerFileManager.dispose();
       });
   }
 

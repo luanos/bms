@@ -5,6 +5,7 @@
  */
 
 import { Matrix4, Object3D, Vector2, Vector3 } from "three";
+
 import { dispatchEvent } from "./Utils";
 
 class CSS2DObject extends Object3D {

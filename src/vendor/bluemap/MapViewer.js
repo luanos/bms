@@ -231,7 +231,6 @@ export class MapViewer {
       let lowresHits = [];
       let hiresHit = null;
       let covered = false;
-
       for (let i = 0; i < intersects.length; i++) {
         if (intersects[i].object) {
           let object = intersects[i].object;

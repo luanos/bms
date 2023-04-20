@@ -22,8 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import { PlayerMarkerSet } from "./PlayerMarkerSet";
 import { MarkerManager } from "./MarkerManager";
+import { PlayerMarkerSet } from "./PlayerMarkerSet";
 
 export const PLAYER_MARKER_SET_ID = "bm-players";
 

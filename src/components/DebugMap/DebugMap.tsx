@@ -6,6 +6,7 @@ import s from "./DebugMap.module.scss";
 import { useMapHandle } from "../../client/state";
 
 import type { Map } from "../../client/state";
+import type { WorldType } from "@prisma/client";
 
 interface Event {
   timestamp: Date;
@@ -39,6 +40,12 @@ export function DebugMap() {
           type: "PAN_TO_LOCATION",
           info: args.toString(),
         });
+      },
+      updateHash: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      switchMap: function (world: WorldType): void {
+        throw new Error("Function not implemented.");
       },
     };
 

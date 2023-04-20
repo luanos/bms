@@ -22,10 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import { BoxGeometry, MeshBasicMaterial, Mesh, Vector2 } from "three";
+
 import { Marker } from "./markers/Marker";
 import { CSS2DObject } from "./util/CSS2DRenderer";
 import { animate, htmlToElement } from "./util/Utils";
-import { BoxGeometry, MeshBasicMaterial, Mesh, Vector2 } from "three";
 import { i18n } from "../i18n";
 
 export class PopupMarker extends Marker {

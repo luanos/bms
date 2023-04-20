@@ -22,10 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import { Vector3 } from "three";
+
 import { Marker } from "./Marker";
 import { CSS2DObject } from "../util/CSS2DRenderer";
 import { animate, htmlToElement } from "../util/Utils";
-import { Vector3 } from "three";
 
 export class ObjectMarker extends Marker {
   /**
