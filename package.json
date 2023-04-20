@@ -25,6 +25,8 @@
     "@radix-ui/react-toggle-group": "^1.0.3",
     "clsx": "^1.2.1",
     "fuse.js": "^6.6.2",
+    "hammerjs": "^2.0.8",
+    "hocon-parser": "^1.0.1",
     "iron-session": "^6.3.1",
     "jotai": "^2.0.4",
     "next": "13.3.0",
@@ -32,6 +34,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.61.0",
+    "three": "^0.151.3",
     "zod": "^3.21.4",
     "zustand": "^4.3.7"
   },

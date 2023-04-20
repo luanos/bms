@@ -49,6 +49,12 @@ dependencies:
   fuse.js:
     specifier: ^6.6.2
     version: 6.6.2
+  hammerjs:
+    specifier: ^2.0.8
+    version: 2.0.8
+  hocon-parser:
+    specifier: ^1.0.1
+    version: 1.0.1
   iron-session:
     specifier: ^6.3.1
     version: 6.3.1(next@13.3.0)
@@ -70,6 +76,9 @@ dependencies:
   sass:
     specifier: ^1.61.0
     version: 1.61.0
+  three:
+    specifier: ^0.151.3
+    version: 0.151.3
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -2267,6 +2276,11 @@ packages:
       duplexer: 0.1.2
     dev: true
 
+  /hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
     dev: true
@@ -2305,6 +2319,10 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
+
+  /hocon-parser@1.0.1:
+    resolution: {integrity: sha512-qMKuQh6pLPQc0gXsl91hAJEjD4JghV1VukO5gKOzjolCnupCbGHpERzMCkZLwVDLq7sL8xR6P4iWhcM1my3HtA==}
+    dev: false
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -3288,6 +3306,10 @@ packages:
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
+
+  /three@0.151.3:
+    resolution: {integrity: sha512-+vbuqxFy8kzLeO5MgpBHUvP/EAiecaDwDuOPPDe6SbrZr96kccF0ktLngXc7xA7bzyd3N0t2f6mw3Z9y6JCojQ==}
+    dev: false
 
   /tiny-glob@0.2.9:
     resolution: {integrity: sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==}
