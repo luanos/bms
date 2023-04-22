@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgres"
-  url      = "postgres://bms:example@localhost:5432/bms"
+  url      = env("POSTGRES_CONNECTION_STRING")
 }
 
 generator client {
