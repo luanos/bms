@@ -13,6 +13,9 @@ import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
 
+import * as Dialog from "~/components/BaseUI/Dialog"
+import { WaypointForm } from "../WaypointForm";
+
 interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;
   type: "EXPLORE" | "MY_WAYPOINTS";
@@ -129,9 +132,17 @@ export function WaypointListEntry({
 
       <div className={s.actionsOverlay}>
         {owned && (
+          <Dialog.Root>
+          <Dialog.Trigger>
           <button aria-label="Wegpunkt bearbeiten">
             <EpEdit />
           </button>
+          </Dialog.Trigger>
+          <Dialog.Main title="Wegpunkt Bearbeiten">
+            <WaypointForm waypoint={waypoint}/>
+          </Dialog.Main>
+        </Dialog.Root>
+          
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"

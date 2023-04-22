@@ -24,10 +24,10 @@ function Main({ title, description, children }: MainProps) {
           e.preventDefault();
         }}
       >
-        <RadixDialog.Title className={s.title}>{title}</RadixDialog.Title>
-        <RadixDialog.Description className={s.description}>
-          {description}
-        </RadixDialog.Description>
+        <div className={s.header}>
+          <RadixDialog.Title className={s.title}>{title}</RadixDialog.Title>
+          <RadixDialog.Description className={s.description}>{description}</RadixDialog.Description>
+        </div>
         {children}
         <RadixDialog.Close className={s.close}>
           <EpCloseBold />

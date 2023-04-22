@@ -1,0 +1,18 @@
+.horizontalLayout{
+  display: grid;
+  grid-template-columns: 100px auto;
+  gap: .5rem;
+  align-items: center;
+}
+
+.formActions{
+  display: flex;
+  gap: .25rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.deleteButton{
+  background-color: var(--col-danger-3);
+  color: var(--col-danger);
+}

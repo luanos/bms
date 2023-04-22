@@ -5,10 +5,10 @@ import s from "./Form.module.scss";
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpArrowRightBold } from "~/components/Icons";
 
-import type { SelectHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, SelectHTMLAttributes } from "react";
 
 interface RootProps extends RadixForm.FormProps {}
-function Root({ className, ...props }: RootProps) {
+function Root({className, ...props }: RootProps) {
   return <RadixForm.Root className={clsx(s.root, className)} {...props} />;
 }
 
@@ -44,6 +44,14 @@ function Submit({ className, ...props }: SubmitProps) {
   );
 }
 
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{}
+
+function Button({className, children, type="button", ...props}: ButtonProps){
+  return(
+    <button className={clsx(s.button, className)} type={type} {...props}>{children}</button>
+  );
+}
+
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {}
 
 function Select({ children, ...props }: SelectProps) {
@@ -58,46 +66,28 @@ function Select({ children, ...props }: SelectProps) {
 }
 
 interface InputCoordinatesProps {
+  defaultX?: number;
+  defaultY?: number;
+  defaultZ?: number;
   required?: boolean;
 }
 
-function InputCoordinates({ required }: InputCoordinatesProps) {
+function InputCoordinates({ defaultX, defaultY, defaultZ, required }: InputCoordinatesProps) {
   return (
     <div className={s.inputCoordinates}>
       <RadixForm.Field name="xCoord" className={s.field}>
-        <RadixForm.Control type="number" required={required} />
+        <RadixForm.Control type="number" defaultValue={defaultX} required={required} />
         <RadixForm.Label>X</RadixForm.Label>
-        <RadixForm.Message
-          name="xCoord"
-          className={s.message}
-          match="valueMissing"
-        >
-          Testnachricht X
-        </RadixForm.Message>
       </RadixForm.Field>
       <Separator orientation="vertical" className={s.separator} />
       <RadixForm.Field name="yCoord" className={s.field}>
-        <RadixForm.Control type="number" required={required} />
+        <RadixForm.Control type="number" defaultValue={defaultY} required={required} />
         <RadixForm.Label>Y</RadixForm.Label>
-        <RadixForm.Message
-          name="yCoord"
-          className={s.message}
-          match="valueMissing"
-        >
-          Testnachricht Y
-        </RadixForm.Message>
       </RadixForm.Field>
       <Separator orientation="vertical" className={s.separator} />
       <RadixForm.Field name="zCoord" className={s.field}>
-        <RadixForm.Control type="number" required={required} />
+        <RadixForm.Control type="number" defaultValue={defaultZ} required={required} />
         <RadixForm.Label>Z</RadixForm.Label>
-        <RadixForm.Message
-          name="zCoord"
-          className={s.message}
-          match="valueMissing"
-        >
-          Testnachricht Z
-        </RadixForm.Message>
       </RadixForm.Field>
     </div>
   );
@@ -115,5 +105,6 @@ export {
   InputCoordinates,
   Message,
   ValidityState,
+  Button,
   Submit,
 };

@@ -1,16 +1,20 @@
 .root {
-  --_input-padding-vertical: 0.25em;
-  --_input-padding-horizontal: 0.5em;
-
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+
+  // General Styling for Labels
 
   label {
+    display: inline-block;
     color: var(--col-neutral-11);
     font-size: var(--fsize-s);
     font-weight: bold;
+
+    transition: color var(--dur-s);
   }
+
+  // General Common Styling for Inputs, Textareas, Selects
 
   input,
   textarea,
@@ -31,24 +35,21 @@
       border-color: var(--col-neutral-8);
       transition-duration: var(--dur-s);
     }
-    &:focus {
-      border-color: var(--col-accent-8);
-      transition-duration: var(--dur-s);
-    }
   }
+
+  // General Textarea Styling
+
   textarea {
     resize: vertical;
   }
 
-  option {
-    font-family: "Lato", sans-serif;
-    font-size: 1rem;
-    font-weight: normal;
-    padding: 0.25em 0.5em;
-  }
+  // General Select Styling
+
   .selectRoot {
     position: relative;
+    width: 100%;
   }
+
   .selectArrow {
     position: absolute;
     top: 50%;
@@ -58,11 +59,41 @@
     transform: translateY(-50%) rotate(90deg);
     pointer-events: none;
   }
+
+  option {
+    font-family: "Lato", sans-serif;
+    font-size: 1rem;
+    font-weight: normal;
+    padding: 0.25em 0.5em;
+  }
 }
 
-.field[data-invalid="true"] {
-  input {
-    border-color: var(--col-danger);
+// Styling specific to an entire Field (Input, Label, Message and other elements)
+
+.root.layoutHorizontal .field{
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: .5rem;
+    align-items: center;
+}
+
+.field{
+  // Layouts
+  
+  // Hover & Focus Styles All Here
+  &:focus-within{
+    label{
+      color: var(--col-accent-8);
+    }
+    input, textarea, select{
+      border-color: var(--col-accent-8);
+      transition-duration: var(--dur-s);
+    }
+  }
+  &[data-invalid="true"] {
+    input {
+      border-color: var(--col-danger);
+    }
   }
 }
 
@@ -81,15 +112,19 @@
   background-color: darkgreen;
 }
 
+
+// ------------------------------------------------------------------
 // Styling specific to INPUT COORDINATES
+// ------------------------------------------------------------------
 
 .inputCoordinates {
   --_label-width: 2rem;
   display: flex;
 
   .field {
+    display: block !important;
     position: relative;
-    flex-shrink: 2; //Separators aren't visible without this
+    flex-shrink: 2;  // Separators aren't visible without this
   }
 
   .separator {

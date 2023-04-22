@@ -7,5 +7,6 @@ export {
   InputCoordinates,
   Message,
   ValidityState,
+  Button,
   Submit,
 } from "./Form";
