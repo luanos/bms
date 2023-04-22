@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={lato.className}>
+    <html className={lato.className} suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }}></script>
         {children}
