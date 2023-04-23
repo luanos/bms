@@ -132,17 +132,11 @@ export function WaypointListEntry({
 
       <div className={s.actionsOverlay}>
         {owned && (
-          <Dialog.Root>
-          <Dialog.Trigger>
-          <button aria-label="Wegpunkt bearbeiten">
-            <EpEdit />
-          </button>
-          </Dialog.Trigger>
-          <Dialog.Main title="Wegpunkt Bearbeiten">
-            <WaypointForm waypoint={waypoint}/>
-          </Dialog.Main>
-        </Dialog.Root>
-          
+          <WaypointForm waypoint={waypoint}>
+            <button aria-label="Wegpunkt bearbeiten">
+              <EpEdit />
+            </button>
+          </WaypointForm>  
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"

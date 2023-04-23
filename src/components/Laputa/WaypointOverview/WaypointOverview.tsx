@@ -37,6 +37,7 @@ export function WaypointOverview() {
         <input
           name="search"
           type="search"
+          autoComplete="off"
           ref={input}
           onChange={(e) => setQuery(e.target.value)}
           value={query}
@@ -196,20 +197,16 @@ function TabMyWaypoints() {
   const ownWaypoints = waypoints.filter(
     (waypoint) => user.id === waypoint.owner.id
   );
+  
   return (
     <>
       <div className={s.buttonAddWrapper}>
-        <Dialog.Root>
-          <Dialog.Trigger>
-            <button className={s.buttonAdd}>
-              <EpCirclePlus />
-              Erstellen
-            </button>
-          </Dialog.Trigger>
-          <Dialog.Main title="Wegpunkt Erstellen">
-            <WaypointForm />
-          </Dialog.Main>
-        </Dialog.Root>
+        <WaypointForm>
+          <button className={s.buttonAdd}>
+            <EpCirclePlus />
+            Erstellen
+          </button>
+        </WaypointForm>
       </div>
       <WaypointList waypoints={ownWaypoints} ref={ref} type="MY_WAYPOINTS" />
     </>
