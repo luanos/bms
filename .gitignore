@@ -1,0 +1,7 @@
+.papermc/*
+!.papermc/plugins
+.papermc/plugins/*
+
+
+# don't ignore plugin settings:
+# Example: !.papermc/plugins/BlueMap
