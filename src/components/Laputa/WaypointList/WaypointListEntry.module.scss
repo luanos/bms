@@ -60,10 +60,12 @@
 
 .iconWrapper {
   grid-area: icon;
-  position: relative;
+
+  display: grid;
+  place-items: center;
   aspect-ratio: 1;
-  overflow: hidden;
-  isolation: isolate;
+  font-size: 1.5rem;
+  color: var(--col-neutral-11);
 }
 .name {
   grid-area: name;

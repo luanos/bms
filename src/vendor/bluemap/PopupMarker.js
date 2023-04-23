@@ -30,9 +30,9 @@ import { animate, htmlToElement } from "./util/Utils";
 import { i18n } from "../i18n";
 
 export class PopupMarker extends Marker {
-  constructor(id, appState, events) {
+  constructor(id, appState, events, onClick) {
     super(id);
-
+    this.actionHandler = onClick;
     this.data.type = "popup";
     this.data.label = "Last Map Interaction";
     this.data.listed = false;
@@ -40,12 +40,11 @@ export class PopupMarker extends Marker {
     this.appState = appState;
     this.events = events;
     this.visible = false;
-
-    this.elementObject = new CSS2DObject(
-      htmlToElement(
-        `<div id="bm-marker-${this.data.id}" class="bm-marker-${this.data.type}">Test</div>`
-      )
+    const element = htmlToElement(
+      `<div id="bm-marker-${this.data.id}" class="bm-marker-${this.data.type}">Test</div>`
     );
+    this.elementObject = new CSS2DObject(element);
+
     this.elementObject.position.set(0.5, 1, 0.5);
     this.addEventListener("removed", () => {
       if (this.element.parentNode)
@@ -109,36 +108,31 @@ export class PopupMarker extends Marker {
 
     if (isHires) {
       this.element.innerHTML = `
-                <div class="group">
-                    <div class="label">${i18n.t("blockTooltip.block")}:</div>
-                    <div class="content">
-                        <div class="entry"><span class="label">x: </span><span class="value">${
-                          this.position.x
-                        }</span></div>
-                        <div class="entry"><span class="label">y: </span><span class="value">${
-                          this.position.y
-                        }</span></div>
-                        <div class="entry"><span class="label">z: </span><span class="value">${
-                          this.position.z
-                        }</span></div>
-                    </div>
-                </div>
-            `;
+        <div class="popup-wrapper">
+          <div class="popup-entry">${this.position.x}</div>
+          <div class="popup-separator"></div>
+          <div class="popup-entry">${this.position.y}</div>
+          <div class="popup-separator"></div>
+          <div class="popup-entry">${this.position.z}</div>
+          <div class="popup-separator"></div>
+          <div class="popup-button"></div>
+        </div>`;
     } else {
       this.element.innerHTML = `
-                <div class="group">
-                    <div class="label">${i18n.t("blockTooltip.position")}:</div>
-                    <div class="content">
-                        <div class="entry"><span class="label">x: </span><span class="value">${
-                          this.position.x
-                        }</span></div>
-                        <div class="entry"><span class="label">z: </span><span class="value">${
-                          this.position.z
-                        }</span></div>
-                    </div>
-                </div>
-            `;
+        <div class="popup-wrapper">
+          <div class="popup-entry">${this.position.x}</div>
+          <div class="popup-separator"></div>
+          <div class="popup-entry">${this.position.z}</div>
+          <div class="popup-separator"></div>
+          <div class="popup-button"></div>
+        </div>`;
     }
+
+    const buttonWrapper = this.element.querySelector("div.popup-button");
+    const button = document.createElement("button");
+    button.textContent = "+";
+    button.addEventListener("click", this.actionHandler);
+    buttonWrapper.appendChild(button);
 
     if (this.appState.debug) {
       let chunkCoords = this.position.clone().divideScalar(16).floor();

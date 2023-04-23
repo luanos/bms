@@ -71,3 +71,69 @@ body {
   background-color: var(--col-neutral-1);
   color: var(--col-neutral-12);
 }
+
+.waypoint-root:hover {
+  z-index: 9999;
+}
+
+.waypoint-type-building,
+.waypoint-type-farm,
+.waypoint-type-portal,
+.waypoint-type-poi,
+.waypoint-type-misc {
+  padding: 0.5rem;
+  padding-right: 0.75rem;
+  background-color: transparent;
+  border-radius: var(--rad-s);
+
+  user-select: none;
+  cursor: pointer;
+
+  transition-property: color, background-color, width;
+  transition-duration: 0.3s;
+
+  .icon-wrapper {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    svg {
+      pointer-events: auto;
+    }
+  }
+  .icon-wrapper::after {
+    content: attr(data-name);
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &.highlight,
+  &:hover {
+    color: var(--col-neutral-12);
+    background-color: var(--col-neutral-2);
+    .icon-wrapper::after {
+      opacity: 1;
+    }
+  }
+}
+
+.popup-wrapper {
+  background-color: var(--col-neutral-1);
+  display: flex;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: var(--fsize-s);
+
+  color: var(--col-neutral-12);
+  border-radius: var(--rad-s);
+
+  .popup-separator {
+    margin: -0.25rem 0rem;
+    width: 1px;
+    background-color: var(--col-neutral-6);
+  }
+  .popup-button {
+    pointer-events: auto;
+  }
+}

@@ -2,19 +2,35 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
+import { WaypointForm } from "../WaypointForm";
 import { highlightString } from "~/client/highlightString";
 import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
 import { Separator } from "~/components/BaseUI/Separator";
-import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
+import {
+  EpUser,
+  EpView,
+  EpEdit,
+  EpCopyDocument,
+  WaypointTypeBuilding,
+  WaypointTypeFarm,
+  WaypointTypePortal,
+} from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
 
-import type { WorldType } from "@prisma/client";
+import type { WaypointType, WorldType } from "@prisma/client";
 import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
 
-import * as Dialog from "~/components/BaseUI/Dialog"
-import { WaypointForm } from "../WaypointForm";
+export const waypointTypeIconComponent: Record<WaypointType, React.FC> = {
+  PRIVATE_BUILDING: WaypointTypeBuilding,
+  PUBLIC_BUILDING: WaypointTypeBuilding,
+  PRIVATE_FARM: WaypointTypeFarm,
+  PUBLIC_FARM: WaypointTypeFarm,
+  PORTAL: WaypointTypePortal,
+  POINT_OF_INTEREST: WaypointTypePortal,
+  OTHER: WaypointTypePortal,
+};
 
 interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;
@@ -90,6 +106,7 @@ export function WaypointListEntry({
   }
 
   const owned = user.id == waypoint.owner.id;
+  const Icon = waypointTypeIconComponent[waypoint.waypointType];
   return (
     <div className={clsx(s.root, className)} {...props}>
       <div
@@ -97,7 +114,7 @@ export function WaypointListEntry({
         style={{ "--_gradient-size": owned ? "64px" : "24px" } as CSSProperties}
       >
         <div className={s.iconWrapper}>
-          <Image src="/natural-icon.png" alt="" fill />
+          <Icon />
         </div>
         <h3 className={s.name}>
           <button
@@ -147,7 +164,7 @@ export function WaypointListEntry({
             <button aria-label="Wegpunkt bearbeiten">
               <EpEdit />
             </button>
-          </WaypointForm>  
+          </WaypointForm>
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"

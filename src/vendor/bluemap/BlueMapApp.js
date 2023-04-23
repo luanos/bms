@@ -45,7 +45,7 @@ export class BlueMapApp {
   /**
    * @param rootElement {Element}
    */
-  constructor(rootElement) {
+  constructor(rootElement, actionHandler) {
     this.events = rootElement;
 
     this.mapViewer = new MapViewer(rootElement, this.events);
@@ -112,7 +112,12 @@ export class BlueMapApp {
     // popup on click
     this.popupMarkerSet = new MarkerSet("bm-popup-set");
     this.popupMarkerSet.data.toggleable = false;
-    this.popupMarker = new PopupMarker("bm-popup", this.appState, this.events);
+    this.popupMarker = new PopupMarker(
+      "bm-popup",
+      this.appState,
+      this.events,
+      actionHandler
+    );
     this.popupMarkerSet.add(this.popupMarker);
     this.mapViewer.markers.add(this.popupMarkerSet);
 

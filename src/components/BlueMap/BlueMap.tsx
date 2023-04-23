@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import s from "./BlueMap.module.scss";
 import {
+  useFocusedWaypoint,
   useFocusedWaypointActions,
   useMapHandle,
   useWaypoints,
@@ -35,7 +36,8 @@ export default function BlueMap() {
   const [bluemap, setBluemap] = useState<BlueMapApp | null>(null);
   const [worldType, setWorldType] = useState<WorldType>();
   const waypoints = useWaypoints();
-
+  const focusedWaypoint = useFocusedWaypoint();
+  // TODO: Split this useEffect into worldType and waypoint dependencies
   useEffect(() => {
     if (!bluemap) return;
     if (!markerRef.current) {
@@ -52,18 +54,20 @@ export default function BlueMap() {
     markerSet.markers.clear();
     waypoints.forEach((waypoint) => {
       if (waypoint.worldType === worldType) {
-        const marker = new WaypointMarker(waypoint, () =>
-          focusWaypoint(waypoint.id)
+        const marker = new WaypointMarker(
+          waypoint,
+          () => focusWaypoint(waypoint.id),
+          waypoint.id === focusedWaypoint?.id
         );
         markerSet.add(marker);
       }
     });
-  }, [waypoints, bluemap, focusWaypoint, worldType]);
+  }, [waypoints, bluemap, focusWaypoint, worldType, focusedWaypoint]);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const bluemap = new BlueMapApp(containerRef.current);
+    const bluemap = new BlueMapApp(containerRef.current, () => alert(1));
     bluemap.load().then(() => {
       setBluemap(bluemap);
       setWorldType(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
@@ -77,8 +81,12 @@ export default function BlueMap() {
         bluemap.updatePageAddress();
       },
       async panToLocation(world, x, y, z) {
-        await bluemap.switchMap(WorldTypeToBlueMap[world], false);
-        setWorldType(world);
+        if (
+          WorldTypeToBlueMap[world] !== (bluemap.mapViewer.data.map as any).id
+        ) {
+          await bluemap.switchMap(WorldTypeToBlueMap[world], false);
+          setWorldType(world);
+        }
         bluemap.mapViewer.controlsManager.position.x = x;
         bluemap.mapViewer.controlsManager.position.y = y;
         bluemap.mapViewer.controlsManager.position.z = z;

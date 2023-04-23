@@ -17,12 +17,11 @@ import {
   EpClose,
   EpCompass,
   EpExpand,
-  EpCirclePlus,
+  EpPlus,
 } from "~/components/Icons";
-import { waypointTypeDisplayName, worldTypeDisplayName } from "~/displaynames";
+import { waypointTypeDisplayName } from "~/displaynames";
 
 import type { WaypointType } from "@prisma/client";
-import type { User } from "~/types";
 
 const useQuery = persistedState("");
 
@@ -32,7 +31,7 @@ export function WaypointOverview() {
   const [debouncedQuery] = useDebouncedValue(query, 300);
 
   return (
-    <>
+    <nav>
       <div className={s.searchInput} onClick={() => input.current?.focus()}>
         <input
           name="search"
@@ -63,7 +62,7 @@ export function WaypointOverview() {
       ) : (
         <WaypointTabs />
       )}
-    </>
+    </nav>
   );
 }
 
@@ -197,13 +196,13 @@ function TabMyWaypoints() {
   const ownWaypoints = waypoints.filter(
     (waypoint) => user.id === waypoint.owner.id
   );
-  
+
   return (
     <>
       <div className={s.buttonAddWrapper}>
         <WaypointForm>
           <button className={s.buttonAdd}>
-            <EpCirclePlus />
+            <EpPlus />
             Erstellen
           </button>
         </WaypointForm>

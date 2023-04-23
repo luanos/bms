@@ -121,7 +121,7 @@ var CSS2DRenderer = function (events = null) {
         "px," +
         (-vector.y * _heightHalf + _heightHalf - object.anchor.y) +
         "px)";
-
+      element.classList.add("waypoint-root");
       element.style.WebkitTransform = style;
       element.style.MozTransform = style;
       element.style.oTransform = style;
@@ -204,7 +204,7 @@ var CSS2DRenderer = function (events = null) {
     viewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, viewMatrix);
 
     renderObject(scene, scene, camera, true);
-    zOrder(scene);
+    // zOrder(scene);
   };
 };
 
