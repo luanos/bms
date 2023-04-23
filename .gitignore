@@ -34,4 +34,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.papermc
+.papermc/*
+!.papermc/plugins
+.papermc/plugins/*
+!.papermc/plugins/BlueMap
+public/assets
+public/lang
+public/maps
+public/_index.php
+public/index.html
+public/settings.json

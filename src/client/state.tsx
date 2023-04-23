@@ -13,6 +13,7 @@ import type {
   WaypointAddInput,
   WaypointUpdateInput,
 } from "../types";
+import type { WorldType } from "@prisma/client";
 import type { PropsWithChildren } from "react";
 import type { StoreApi } from "zustand";
 
@@ -32,7 +33,14 @@ interface AppState {
 }
 
 export interface Map {
-  panToLocation(xPos: number, yPos: number, zPos: number): void;
+  updateHash(): void;
+  switchMap(world: WorldType): void;
+  panToLocation(
+    world: WorldType,
+    xPos: number,
+    yPos: number,
+    zPos: number
+  ): void;
 }
 
 interface AppContext extends AppState {
