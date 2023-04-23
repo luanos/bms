@@ -4,6 +4,9 @@ CREATE TYPE "WorldType" AS ENUM ('OVERWORLD', 'NETHER', 'END');
 -- CreateEnum
 CREATE TYPE "Visibility" AS ENUM ('ALL', 'SELECT', 'PRIVATE');
 
+-- CreateEnum
+CREATE TYPE "WaypointType" AS ENUM ('PRIVATE_BUILDING', 'PUBLIC_BUILDING', 'PRIVATE_FARM', 'PUBLIC_FARM', 'PORTAL', 'POINT_OF_INTEREST', 'OTHER');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -15,13 +18,18 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Waypoint" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
-    "worldType" TEXT NOT NULL,
-    "visibility" TEXT NOT NULL,
-    "xCoords" INTEGER NOT NULL,
-    "yCoords" INTEGER NOT NULL,
-    "zCoords" INTEGER NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "waypointType" "WaypointType" NOT NULL,
+    "worldType" "WorldType" NOT NULL,
+    "visibility" "Visibility" NOT NULL,
+    "xCoord" INTEGER NOT NULL,
+    "yCoord" INTEGER NOT NULL,
+    "zCoord" INTEGER NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Waypoint_pkey" PRIMARY KEY ("id")
 );
@@ -29,7 +37,7 @@ CREATE TABLE "Waypoint" (
 -- CreateTable
 CREATE TABLE "_waypoint_visible" (
     "A" TEXT NOT NULL,
-    "B" INTEGER NOT NULL
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
