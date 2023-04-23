@@ -1,8 +1,11 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 
 import s from "./DebugMap.module.scss";
-import { Map, useMapHandle } from "../../state";
+import { useMapHandle } from "../../client/state";
+
+import type { Map } from "../../client/state";
 
 interface Event {
   timestamp: Date;
@@ -10,7 +13,7 @@ interface Event {
   info: string;
 }
 
-function useHistory<T>(history: number = 10) {
+function useHistory<T>(history: number = 50) {
   const [events, setEvents] = useState<T[]>([]);
   const pushEvent = useCallback(
     (event: T) => {
@@ -42,10 +45,20 @@ export function DebugMap() {
     registerMap(map);
 
     return () => unregisterMap();
-  }, []);
+  }, [pushEvent, registerMap, unregisterMap]);
 
   return (
-    <div>
+    <div
+      className={s.root}
+      onMouseMove={(e) => {
+        const { left, top } = e.currentTarget.getBoundingClientRect();
+        updateLocation(
+          Math.round(e.clientX - left),
+          Math.round(e.clientY - top)
+        );
+      }}
+    >
+      <Image src="/map2.jpg" fill alt="" />
       {events.map((event) => (
         <pre
           key={event.timestamp.getMilliseconds()}
@@ -53,16 +66,6 @@ export function DebugMap() {
           event.info
         }`}</pre>
       ))}
-      <div
-        className={s.canvas}
-        onMouseMove={(e) => {
-          const { left, top } = e.currentTarget.getBoundingClientRect();
-          updateLocation(
-            Math.round(e.clientX - left),
-            Math.round(e.clientY - top)
-          );
-        }}
-      />
     </div>
   );
 }

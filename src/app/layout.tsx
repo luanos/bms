@@ -1,16 +1,18 @@
-import { Metadata } from "next";
 import { Lato } from "next/font/google";
 
+import type { Metadata } from "next";
 import "~/styles/main.scss";
+
+export const metadata: Metadata = {
+  title: "BMS Companion",
+};
+
+const darkModeScript = `if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add("dark-theme")}`;
 
 const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "BMS Companion",
-};
 
 export default function RootLayout({
   children,
@@ -18,8 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={lato.className} lang="en">
-      <body>{children}</body>
+    <html className={lato.className} suppressHydrationWarning>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: darkModeScript }}></script>
+        {children}
+      </body>
     </html>
   );
 }

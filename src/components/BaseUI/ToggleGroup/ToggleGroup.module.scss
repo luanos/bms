@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  gap: 0.25rem;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  background-color: var(--col-neutral-3);
+  border-radius: var(--rad-s);
+  padding: 0.125em 0.5em;
+
+  font-size: var(--fsize-s);
+  font-weight: bold;
+  color: var(--col-neutral-11);
+
+  user-select: none;
+
+  transition-property: background-color, color;
+  transition-duration: var(--dur-s);
+
+  &:hover {
+    background-color: var(--col-neutral-4);
+  }
+}
+.item[data-state="on"] {
+  color: var(--col-neutral-1);
+  background-color: var(--col-accent-8);
+}

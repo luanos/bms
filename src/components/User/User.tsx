@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import s from "./User.module.scss";
-import { useUser } from "~/state";
+import { useUser } from "~/client/state";
 
 export function User() {
   const [active, setActive] = useState(false);
@@ -17,13 +17,11 @@ export function User() {
           className={s.expandedContent}
           onMouseEnter={() => {
             if (timeoutRef.current) {
-              console.log("clear");
               clearTimeout(timeoutRef.current);
             }
             setActive(true);
           }}
           onMouseLeave={() => {
-            console.log("set");
             timeoutRef.current = setTimeout(() => setActive(false), 300);
           }}
         >
@@ -39,7 +37,6 @@ export function User() {
         </div>
       </div>
       <div className={s.avatarContainer}>
-        {/* <div className={s.avatarBg} onMouseEnter={() => setActive(true)} /> */}
         <div className={s.avatarImgContainer}>
           {/* TODO: DEBUGGING BILD ERSETZEN! */}
           <Image src="/heslig.png" alt="" fill />

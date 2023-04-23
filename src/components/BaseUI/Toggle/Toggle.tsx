@@ -1,8 +1,8 @@
 import * as RadixToggle from "@radix-ui/react-toggle";
-import Image from "next/image";
-import { ReactNode } from "react";
 
 import s from "./Toggle.module.scss";
+
+import type { ReactNode } from "react";
 
 interface ToggleProps extends RadixToggle.ToggleProps {
   label: string;

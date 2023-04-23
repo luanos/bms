@@ -1,36 +1,73 @@
 @import "./preflight.css";
+@import "@radix-ui/colors/slate.css";
+@import "@radix-ui/colors/slateDark.css";
 
 :root {
   /* Color Palette */
-  --col-blue-light-0: #edf5ff;
-  --col-blue-light-1: #babec4;
-  --col-blue-light-2: #46505e;
-  --col-blue-dark-0: #0f151c;
-  --col-blue-dark-1: #141d28;
-  --col-blue-dark-2: #17222f;
-  --col-red-400: #ff7979;
-  --col-violet-400: #7c75ff;
-  /* UI Colors */
-  --col-accent: var(--col-violet-400);
-  --col-accent-contrast: #fff;
-  --col-error: var(--col-red-400);
-  --col-error-contrast: #fff;
-  --col-surface-800: hsl(0, 0%, 90%);
+  --col-red: #ff7979;
+  --col-violet: #7c75ff;
+
+  /* Color UI Role Assignments*/
+  --col-neutral-1: var(--slate1);
+  --col-neutral-2: var(--slate2);
+  --col-neutral-3: var(--slate3);
+  --col-neutral-4: var(--slate4);
+  --col-neutral-5: var(--slate5);
+  --col-neutral-6: var(--slate6);
+  --col-neutral-7: var(--slate7);
+  --col-neutral-8: var(--slate8);
+  --col-neutral-9: var(--slate9);
+  --col-neutral-10: var(--slate10);
+  --col-neutral-11: var(--slate11);
+  --col-neutral-12: var(--slate12);
+
+  --col-danger-3: hsl(0, 25%, 88.9%);
+  --col-neutral-trans-1: hsla(206, 30%, 98.8%, 0.9);
+  --col-neutral-trans-2: hsla(210, 16.7%, 97.6%, 0.9);
+  --col-neutral-trans-3: hsla(209, 13.3%, 95.3%, 0.9);
+
+  &.dark-theme {
+    --col-danger-3: hsl(0, 12.5%, 20.5%);
+    --col-neutral-trans-1: hsla(200, 7%, 8.8%, 0.9);
+    --col-neutral-trans-2: hsla(195, 7.1%, 11%, 0.9);
+    --col-neutral-trans-3: hsla(197, 6.8%, 13.6%, 0.9);
+  }
+
+  --col-accent-8: var(--col-violet);
+  --col-danger: var(--col-red);
 
   /* Font Sizes */
-  --fsize-xs: 14px;
-  --fsize-m: 16px;
+  --fsize-s: 0.875rem;
+  --fsize-xs: 0.75rem;
+  --fsize-m: 1rem;
 
   /* Radien */
-  --rad-s: 4px;
+  --rad-s: 8px;
+  --rad-m: 16px;
+  --rad-l: 28px;
+
   /* Durations */
   --dur-s: 0.1s;
+
+  /* Blur */
+  --blur: 15px;
 }
 
 @supports (backdrop-filter: blur(15px)) {
+  :root {
+    --col-neutral-trans-1: hsla(206, 30%, 98.8%, 0.8);
+    --col-neutral-trans-2: hsla(210, 16.7%, 97.6%, 0.8);
+    --col-neutral-trans-3: hsla(209, 13.3%, 95.3%, 0.8);
+  }
+
+  :root.dark-theme {
+    --col-neutral-trans-1: hsla(200, 7%, 8.8%, 0.8);
+    --col-neutral-trans-2: hsla(195, 7.1%, 11%, 0.8);
+    --col-neutral-trans-3: hsla(197, 6.8%, 13.6%, 0.8);
+  }
 }
 
 body {
-  background-color: var(--color-blue-dark-0);
-  color: var(--color-blue-light-0);
+  background-color: var(--col-neutral-1);
+  color: var(--col-neutral-12);
 }

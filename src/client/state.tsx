@@ -1,15 +1,29 @@
 "use client";
 
-import { PropsWithChildren, createContext, useContext, useRef } from "react";
-import { StoreApi, create, createStore, useStore } from "zustand";
+import { createContext, useContext, useEffect, useRef } from "react";
+import { createStore, useStore } from "zustand";
 import { shallow } from "zustand/shallow";
 
-import { User, Waypoint, WaypointAddInput, WaypointUpdateInput } from "./types";
-import { safeFetch } from "./utils";
+import { safeFetch } from "../utils";
+
+import type { Message, ServerStatus } from "../server/RealTimeManager";
+import type {
+  User,
+  Waypoint,
+  WaypointAddInput,
+  WaypointUpdateInput,
+} from "../types";
+import type { PropsWithChildren } from "react";
+import type { StoreApi } from "zustand";
 
 interface AppState {
   user: User;
+  allUsers: User[];
+  serverStatus: ServerStatus | null;
   waypoints: Waypoint[];
+  // TODO: Possible Bug when focusedWaypointId is set but waypoint is getting
+  // hidden. the id could then reference a waypoint not present above
+  focusedWaypointId: string | null;
   map: Map | null;
   location: {
     xPos: number;
@@ -33,17 +47,32 @@ interface AppContext extends AppState {
   // waypoint related
   addWaypoint(input: WaypointAddInput): Promise<void>;
   deleteWaypoint(waypointId: string): Promise<void>;
+  focusWaypoint(waypointId: string): void;
+  blurWaypoint(): void;
   updateWaypoint(waypointId: string, input: WaypointUpdateInput): Promise<void>;
 }
 
 type AppStore = StoreApi<AppContext>;
 
-function createAppContextStore(user: User, waypoints: Waypoint[]) {
+function createAppContextStore(
+  user: User,
+  allUsers: User[],
+  waypoints: Waypoint[]
+) {
   return createStore<AppContext>((set, get) => ({
     user,
     waypoints,
+    allUsers,
+    serverStatus: null,
     map: null,
+    focusedWaypointId: null,
     location: null,
+    focusWaypoint(waypointId) {
+      set({ focusedWaypointId: waypointId });
+    },
+    blurWaypoint() {
+      set({ focusedWaypointId: null });
+    },
     async addWaypoint(input) {
       let response: Waypoint[] = await safeFetch("/api/waypoints", {
         method: "POST",
@@ -99,18 +128,49 @@ function useAppContext<T>(
 }
 interface AppProviderProps {
   user: User;
+  allUsers: User[];
   waypoints: Waypoint[];
 }
 
 export function AppStoreProvider({
   user,
   waypoints,
+  allUsers,
   children,
 }: PropsWithChildren<AppProviderProps>) {
   const storeRef = useRef<StoreApi<AppContext>>();
   if (!storeRef.current) {
-    storeRef.current = createAppContextStore(user, waypoints);
+    storeRef.current = createAppContextStore(user, allUsers, waypoints);
   }
+
+  useEffect(() => {
+    const eventSource = new EventSource("/api/realtime");
+    eventSource.addEventListener("message", (incoming) => {
+      let message: Message = JSON.parse(incoming.data);
+      if (message.type == "WAYPOINT_HIDE") {
+        let waypointId = message.data;
+        storeRef.current?.setState((app) => ({
+          waypoints: app.waypoints.filter(
+            (waypoint) => waypoint.id !== waypointId
+          ),
+        }));
+      }
+      if (message.type == "WAYPOINT_UPDATE") {
+        // TODO: WAYPOINT_UPDATE implementieren
+        throw new Error("unimplemented");
+      }
+      if (message.type == "WAYPOINT_SHOW") {
+        let waypoint = message.data;
+        storeRef.current?.setState((app) => ({
+          waypoints: [waypoint, ...app.waypoints],
+        }));
+      }
+      if (message.type == "SERVER_STATUS") {
+        let status = message.data;
+        storeRef.current?.setState({ serverStatus: status });
+      }
+    });
+  }, []);
   return (
     <AppStoreContext.Provider value={storeRef.current}>
       {children}
@@ -134,7 +194,24 @@ export function useWaypoints() {
   return useAppContext((app) => app.waypoints);
 }
 
-export function useWaypointUtils() {
+export function useFocusedWaypoint() {
+  return useAppContext(
+    ({ waypoints, focusedWaypointId }) =>
+      waypoints.find((waypoint) => waypoint.id === focusedWaypointId) ?? null
+  );
+}
+
+export function useFocusedWaypointActions() {
+  return useAppContext(
+    ({ focusWaypoint, blurWaypoint }) => ({
+      focusWaypoint,
+      blurWaypoint,
+    }),
+    shallow
+  );
+}
+
+export function useWaypointActions() {
   return useAppContext(
     ({ addWaypoint, deleteWaypoint, updateWaypoint }) => ({
       addWaypoint,
@@ -145,12 +222,20 @@ export function useWaypointUtils() {
   );
 }
 
+export function useAllUsers() {
+  return useAppContext((app) => app.allUsers);
+}
+
 export function useMap() {
   return useAppContext((app) => app.map);
 }
 
 export function useLocation() {
   return useAppContext((app) => app.location);
+}
+
+export function useServerStatus() {
+  return useAppContext((app) => app.serverStatus);
 }
 
 export function useMapHandle() {

@@ -1,10 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 
 import s from "./Login.module.scss";
 import { Button } from "~/components/BaseUI/Button";
+
+import type { FormEvent } from "react";
 
 export default function Home() {
   const router = useRouter();

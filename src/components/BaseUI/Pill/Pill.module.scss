@@ -1,13 +1,13 @@
 .container {
-  color: #fff;
-  background-color: hsla(218, 42%, 9%, 85%);
-  backdrop-filter: blur(15px);
-  border-radius: 4px;
-  padding: 0.25rem 0.75rem;
+  color: var(--col-neutral-12);
+  background-color: var(--col-neutral-trans-1);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--rad-s);
   user-select: none;
-  transition: background-color var(--dur-s);
+  transition: background-color 0.5s;
 
   &:hover {
-    background-color: hsla(218, 42%, 9%, 90%);
+    background-color: var(--col-neutral-1);
+    transition-duration: var(--dur-s);
   }
 }

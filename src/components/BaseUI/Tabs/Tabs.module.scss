@@ -1,7 +1,7 @@
 .list {
   display: flex;
-  gap: 0.25rem;
-  border-bottom: 1px solid var(--col-surface-800);
+  gap: 0.25em;
+  border-bottom: 1px solid var(--col-neutral-6);
 }
 
 .trigger {
@@ -13,35 +13,43 @@
   border-top-right-radius: var(--rad-s);
   padding: 0.33em 0.75em;
 
-  font-size: var(--fsize-xs);
+  color: var(--col-neutral-11);
+  font-size: var(--fsize-s);
   font-weight: bold;
-  color: hsl(0, 0%, 35%);
 
   user-select: none;
   cursor: pointer;
 
-  .iconWrapper {
-    position: relative;
-    height: 1.33em;
-    aspect-ratio: 1;
-    margin-left: -4px;
-    overflow: hidden;
-    isolation: isolate;
+  transition: color 0.1s, background-color 0.1s;
 
-    img {
-      object-fit: contain;
-      object-position: center;
-      pointer-events: none;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
+  &:hover,
+  &:focus,
+  &:focus-within {
+    color: var(--col-neutral-12);
   }
 }
 
 .trigger[data-state="active"] {
-  color: var(--col-accent-contrast);
-  background-color: var(--col-accent);
+  color: var(--col-neutral-1);
+  background-color: var(--col-accent-8);
+}
+
+.iconWrapper {
+  position: relative;
+  height: 1.33em;
+  aspect-ratio: 1;
+  margin-left: -4px;
+  overflow: hidden;
+  isolation: isolate;
+
+  img {
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }

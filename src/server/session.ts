@@ -1,9 +1,10 @@
-import { IronSession, IronSessionOptions, unsealData } from "iron-session";
+import { unsealData } from "iron-session";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { cookies } from "next/headers";
 
-import { User } from "./types";
+import type { User } from "../types";
+import type { IronSession, IronSessionOptions } from "iron-session";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 if (!process.env.COOKIE_SECRET) {
   throw new Error("Cookie secret not set");
