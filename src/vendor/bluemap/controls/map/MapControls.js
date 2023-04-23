@@ -35,10 +35,6 @@ import {
 import { MathUtils, Vector2, Vector3 } from "three";
 
 import { MapHeightControls } from "./MapHeightControls";
-import { KeyAngleControls } from "./keyboard/KeyAngleControls";
-import { KeyMoveControls } from "./keyboard/KeyMoveControls";
-import { KeyRotateControls } from "./keyboard/KeyRotateControls";
-import { KeyZoomControls } from "./keyboard/KeyZoomControls";
 import { MouseAngleControls } from "./mouse/MouseAngleControls";
 import { MouseMoveControls } from "./mouse/MouseMoveControls";
 import { MouseRotateControls } from "./mouse/MouseRotateControls";
@@ -76,11 +72,6 @@ export class MapControls {
     this.mouseRotate = new MouseRotateControls(this.rootElement, 6, 0.3);
     this.mouseAngle = new MouseAngleControls(this.rootElement, 3, 0.3);
     this.mouseZoom = new MouseZoomControls(this.rootElement, 1, 0.2);
-
-    this.keyMove = new KeyMoveControls(this.rootElement, 0.025, 0.2);
-    this.keyRotate = new KeyRotateControls(this.rootElement, 0.06, 0.15);
-    this.keyAngle = new KeyAngleControls(this.rootElement, 0.04, 0.15);
-    this.keyZoom = new KeyZoomControls(this.rootElement, 0.2, 0.15);
 
     this.touchMove = new TouchMoveControls(
       this.rootElement,
@@ -120,11 +111,6 @@ export class MapControls {
     this.mouseAngle.start(manager);
     this.mouseZoom.start(manager);
 
-    this.keyMove.start(manager);
-    this.keyRotate.start(manager);
-    this.keyAngle.start(manager);
-    this.keyZoom.start(manager);
-
     this.touchMove.start(manager);
     this.touchRotate.start(manager);
     this.touchAngle.start(manager);
@@ -144,11 +130,6 @@ export class MapControls {
     this.mouseAngle.stop();
     this.mouseZoom.stop();
 
-    this.keyMove.stop();
-    this.keyRotate.stop();
-    this.keyAngle.stop();
-    this.keyZoom.stop();
-
     this.touchMove.stop();
     this.touchRotate.stop();
     this.touchAngle.stop();
@@ -167,7 +148,6 @@ export class MapControls {
     // move
     MapControls._beforeMoveTemp.copy(this.manager.position);
     this.mouseMove.update(delta, map);
-    this.keyMove.update(delta, map);
     this.touchMove.update(delta, map);
 
     // if moved, stop following the marker and give back control
@@ -185,7 +165,6 @@ export class MapControls {
 
     // zoom
     this.mouseZoom.update(delta, map);
-    this.keyZoom.update(delta, map);
     this.touchZoom.update(delta, map);
 
     this.manager.distance = softClamp(
@@ -202,14 +181,9 @@ export class MapControls {
 
     // rotation
     this.mouseRotate.update(delta, map);
-    this.keyRotate.update(delta, map);
     this.touchRotate.update(delta, map);
 
-    const rotating =
-      this.mouseRotate.moving ||
-      this.touchRotate.moving ||
-      this.keyRotate.left ||
-      this.keyRotate.right;
+    const rotating = this.mouseRotate.moving || this.touchRotate.moving;
 
     // snap rotation to north on orthographic view
     if (
@@ -222,7 +196,6 @@ export class MapControls {
     // tilt
     if (this.manager.ortho === 0) {
       this.mouseAngle.update(delta, map);
-      this.keyAngle.update(delta, map);
       this.touchAngle.update(delta, map);
       this.manager.angle = softClamp(
         this.manager.angle,

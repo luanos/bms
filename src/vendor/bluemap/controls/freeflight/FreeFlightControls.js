@@ -26,8 +26,6 @@
 import { Manager, Pan, DIRECTION_ALL } from "hammerjs";
 import { MathUtils, Vector2 } from "three";
 
-import { KeyHeightControls } from "./keyboard/KeyHeightControls";
-import { KeyMoveControls } from "./keyboard/KeyMoveControls";
 import { MouseAngleControls } from "./mouse/MouseAngleControls";
 import { MouseRotateControls } from "./mouse/MouseRotateControls";
 import { TouchPanControls } from "./touch/TouchPanControls";
@@ -46,8 +44,6 @@ export class FreeFlightControls {
     this.hammer = new Manager(this.target);
     this.initializeHammer();
 
-    this.keyMove = new KeyMoveControls(this.target, 0.5, 0.1);
-    this.keyHeight = new KeyHeightControls(this.target, 0.5, 0.2);
     this.mouseRotate = new MouseRotateControls(this.target, 1.5, -2, -1.5, 0.5);
     this.mouseAngle = new MouseAngleControls(this.target, 1.5, -2, -1.5, 0.5);
     this.touchPan = new TouchPanControls(this.target, this.hammer, 5, 0.15);
@@ -65,9 +61,6 @@ export class FreeFlightControls {
    */
   start(manager) {
     this.manager = manager;
-
-    this.keyMove.start(manager);
-    this.keyHeight.start(manager);
     this.mouseRotate.start(manager);
     this.mouseAngle.start(manager);
     this.touchPan.start(manager);
@@ -79,8 +72,6 @@ export class FreeFlightControls {
   }
 
   stop() {
-    this.keyMove.stop();
-    this.keyHeight.stop();
     this.mouseRotate.stop();
     this.mouseAngle.stop();
     this.touchPan.stop();
@@ -96,8 +87,6 @@ export class FreeFlightControls {
    * @param map {Map}
    */
   update(delta, map) {
-    this.keyMove.update(delta, map);
-    this.keyHeight.update(delta, map);
     this.mouseRotate.update(delta, map);
     this.mouseAngle.update(delta, map);
     this.touchPan.update(delta, map);
@@ -143,8 +132,5 @@ export class FreeFlightControls {
 
     this.moveSpeed *= Math.pow(1.5, -delta * 0.25);
     this.moveSpeed = MathUtils.clamp(this.moveSpeed, 0.05, 5);
-
-    this.keyMove.speed = this.moveSpeed;
-    this.keyHeight.speed = this.moveSpeed;
   };
 }
