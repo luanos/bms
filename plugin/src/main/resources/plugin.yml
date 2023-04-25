@@ -1,4 +1,0 @@
-name: BMSPlugin
-version: "${project.version}"
-main: de.luanos.bmsplugin.BMSPlugin
-api-version: 1.19
