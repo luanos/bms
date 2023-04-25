@@ -1,0 +1,78 @@
+.root {
+  //display: flex;
+  //flex-direction: column;
+  color: var(--col-neutral-12);
+}
+
+// General Layout
+
+.topBar {
+  display: flex;
+  align-items: center;
+  height: 61px;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--col-neutral-4);
+}
+.middleSection {
+  padding: 0.75rem 1rem;
+}
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+// Elements
+
+.blurWaypoint {
+  aspect-ratio: 1;
+  padding: 0.75rem;
+  border-radius: 50%;
+
+  transition: background-color 0.3s;
+  &:hover,
+  &:focus,
+  &:focus-within {
+    background-color: var(--col-neutral-4);
+    transition: background-color var(--dur-s);
+  }
+}
+.name {
+  margin: auto;
+  color: var(--col-neutral-12);
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.125rem;
+  cursor: pointer;
+}
+.info {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.description {
+  margin-top: 0.75rem;
+  font-size: var(--fsize-s);
+}
+.updatedAt {
+  align-self: flex-end;
+  font-size: var(--fsize-xs);
+  color: var(--col-neutral-11);
+}
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+
+  color: var(--col-neutral-11);
+  font-size: 1.5rem;
+
+  button {
+    transition: color 0.3s;
+    &:hover,
+    &:focus {
+      color: var(--col-neutral-12);
+      transition: color var(--dur-s);
+    }
+  }
+}

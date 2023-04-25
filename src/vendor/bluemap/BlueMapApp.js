@@ -86,8 +86,8 @@ export class BlueMapApp {
     this.mapsMap = new Map();
 
     this.lastCameraMove = 0;
-
-    this.dataUrl = "maps/";
+    this.baseUrl = process.env.NEXT_PUBLIC_LIVE_MAP_URL ?? "";
+    this.dataUrl = `${this.baseUrl}/maps/`;
 
     this.appState = {
       controls: {
@@ -328,7 +328,7 @@ export class BlueMapApp {
       let loader = new FileLoader();
       loader.setResponseType("json");
       loader.load(
-        "settings.json?" + generateCacheHash(),
+        this.baseUrl + "/settings.json?" + generateCacheHash(),
         resolve,
         () => {},
         () => reject("Failed to load the settings.json!")

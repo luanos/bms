@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import s from "./BlueMap.module.scss";
+import { WaypointForm } from "../Laputa/WaypointForm";
 import {
   useFocusedWaypoint,
   useFocusedWaypointActions,
@@ -29,14 +30,15 @@ const BlueMapToWorldType: Record<string, WorldType> = {
 };
 
 export default function BlueMap() {
-  const { registerMap, unregisterMap } = useMapHandle();
+  const { registerMap, unregisterMap, currentWorld, setCurrentWorld } =
+    useMapHandle();
   const containerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<MarkerSet>();
   const { focusWaypoint } = useFocusedWaypointActions();
   const [bluemap, setBluemap] = useState<BlueMapApp | null>(null);
-  const [worldType, setWorldType] = useState<WorldType>();
   const waypoints = useWaypoints();
   const focusedWaypoint = useFocusedWaypoint();
+
   // TODO: Split this useEffect into worldType and waypoint dependencies
   useEffect(() => {
     if (!bluemap) return;
@@ -53,7 +55,7 @@ export default function BlueMap() {
 
     markerSet.markers.clear();
     waypoints.forEach((waypoint) => {
-      if (waypoint.worldType === worldType) {
+      if (waypoint.worldType === currentWorld) {
         const marker = new WaypointMarker(
           waypoint,
           () => focusWaypoint(waypoint.id),
@@ -62,20 +64,23 @@ export default function BlueMap() {
         markerSet.add(marker);
       }
     });
-  }, [waypoints, bluemap, focusWaypoint, worldType, focusedWaypoint]);
+  }, [waypoints, bluemap, focusWaypoint, currentWorld, focusedWaypoint]);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const bluemap = new BlueMapApp(containerRef.current, () => alert(1));
+    const bluemap = new BlueMapApp(
+      containerRef.current,
+      (x: any, z: any, y: any) => console.log(x, y, z)
+    );
     bluemap.load().then(() => {
       setBluemap(bluemap);
-      setWorldType(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
+      setCurrentWorld(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
     });
     const map: Map = {
       async switchMap(world) {
-        await bluemap.switchMap(WorldTypeToBlueMap[world], false);
-        setWorldType(world);
+        await bluemap.switchMap(WorldTypeToBlueMap[world], true);
+        setCurrentWorld(world);
       },
       updateHash() {
         bluemap.updatePageAddress();
@@ -85,7 +90,7 @@ export default function BlueMap() {
           WorldTypeToBlueMap[world] !== (bluemap.mapViewer.data.map as any).id
         ) {
           await bluemap.switchMap(WorldTypeToBlueMap[world], false);
-          setWorldType(world);
+          setCurrentWorld(world);
         }
         bluemap.mapViewer.controlsManager.position.x = x;
         bluemap.mapViewer.controlsManager.position.y = y;
@@ -96,6 +101,6 @@ export default function BlueMap() {
     registerMap(map);
 
     return () => unregisterMap();
-  }, [registerMap, unregisterMap]);
+  }, [registerMap, unregisterMap, setCurrentWorld]);
   return <div className={s.root} ref={containerRef}></div>;
 }

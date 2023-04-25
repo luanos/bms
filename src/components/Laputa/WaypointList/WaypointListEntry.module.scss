@@ -72,43 +72,6 @@
   color: var(--col-neutral-12);
   font-weight: bold;
 }
-.info {
-  grid-area: info;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.75rem;
-
-  .separator {
-    height: 1em;
-  }
-}
-.infoShared {
-  display: flex;
-  align-items: center;
-  gap: 0.25em;
-  img,
-  svg {
-    margin-top: 1px;
-    display: inline-block;
-  }
-}
-
-.coordinateDisplay {
-  grid-area: name;
-  display: inline-flex;
-  border: 1px solid var(--col-neutral-6);
-  border-radius: var(--rad-s);
-  font-size: 0.75rem;
-
-  span {
-    padding: 0.15rem 0.25rem;
-  }
-  span:not(:last-child) {
-    border-right: 1px solid var(--col-neutral-6);
-  }
-  display: none; /*TODO: Debugging Only */
-}
 
 .actionsOverlay {
   position: absolute;
@@ -132,10 +95,11 @@
     var(--_action-overlay-trans-out-delay);
 
   button {
-    transition: color var(--dur-s);
+    transition: color 0.3s;
     &:hover,
     &:focus {
       color: var(--col-neutral-12);
+      transition: color var(--dur-s);
     }
   }
 }

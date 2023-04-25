@@ -3,6 +3,8 @@ import { CSS2DObject } from "../util/CSS2DRenderer";
 import {
   WaypointTypeBuildingHTML,
   WaypointTypeFarmHTML,
+  WaypointTypeMiscHTML,
+  WaypointTypePOIHTML,
   WaypointTypePortalHTML,
 } from "~/components/Icons";
 
@@ -14,8 +16,8 @@ const WaypointTypeToHTML: Record<WaypointType, string> = {
   PRIVATE_FARM: WaypointTypeFarmHTML,
   PUBLIC_FARM: WaypointTypeFarmHTML,
   PORTAL: WaypointTypePortalHTML,
-  POINT_OF_INTEREST: WaypointTypePortalHTML,
-  OTHER: WaypointTypePortalHTML,
+  POINT_OF_INTEREST: WaypointTypePOIHTML,
+  OTHER: WaypointTypeMiscHTML,
 };
 
 const WaypointTypeToClassName: Record<WaypointType, string> = {

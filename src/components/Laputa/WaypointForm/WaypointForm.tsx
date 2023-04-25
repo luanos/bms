@@ -8,7 +8,7 @@ import * as Dialog from "~/components/BaseUI/Dialog";
 import * as Form from "~/components/BaseUI/Form";
 import { Separator } from "~/components/BaseUI/Separator";
 import { VisibleToSelect } from "~/components/BaseUI/VisibleToSelect";
-import { EpDelete, EpCirclePlus } from "~/components/Icons";
+import { EpDelete } from "~/components/Icons";
 import {
   visibilityDisplayName,
   waypointTypeDisplayName,
@@ -50,7 +50,7 @@ export function WaypointForm({ children, waypoint }: WaypointFormProps) {
       zCoord: +data.zCoord,
     };
 
-    if (!!waypoint) {
+    if (waypoint?.id) {
       await updateWaypoint(waypoint.id, payload);
     } else {
       await addWaypoint(payload);
@@ -62,7 +62,7 @@ export function WaypointForm({ children, waypoint }: WaypointFormProps) {
     <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen} modal={true}>
       <Dialog.Trigger>{children}</Dialog.Trigger>
       <Dialog.Main
-        title={waypoint ? "Wegpunkt Bearbeiten" : "Wegpunkt Erstellen"}
+        title={waypoint?.id ? "Wegpunkt Bearbeiten" : "Wegpunkt Erstellen"}
       >
         <Form.Root onSubmit={onSubmit}>
           <Form.Field name="name" className={s.horizontalLayout}>
@@ -72,9 +72,6 @@ export function WaypointForm({ children, waypoint }: WaypointFormProps) {
               autoComplete="off"
               required
             />
-            <Form.Message match="valueMissing" style={{ gridColumn: "2/3" }}>
-              Ein Schild ohne Name ist genau wie du: Absolut nutzlos.
-            </Form.Message>
           </Form.Field>
           <Form.Field name="waypointType" className={s.horizontalLayout}>
             <Form.Label>Kategorie</Form.Label>

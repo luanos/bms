@@ -1,0 +1,13 @@
+.root {
+  display: inline-flex;
+  border: 1px solid var(--col-neutral-6);
+  border-radius: var(--rad-s);
+  font-size: 0.75rem;
+
+  span {
+    padding: 0.15rem 0.45rem;
+  }
+  span:not(:last-child) {
+    border-right: 1px solid var(--col-neutral-6);
+  }
+}

@@ -7,24 +7,43 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.Gson;
 
-class SignOfLifeRequest {
+class StatusRequest {
     String type = "SOL";
+    Object[] players;
+
+    public StatusRequest(Object[] players) {
+        this.players = players;
+    }
 }
 
 public final class BMSPlugin extends JavaPlugin {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    final Runnable statusTask = new Runnable() {
+        public void run() {
+            Object[] a = getServer().getOnlinePlayers().toArray();
+            getLogger().info("Sending request" + a.toString());
+            Gson gson = new Gson();
+            int res = sendRequest(gson.toJson(new StatusRequest(a)));
+            getLogger().info("got response " + res);
+        }
+    };
 
     public int sendRequest(String data) {
         String requestUrl = getConfig().getString("url");
+        getLogger().info(data);
         // String accessToken = getConfig().getString("accessToken");
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(new URI(requestUrl))
@@ -36,6 +55,7 @@ public final class BMSPlugin extends JavaPlugin {
             HttpResponse<String> res = client.send(request, BodyHandlers.ofString());
             return res.statusCode();
         } catch (Exception e) {
+            getLogger().info(e.getMessage());
             return 1337;
         }
 
@@ -43,27 +63,23 @@ public final class BMSPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final Runnable signOfLifeTask = new Runnable() {
+        // Config stuff
+        FileConfiguration config = getConfig();
+        config.options().copyDefaults(true);
+        config.addDefault("signOfLifeInterval", 10000);
+        saveConfig();
 
-            public void run() {
-                getLogger().info("Sending request");
-                Gson gson = new Gson();
-                int res = sendRequest(gson.toJson(new SignOfLifeRequest()));
-                getLogger().info("got response " + res);
-            }
-        };
+        // Scheduler
         int solInterval = getConfig().getInt("signOfLifeInterval");
-        scheduler.scheduleAtFixedRate(signOfLifeTask, solInterval, solInterval, TimeUnit.MILLISECONDS);
-        CommandExecutor waypointCommand = new Waypoint();
+        scheduler.scheduleAtFixedRate(statusTask, solInterval, solInterval, TimeUnit.MILLISECONDS);
 
-        this.getCommand("waypoint").setExecutor(waypointCommand);
-        getLogger().info("onEnable is called");
+        getLogger().info("plugin enabled");
 
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("onDisable is called");
+        getLogger().info("plugin disabled");
     }
 
 }

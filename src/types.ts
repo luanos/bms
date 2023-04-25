@@ -4,9 +4,14 @@ import type { Waypoint as DBWaypoint, User as DBUser } from "@prisma/client";
 
 export type User = Omit<DBUser, "password">;
 
-export type Waypoint = Omit<DBWaypoint, "ownerId"> & {
+export type Waypoint = Omit<
+  DBWaypoint,
+  "ownerId" | "updatedAt" | "createdAt"
+> & {
   owner: User;
   visibleTo: User[];
+  updatedAt: string;
+  createdAt: string;
 };
 
 export const WaypointUpdateInput = z.object({

@@ -38,8 +38,11 @@ export function User() {
       </div>
       <div className={s.avatarContainer}>
         <div className={s.avatarImgContainer}>
-          {/* TODO: DEBUGGING BILD ERSETZEN! */}
-          <Image src="/heslig.png" alt="" fill />
+          <Image
+            src={`https://crafatar.com/renders/body/${user.id}`}
+            alt=""
+            fill
+          />
         </div>
       </div>
     </div>

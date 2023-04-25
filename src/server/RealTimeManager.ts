@@ -19,7 +19,7 @@ interface WaypointUpdateMessage {
 
 interface ServerStatusMessage {
   type: "SERVER_STATUS";
-  data: ServerStatus;
+  data: ServerStatus | null;
 }
 
 export type Message =
@@ -30,8 +30,21 @@ export type Message =
 
 export type ServerStatus = {
   state: "online" | "offline";
-  currentPlayers: string[];
+  currentPlayers: Set<string>;
 };
+
+function compareStatus(lhs: ServerStatus | null, rhs: ServerStatus | null) {
+  if (!lhs || !rhs) return false;
+  return (
+    // state is equal
+    lhs.state === rhs.state &&
+    // currentPlayers are equal
+    lhs.currentPlayers.size === rhs.currentPlayers.size &&
+    Array.from(lhs.currentPlayers).every((player) =>
+      rhs.currentPlayers.has(player)
+    )
+  );
+}
 
 /**
  * The RealTimeManager contains business logic to dispatch real-time events such
@@ -44,7 +57,7 @@ export type ServerStatus = {
  */
 class RealTimeManager {
   clients: Set<Client> = new Set();
-  serverStatus: ServerStatus = { state: "offline", currentPlayers: [] };
+  serverStatus: ServerStatus | null = null;
   // Timer for resetting the status to offline
   timeoutId: NodeJS.Timeout | null = null;
   constructor() {}
@@ -58,27 +71,24 @@ class RealTimeManager {
     });
   }
 
-  setState(state: "online" | "offline") {
-    let previousState = this.serverStatus.state;
-    this.serverStatus.state = state;
-    if (state == "offline") {
-      this.serverStatus.currentPlayers = [];
-    }
-
-    if (state !== previousState) {
+  setStatus(status: ServerStatus) {
+    // compare status and send message if new state is different
+    let isNewStatus = compareStatus(this.serverStatus, status);
+    if (isNewStatus || !this.serverStatus) {
       this.clients.forEach((client) =>
         client.send({ type: "SERVER_STATUS", data: this.serverStatus })
       );
+      this.serverStatus = status;
     }
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
     this.timeoutId = setTimeout(
-      () => this.setState("offline"),
+      () => this.setStatus({ state: "offline", currentPlayers: new Set() }),
       // MC server should ping every 10s. If no update happens in 20s,
       // update the status to "offline".
-      6000
+      +(process.env.SERVER_STATUS_TIMEOUT ?? 20000)
     );
   }
 

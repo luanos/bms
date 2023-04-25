@@ -4,8 +4,11 @@ import Image from "next/image";
 import s from "./WaypointListEntry.module.scss";
 import { WaypointForm } from "../WaypointForm";
 import { highlightString } from "~/client/highlightString";
+import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
+import CoordinateDisplay from "~/components/BaseUI/CoordinateDisplay";
 import { Separator } from "~/components/BaseUI/Separator";
+import WaypointInfo from "~/components/BaseUI/WaypointInfo/WaypointInfo";
 import {
   EpUser,
   EpView,
@@ -14,10 +17,12 @@ import {
   WaypointTypeBuilding,
   WaypointTypeFarm,
   WaypointTypePortal,
+  WaypointTypePOI,
+  WaypointTypeMisc,
 } from "~/components/Icons";
 import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
 
-import type { WaypointType, WorldType } from "@prisma/client";
+import type { WaypointType } from "@prisma/client";
 import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
@@ -28,8 +33,8 @@ export const waypointTypeIconComponent: Record<WaypointType, React.FC> = {
   PRIVATE_FARM: WaypointTypeFarm,
   PUBLIC_FARM: WaypointTypeFarm,
   PORTAL: WaypointTypePortal,
-  POINT_OF_INTEREST: WaypointTypePortal,
-  OTHER: WaypointTypePortal,
+  POINT_OF_INTEREST: WaypointTypePOI,
+  OTHER: WaypointTypeMisc,
 };
 
 interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
@@ -131,33 +136,13 @@ export function WaypointListEntry({
             {waypointName}
           </button>
         </h3>
-        <CoordinateDisplay
-          world={waypoint.worldType}
-          x={waypoint.xCoord}
-          y={waypoint.yCoord}
-          z={waypoint.zCoord}
-        />
-        <div className={s.info}>
-          <span className={s.infoType}>
-            {waypointTypeDisplayName[waypoint.waypointType]}
-          </span>
-          <Separator className={s.separator} orientation="vertical" />
-          <span className={s.infoShared}>
-            {type == "MY_WAYPOINTS" ? (
-              <>
-                <EpView />
-                <span>{visibilityDisplayName[waypoint.visibility]}</span>
-              </>
-            ) : (
-              <>
-                <EpUser />
-                <span>{ownerName}</span>
-              </>
-            )}
-          </span>
-        </div>
-      </div>
 
+        <WaypointInfo
+          waypoint={waypoint}
+          view={type}
+          style={{ gridArea: "info" }}
+        />
+      </div>
       <div className={s.actionsOverlay}>
         {owned && (
           <WaypointForm waypoint={waypoint}>
@@ -168,29 +153,14 @@ export function WaypointListEntry({
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"
-          onClick={(e) => e.currentTarget.blur()}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            navigator.clipboard.writeText(serializeWaypoint(waypoint));
+          }}
         >
           <EpCopyDocument />
         </button>
       </div>
-    </div>
-  );
-}
-
-interface CoordinateDisplayProps {
-  world: WorldType;
-  x: number;
-  y: number;
-  z: number;
-}
-
-function CoordinateDisplay({ world, x, y, z }: CoordinateDisplayProps) {
-  return (
-    <div className={s.coordinateDisplay}>
-      <span>{world.substring(0, 1)}</span>
-      <span>{x}</span>
-      <span>{y}</span>
-      <span>{z}</span>
     </div>
   );
 }

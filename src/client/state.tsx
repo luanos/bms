@@ -26,6 +26,7 @@ interface AppState {
   // hidden. the id could then reference a waypoint not present above
   focusedWaypointId: string | null;
   map: Map | null;
+  currentWorld: WorldType;
   location: {
     xPos: number;
     yPos: number;
@@ -50,6 +51,7 @@ interface AppContext extends AppState {
   // map related
   updateLocation(xPos: number, yPos: number): void;
   registerMap(map: Map): void;
+  setCurrentWorld(worldType: WorldType): void;
   unregisterMap(): void;
 
   // waypoint related
@@ -72,6 +74,7 @@ function createAppContextStore(
     waypoints,
     allUsers,
     serverStatus: null,
+    currentWorld: "OVERWORLD",
     map: null,
     focusedWaypointId: null,
     location: null,
@@ -113,6 +116,9 @@ function createAppContextStore(
         throw new Error("Map already registered");
       }
       set({ map });
+    },
+    setCurrentWorld(worldType) {
+      set({ currentWorld: worldType });
     },
     unregisterMap() {
       set({ map: null });
@@ -164,8 +170,15 @@ export function AppStoreProvider({
         }));
       }
       if (message.type == "WAYPOINT_UPDATE") {
-        // TODO: WAYPOINT_UPDATE implementieren
-        throw new Error("unimplemented");
+        let updatedWaypoint = message.data;
+        storeRef.current?.setState((app) => ({
+          waypoints: app.waypoints.map((waypoint) => {
+            if (waypoint.id === updatedWaypoint.id) {
+              return updatedWaypoint;
+            }
+            return waypoint;
+          }),
+        }));
       }
       if (message.type == "WAYPOINT_SHOW") {
         let waypoint = message.data;
@@ -246,12 +259,27 @@ export function useServerStatus() {
   return useAppContext((app) => app.serverStatus);
 }
 
+export function useCurrentWorld() {
+  return useAppContext(({ map, currentWorld }) => ({
+    switchWorld: map?.switchMap,
+    currentWorld,
+  }));
+}
+
 export function useMapHandle() {
   return useAppContext(
-    ({ registerMap, updateLocation, unregisterMap }) => ({
+    ({
       registerMap,
+      updateLocation,
+      unregisterMap,
+      setCurrentWorld,
+      currentWorld,
+    }) => ({
+      registerMap,
+      setCurrentWorld,
       unregisterMap,
       updateLocation,
+      currentWorld,
     }),
     shallow
   );
