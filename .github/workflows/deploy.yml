@@ -18,7 +18,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       # https://docs.docker.com/build/cache/backends/gha/
-      - name: Build and push image
+      - name: Build and push image to ghcr
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -26,3 +26,15 @@ jobs:
           tags: ghcr.io/luanos/bms:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Pull image from ghcr
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: bms.luanos.de
+          port: 8085
+          username: githubactions
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            cd /home/bastian/docker/BMS2023/
+            docker-compose pull frontend
+            docker-compose -p BMS2023 up -d

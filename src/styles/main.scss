@@ -4,8 +4,8 @@
 
 :root {
   /* Color Palette */
-  --col-red: #ff7979;
-  --col-violet: #7c75ff;
+  --col-red: hsl(0, 100%, 74%);
+  --col-violet: hsl(243, 100%, 73%);
 
   /* Color UI Role Assignments*/
   --col-neutral-1: var(--slate1);
@@ -20,7 +20,10 @@
   --col-neutral-10: var(--slate10);
   --col-neutral-11: var(--slate11);
   --col-neutral-12: var(--slate12);
-
+  --col-accent-8: var(--col-violet);
+  --col-green: hsl(126, 61.9%, 24.7%);
+  --col-green-3: hsl(126, 42.5%, 85.7%);
+  --col-danger: var(--col-red);
   --col-danger-3: hsl(0, 25%, 88.9%);
   --col-neutral-trans-1: hsla(206, 30%, 98.8%, 0.9);
   --col-neutral-trans-2: hsla(210, 16.7%, 97.6%, 0.9);
@@ -28,13 +31,12 @@
 
   &.dark-theme {
     --col-danger-3: hsl(0, 12.5%, 20.5%);
+    --col-green: hsl(126, 72.5%, 57.3%);
+    --col-green-3: hsl(126, 14.6%, 18.8%);
     --col-neutral-trans-1: hsla(200, 7%, 8.8%, 0.9);
     --col-neutral-trans-2: hsla(195, 7.1%, 11%, 0.9);
     --col-neutral-trans-3: hsla(197, 6.8%, 13.6%, 0.9);
   }
-
-  --col-accent-8: var(--col-violet);
-  --col-danger: var(--col-red);
 
   /* Font Sizes */
   --fsize-s: 0.875rem;
@@ -51,6 +53,11 @@
 
   /* Blur */
   --blur: 12px;
+}
+
+*::selection {
+  color: #fff;
+  background-color: var(--col-accent-8);
 }
 
 @supports (backdrop-filter: blur(15px)) {
@@ -81,6 +88,7 @@ body {
   pointer-events: auto;
   align-items: center;
   transform: translate(-0.75rem, -0.75rem);
+  color: white;
   img {
     width: 1.5rem;
   }

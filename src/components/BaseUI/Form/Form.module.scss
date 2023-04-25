@@ -70,22 +70,24 @@
 
 // Styling specific to an entire Field (Input, Label, Message and other elements)
 
-.root.layoutHorizontal .field{
-    display: grid;
-    grid-template-columns: 100px auto;
-    gap: .5rem;
-    align-items: center;
+.root.layoutHorizontal .field {
+  display: grid;
+  grid-template-columns: 100px auto;
+  gap: 0.5rem;
+  align-items: center;
 }
 
-.field{
+.field {
   // Layouts
-  
+
   // Hover & Focus Styles All Here
-  &:focus-within{
-    label{
+  &:focus-within {
+    label {
       color: var(--col-accent-8);
     }
-    input, textarea, select{
+    input,
+    textarea,
+    select {
       border-color: var(--col-accent-8);
       transition-duration: var(--dur-s);
     }
@@ -108,10 +110,9 @@
 }
 
 .submit {
-  color: green;
-  background-color: darkgreen;
+  color: var(--col-green);
+  background-color: var(--col-green-3);
 }
-
 
 // ------------------------------------------------------------------
 // Styling specific to INPUT COORDINATES
@@ -124,7 +125,7 @@
   .field {
     display: block !important;
     position: relative;
-    flex-shrink: 2;  // Separators aren't visible without this
+    flex-shrink: 2; // Separators aren't visible without this
   }
 
   .separator {
