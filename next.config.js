@@ -5,6 +5,7 @@ const nextConfig = {
     typedRoutes: true,
   },
   images: { domains: ["crafatar.com"] },
+  output: "standalone",
 };
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
