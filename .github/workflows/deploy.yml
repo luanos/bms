@@ -17,6 +17,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # https://docs.docker.com/build/cache/backends/gha/
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
