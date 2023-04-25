@@ -18,3 +18,14 @@ services:
       EULA: TRUE
     volumes:
       - .papermc:/data
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+  frontend:
+    build: .
+    ports:
+      - 3000:3000
+      - 5555:5555
+    environment:
+      POSTGRES_CONNECTION_STRING: postgres://bms:example@db:5432/bms

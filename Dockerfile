@@ -11,7 +11,7 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 # We use the cache approach outlined in https://pnpm.io/cli/fetch
 COPY pnpm-lock.yaml ./
-RUN pnpm fetch
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm fetch
 COPY package.json ./
 RUN pnpm install --offline
 

@@ -3,4 +3,6 @@ Dockerfile
 node_modules
 .next
 .git
+.vscode
 README.md
+docker-compose.yml
