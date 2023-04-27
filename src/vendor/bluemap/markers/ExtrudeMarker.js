@@ -32,14 +32,15 @@ import {
   UniformsUtils,
   Vector2,
 } from "three";
-import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
-import { MARKER_FILL_VERTEX_SHADER } from "./MarkerFillVertexShader";
-import { MARKER_FILL_FRAGMENT_SHADER } from "./MarkerFillFragmentShader";
 import { Line2 } from "three/examples/jsm/lines/Line2";
-import { deepEquals } from "../util/Utils";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry";
+
+import { MARKER_FILL_FRAGMENT_SHADER } from "./MarkerFillFragmentShader";
+import { MARKER_FILL_VERTEX_SHADER } from "./MarkerFillVertexShader";
 import { ObjectMarker } from "./ObjectMarker";
 import { lineShader } from "../util/LineShader";
+import { deepEquals } from "../util/Utils";
 
 export class ExtrudeMarker extends ObjectMarker {
   /**

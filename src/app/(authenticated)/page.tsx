@@ -26,13 +26,14 @@ export default function Index() {
 }
 
 function WorldSwitch() {
-  const { currentWorld, switchWorld } = useCurrentWorld();
+  const { currentWorld, switchCurrentWorld } = useCurrentWorld();
+  if (!currentWorld) return null;
   return (
     <ToggleGroup.Root
       type="single"
       className={s.worldSwitchRoot}
       value={currentWorld}
-      onValueChange={(val) => switchWorld?.(val as WorldType)}
+      onValueChange={(val) => switchCurrentWorld?.(val as WorldType)}
     >
       {Object.keys(WorldType).map((type) => (
         <ToggleGroup.Item className={s.worldSwitchItem} value={type} key={type}>

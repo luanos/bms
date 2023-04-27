@@ -22,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import { pathFromCoords } from "../util/Utils";
 import {
   TextureLoader,
   Mesh,
@@ -34,6 +33,8 @@ import {
   NearestMipMapLinearFilter,
   Vector2,
 } from "three";
+
+import { pathFromCoords } from "../util/Utils";
 
 export class LowresTileLoader {
   constructor(

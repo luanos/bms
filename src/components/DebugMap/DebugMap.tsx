@@ -30,7 +30,7 @@ function useHistory<T>(history: number = 50) {
 }
 
 export function DebugMap() {
-  const { registerMap, updateLocation, unregisterMap } = useMapHandle();
+  const { registerMap, setLocation, unregisterMap } = useMapHandle();
   const [events, pushEvent] = useHistory<Event>();
   useEffect(() => {
     const map: Map = {
@@ -44,7 +44,7 @@ export function DebugMap() {
       updateHash: function (): void {
         throw new Error("Function not implemented.");
       },
-      switchMap: function (world: WorldType): void {
+      switchCurrentWorld: function (world: WorldType): void {
         throw new Error("Function not implemented.");
       },
     };
@@ -59,10 +59,7 @@ export function DebugMap() {
       className={s.root}
       onMouseMove={(e) => {
         const { left, top } = e.currentTarget.getBoundingClientRect();
-        updateLocation(
-          Math.round(e.clientX - left),
-          Math.round(e.clientY - top)
-        );
+        setLocation(Math.round(e.clientX - left), Math.round(e.clientY - top));
       }}
     >
       <Image src="/map2.jpg" fill alt="" />

@@ -78,7 +78,7 @@ export default function BlueMap() {
       setCurrentWorld(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
     });
     const map: Map = {
-      async switchMap(world) {
+      async switchCurrentWorld(world) {
         await bluemap.switchMap(WorldTypeToBlueMap[world], true);
         setCurrentWorld(world);
       },

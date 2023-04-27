@@ -24,6 +24,7 @@
  */
 
 import { MathUtils, Vector2 } from "three";
+
 import { VEC2_ZERO } from "../../../util/Utils";
 
 export class MouseMoveControls {

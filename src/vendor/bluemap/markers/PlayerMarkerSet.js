@@ -24,8 +24,8 @@
  */
 
 import { MarkerSet } from "./MarkerSet";
-import { alert } from "../util/Utils";
 import { PlayerMarker } from "./PlayerMarker";
+import { alert } from "../util/Utils";
 
 export class PlayerMarkerSet extends MarkerSet {
   constructor(id, playerheadsUrl) {

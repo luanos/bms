@@ -26,7 +26,8 @@ interface AppState {
   // hidden. the id could then reference a waypoint not present above
   focusedWaypointId: string | null;
   map: Map | null;
-  currentWorld: WorldType;
+  // Map States
+  currentWorld: WorldType | null;
   location: {
     xPos: number;
     yPos: number;
@@ -35,7 +36,7 @@ interface AppState {
 
 export interface Map {
   updateHash(): void;
-  switchMap(world: WorldType): void;
+  switchCurrentWorld(world: WorldType): void;
   panToLocation(
     world: WorldType,
     xPos: number,
@@ -48,11 +49,11 @@ interface AppContext extends AppState {
   // user related
   logout(): void;
 
-  // map related
-  updateLocation(xPos: number, yPos: number): void;
+  // map handles
   registerMap(map: Map): void;
-  setCurrentWorld(worldType: WorldType): void;
   unregisterMap(): void;
+  setCurrentWorld(worldType: WorldType): void;
+  setLocation(xPos: number, yPos: number): void;
 
   // waypoint related
   addWaypoint(input: WaypointAddInput): Promise<void>;
@@ -123,7 +124,7 @@ function createAppContextStore(
     unregisterMap() {
       set({ map: null });
     },
-    updateLocation(xPos, yPos) {
+    setLocation(xPos, yPos) {
       set({ location: { xPos, yPos } });
     },
   }));
@@ -261,7 +262,7 @@ export function useServerStatus() {
 
 export function useCurrentWorld() {
   return useAppContext(({ map, currentWorld }) => ({
-    switchWorld: map?.switchMap,
+    switchCurrentWorld: map?.switchCurrentWorld,
     currentWorld,
   }));
 }
@@ -270,7 +271,7 @@ export function useMapHandle() {
   return useAppContext(
     ({
       registerMap,
-      updateLocation,
+      setLocation,
       unregisterMap,
       setCurrentWorld,
       currentWorld,
@@ -278,7 +279,7 @@ export function useMapHandle() {
       registerMap,
       setCurrentWorld,
       unregisterMap,
-      updateLocation,
+      setLocation,
       currentWorld,
     }),
     shallow
