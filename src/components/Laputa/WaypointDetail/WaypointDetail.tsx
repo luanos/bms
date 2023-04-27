@@ -1,5 +1,5 @@
 import s from "./WaypointDetail.module.scss";
-import { WaypointForm } from "../WaypointForm";
+import { WaypointFormDialog } from "../WaypointForm";
 import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useUser, useMap } from "~/client/state";
 import CoordinateDisplay from "~/components/BaseUI/CoordinateDisplay";
@@ -70,11 +70,11 @@ export function WaypointDetail({ waypoint }: WaypointDetailProps) {
         </p>
         <div className={s.actions}>
           {owned && (
-            <WaypointForm waypoint={waypoint}>
+            <WaypointFormDialog waypoint={waypoint}>
               <button aria-label="Wegpunkt bearbeiten">
                 <EpEdit />
               </button>
-            </WaypointForm>
+            </WaypointFormDialog>
           )}
           <button
             aria-label="Wegpunkt Link Kopieren"

@@ -114,6 +114,8 @@ export class PopupMarker extends Marker {
           <div class="popup-entry">${this.position.y}</div>
           <div class="popup-separator"></div>
           <div class="popup-entry">${this.position.z}</div>
+       <div class="popup-separator"></div>
+       <div class="popup-button"></div>
         </div>`;
     } else {
       this.element.innerHTML = `
@@ -121,23 +123,21 @@ export class PopupMarker extends Marker {
           <div class="popup-entry">${this.position.x}</div>
           <div class="popup-separator"></div>
           <div class="popup-entry">${this.position.z}</div>
+       <div class="popup-separator"></div>
+       <div class="popup-button"></div>
         </div>`;
     }
-    // TODO
-    // Add above:
-    //    <div class="popup-separator"></div>
-    //    <div class="popup-button"></div>
-    // const buttonWrapper = this.element.querySelector("div.popup-button");
-    // const button = document.createElement("button");
-    // button.textContent = "+";
-    // button.addEventListener("click", (e) =>
-    //   this.actionHandler(
-    //     this.position.x,
-    //     this.position.z,
-    //     isHires ? this.position.y : undefined
-    //   )
-    // );
-    // buttonWrapper.appendChild(button);
+    const buttonWrapper = this.element.querySelector("div.popup-button");
+    const button = document.createElement("button");
+    button.textContent = "+";
+    button.addEventListener("click", (e) =>
+      this.actionHandler(
+        this.position.x,
+        this.position.z,
+        isHires ? this.position.y : undefined
+      )
+    );
+    buttonWrapper.appendChild(button);
 
     if (this.appState.debug) {
       let chunkCoords = this.position.clone().divideScalar(16).floor();

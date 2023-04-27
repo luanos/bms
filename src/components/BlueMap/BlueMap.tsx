@@ -9,6 +9,7 @@ import {
   useMapHandle,
   useWaypoints,
 } from "~/client/state";
+import * as Dialog from "~/components/BaseUI/Dialog";
 import { MarkerSet } from "~/vendor/bluemap/BlueMap";
 import { BlueMapApp } from "~/vendor/bluemap/BlueMapApp";
 import { WaypointMarker } from "~/vendor/bluemap/markers/WaypointMarker";
@@ -29,6 +30,12 @@ const BlueMapToWorldType: Record<string, WorldType> = {
   world_the_end: "END",
 };
 
+type Coords = {
+  x: number;
+  y?: number;
+  z: number;
+};
+
 export default function BlueMap() {
   const { registerMap, unregisterMap, currentWorld, setCurrentWorld } =
     useMapHandle();
@@ -38,14 +45,9 @@ export default function BlueMap() {
   const [bluemap, setBluemap] = useState<BlueMapApp | null>(null);
   const waypoints = useWaypoints();
   const focusedWaypoint = useFocusedWaypoint();
-
-  // TODO: Split this useEffect into worldType and waypoint dependencies
+  const [coords, setCoords] = useState<Coords | null>(null);
   useEffect(() => {
-    if (!bluemap) return;
-    if (!markerRef.current) {
-      markerRef.current = new MarkerSet("waypoints");
-      bluemap.mapViewer.markers.add(markerRef.current);
-    }
+    if (!bluemap || !markerRef.current) return;
 
     const markerSet = markerRef.current;
 
@@ -71,9 +73,11 @@ export default function BlueMap() {
 
     const bluemap = new BlueMapApp(
       containerRef.current,
-      (x: any, z: any, y: any) => console.log(x, y, z)
+      (x: any, z: any, y: any) => setCoords({ x, y, z })
     );
     bluemap.load().then(() => {
+      markerRef.current = new MarkerSet("waypoints");
+      bluemap.mapViewer.markers.add(markerRef.current);
       setBluemap(bluemap);
       setCurrentWorld(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
     });
@@ -102,5 +106,23 @@ export default function BlueMap() {
 
     return () => unregisterMap();
   }, [registerMap, unregisterMap, setCurrentWorld]);
-  return <div className={s.root} ref={containerRef}></div>;
+  return (
+    <>
+      <Dialog.Root open={!!coords} onOpenChange={() => setCoords(null)}>
+        <Dialog.Main title="Wegpunkt Erstellen">
+          {coords && (
+            <WaypointForm
+              onSubmit={() => setCoords(null)}
+              waypoint={{
+                xCoord: coords.x,
+                yCoord: coords.y,
+                zCoord: coords.z,
+              }}
+            />
+          )}
+        </Dialog.Main>
+      </Dialog.Root>
+      <div className={s.root} ref={containerRef}></div>
+    </>
+  );
 }

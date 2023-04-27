@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
-import { WaypointForm } from "../WaypointForm";
+import { WaypointFormDialog } from "../WaypointForm";
 import { highlightString } from "~/client/highlightString";
 import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
@@ -145,11 +145,11 @@ export function WaypointListEntry({
       </div>
       <div className={s.actionsOverlay}>
         {owned && (
-          <WaypointForm waypoint={waypoint}>
+          <WaypointFormDialog waypoint={waypoint}>
             <button aria-label="Wegpunkt bearbeiten">
               <EpEdit />
             </button>
-          </WaypointForm>
+          </WaypointFormDialog>
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"

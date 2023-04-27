@@ -1,1 +1,1 @@
-export { WaypointForm } from "./WaypointForm";
+export { WaypointFormDialog, WaypointForm } from "./WaypointForm";
