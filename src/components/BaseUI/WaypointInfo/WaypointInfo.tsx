@@ -3,7 +3,7 @@ import clsx from "clsx";
 import s from "./WaypointInfo.module.scss";
 import { Separator } from "~/components/BaseUI/Separator";
 import { EpUser, EpView } from "~/components/Icons";
-import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
+import { WaypointTypeToDisplayName, VisibilityToDisplayName } from "~/config";
 
 import type { ReactNode, CSSProperties } from "react";
 import type { Waypoint } from "~/types";
@@ -29,7 +29,7 @@ export default function WaypointInfo({
         {view == "MY_WAYPOINTS" ? (
           <>
             <EpView />
-            <span>{visibilityDisplayName[waypoint.visibility]}</span>
+            <span>{VisibilityToDisplayName[waypoint.visibility]}</span>
           </>
         ) : (
           <>
@@ -55,7 +55,9 @@ interface InfoTypeProps {
 
 function InfoType({ waypointType }: InfoTypeProps) {
   return (
-    <span className={s.infoType}>{waypointTypeDisplayName[waypointType]}</span>
+    <span className={s.infoType}>
+      {WaypointTypeToDisplayName[waypointType]}
+    </span>
   );
 }
 

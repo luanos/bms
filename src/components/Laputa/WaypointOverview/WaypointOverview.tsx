@@ -18,7 +18,7 @@ import {
   EpExpand,
   EpPlus,
 } from "~/components/Icons";
-import { waypointTypeDisplayName } from "~/displaynames";
+import { WaypointTypeToDisplayName } from "~/config";
 
 const useQuery = persistedState("");
 
@@ -166,7 +166,7 @@ function TabExplore() {
         ) {
           filterList.push({
             value: waypointType as WaypointType,
-            display: waypointTypeDisplayName[waypointType as WaypointType],
+            display: WaypointTypeToDisplayName[waypointType as WaypointType],
           });
         }
         return filterList;

@@ -9,10 +9,10 @@ import { Separator } from "~/components/BaseUI/Separator";
 import { VisibleToSelect } from "~/components/BaseUI/VisibleToSelect";
 import { EpDelete } from "~/components/Icons";
 import {
-  visibilityDisplayName,
-  waypointTypeDisplayName,
-  worldTypeDisplayName,
-} from "~/displaynames";
+  VisibilityToDisplayName,
+  WaypointTypeToDisplayName,
+  WorldTypeToDisplayName,
+} from "~/config";
 
 import type { FormEvent, ReactNode } from "react";
 import type { User, Waypoint, WaypointAddInput } from "~/types";
@@ -68,7 +68,7 @@ export function WaypointForm({ waypoint, onSubmit }: WaypointFormProps) {
           {Object.keys(WaypointType).map((key) => {
             return (
               <option key={key} value={key}>
-                {waypointTypeDisplayName[key as WaypointType]}
+                {WaypointTypeToDisplayName[key as WaypointType]}
               </option>
             );
           })}
@@ -80,7 +80,7 @@ export function WaypointForm({ waypoint, onSubmit }: WaypointFormProps) {
           {Object.keys(WorldType).map((key) => {
             return (
               <option key={key} value={key}>
-                {worldTypeDisplayName[key as WorldType]}
+                {WorldTypeToDisplayName[key as WorldType]}
               </option>
             );
           })}
@@ -120,7 +120,7 @@ export function WaypointForm({ waypoint, onSubmit }: WaypointFormProps) {
             .reverse()
             .map((type) => (
               <option key={type} value={type}>
-                {visibilityDisplayName[type as Visibility]}
+                {VisibilityToDisplayName[type as Visibility]}
               </option>
             ))}
         </Form.Select>

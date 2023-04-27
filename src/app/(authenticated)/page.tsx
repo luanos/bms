@@ -9,7 +9,7 @@ import { Pill } from "~/components/BaseUI/Pill";
 import { Separator } from "~/components/BaseUI/Separator";
 import { Laputa } from "~/components/Laputa";
 import { User } from "~/components/User";
-import { worldTypeDisplayName } from "~/displaynames";
+import { WorldTypeToDisplayName } from "~/config";
 
 export default function Index() {
   return (
@@ -37,7 +37,7 @@ function WorldSwitch() {
     >
       {Object.keys(WorldType).map((type) => (
         <ToggleGroup.Item className={s.worldSwitchItem} value={type} key={type}>
-          {worldTypeDisplayName[type as WorldType]}
+          {WorldTypeToDisplayName[type as WorldType]}
         </ToggleGroup.Item>
       ))}
     </ToggleGroup.Root>

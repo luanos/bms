@@ -10,25 +10,13 @@ import {
   useWaypoints,
 } from "~/client/state";
 import * as Dialog from "~/components/BaseUI/Dialog";
+import { BlueMapToWorldType, WorldTypeToBlueMap } from "~/config";
 import { MarkerSet } from "~/vendor/bluemap/BlueMap";
 import { BlueMapApp } from "~/vendor/bluemap/BlueMapApp";
 import { WaypointMarker } from "~/vendor/bluemap/markers/WaypointMarker";
 
 import type { WorldType } from "@prisma/client";
 import type { Map } from "~/client/state";
-import type { Waypoint } from "~/types";
-
-const WorldTypeToBlueMap: Record<WorldType, string> = {
-  OVERWORLD: "world",
-  NETHER: "world_nether",
-  END: "world_the_end",
-};
-
-const BlueMapToWorldType: Record<string, WorldType> = {
-  world: "OVERWORLD",
-  world_nether: "NETHER",
-  world_the_end: "END",
-};
 
 type Coords = {
   x: number;
