@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useEffect, useRef } from "react";
 import { createStore, useStore } from "zustand";
 import { shallow } from "zustand/shallow";
@@ -192,6 +191,7 @@ export function AppStoreProvider({
         storeRef.current?.setState({ serverStatus: status });
       }
     });
+    return () => eventSource.close();
   }, []);
   return (
     <AppStoreContext.Provider value={storeRef.current}>
@@ -261,10 +261,13 @@ export function useServerStatus() {
 }
 
 export function useCurrentWorld() {
-  return useAppContext(({ map, currentWorld }) => ({
-    switchCurrentWorld: map?.switchCurrentWorld,
-    currentWorld,
-  }));
+  return useAppContext(
+    ({ map, currentWorld }) => ({
+      switchCurrentWorld: map?.switchCurrentWorld,
+      currentWorld,
+    }),
+    shallow
+  );
 }
 
 export function useMapHandle() {

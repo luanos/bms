@@ -1,3 +1,4 @@
+"use client";
 import s from "./Laputa.module.scss";
 import { WaypointDetail } from "./WaypointDetail";
 import { WaypointOverview } from "./WaypointOverview";
