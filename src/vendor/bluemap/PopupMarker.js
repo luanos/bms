@@ -28,6 +28,7 @@ import { Marker } from "./markers/Marker";
 import { CSS2DObject } from "./util/CSS2DRenderer";
 import { animate, htmlToElement } from "./util/Utils";
 import { i18n } from "../i18n";
+import { BlueMapToWorldType } from "~/config";
 
 export class PopupMarker extends Marker {
   constructor(id, appState, events, onClick, mapViewer) {
@@ -132,8 +133,8 @@ export class PopupMarker extends Marker {
     const button = document.createElement("button");
     button.textContent = "+";
     button.addEventListener("click", (e) => {
-      console.log(this.mapViewer.map.data.id);
       this.actionHandler(
+        BlueMapToWorldType[this.mapViewer.map.data.id],
         this.position.x,
         this.position.z,
         isHires ? this.position.y : undefined
