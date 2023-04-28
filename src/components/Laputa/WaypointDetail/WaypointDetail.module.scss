@@ -8,8 +8,9 @@
 
 .topBar {
   display: flex;
+  gap: 1rem;
   align-items: center;
-  height: 61px;
+  min-height: 61px;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--col-neutral-4);
 }
@@ -26,7 +27,7 @@
 
 .blurWaypoint {
   aspect-ratio: 1;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border-radius: 50%;
 
   transition: background-color 0.3s;
@@ -38,7 +39,7 @@
   }
 }
 .name {
-  margin: auto;
+  margin: 0 auto;
   color: var(--col-neutral-12);
   font-size: 1.125rem;
   font-weight: bold;
