@@ -28,7 +28,7 @@ export function WaypointOverview() {
   const [debouncedQuery] = useDebouncedValue(query, 300);
 
   return (
-    <nav>
+    <>
       <div className={s.searchInput} onClick={() => input.current?.focus()}>
         <input
           name="search"
@@ -59,7 +59,7 @@ export function WaypointOverview() {
       ) : (
         <WaypointTabs />
       )}
-    </nav>
+    </>
   );
 }
 

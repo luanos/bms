@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import s from "./BlueMap.module.scss";
-import { WaypointForm } from "../Laputa/WaypointForm";
 import {
   useFocusedWaypoint,
   useFocusedWaypointActions,
@@ -68,6 +67,7 @@ export default function BlueMap() {
     });
     const map: Map = {
       async switchCurrentWorld(world) {
+        console.log(world);
         await bluemap.switchMap(WorldTypeToBlueMap[world], true);
         setCurrentWorld(world);
       },

@@ -2,16 +2,14 @@ import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 import { AppStoreProvider } from "~/client/state";
-import { DebugMap } from "~/components/DebugMap";
+import { Laputa } from "~/components/Laputa";
+import { MapOverlay } from "~/components/MapOverlay";
+import { User } from "~/components/User";
 import prisma from "~/server/db";
 import { getSession } from "~/server/session";
 import { getVisibleWaypoints } from "~/server/waypoints";
 
 import type { ReactNode } from "react";
-
-const BlueMap = dynamic(() => import("~/components/BlueMap"), {
-  ssr: false,
-});
 
 export default async function AuthenticatedLayout({
   children,
@@ -34,8 +32,10 @@ export default async function AuthenticatedLayout({
       allUsers={users}
       waypoints={JSON.parse(JSON.stringify(waypoints))}
     >
-      <BlueMap />
       {children}
+      <Laputa />
+      <User />
+      <MapOverlay />
     </AppStoreProvider>
   );
 }
