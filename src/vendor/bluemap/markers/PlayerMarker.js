@@ -43,18 +43,21 @@ export class PlayerMarker extends Marker {
 
     this.elementObject = new CSS2DObject(
       htmlToElement(`
-<div id="bm-marker-${this.data.id}" class="bm-marker-${this.data.type}">
-    <img src="${this.data.playerHead}" alt="playerhead" draggable="false">
-    <div class="bm-player-name"></div>
-</div>
+        <div id="bm-marker-${this.data.id}" class="bm-marker-player">
+          <img src="${this.data.playerHead}" alt="playerhead" draggable="false">
+          <div class="bm-tooltip">
+            <div class="bm-tooltip-backdrop"></div>    
+            <span></span>
+          </div>
+        </div>
         `)
     );
     this.elementObject.onBeforeRender = (renderer, scene, camera) =>
       this.onBeforeRender(renderer, scene, camera);
 
-    this.playerHeadElement = this.element.getElementsByTagName("img")[0];
-    this.playerNameElement = this.element.getElementsByTagName("div")[0];
-
+    this.playerHeadElement = this.element.querySelector(".bm-marker-player > img");
+    this.playerNameElement = this.element.querySelector(".bm-tooltip > span");
+    
     this.addEventListener("removed", () => {
       if (this.element.parentNode)
         this.element.parentNode.removeChild(this.element);
