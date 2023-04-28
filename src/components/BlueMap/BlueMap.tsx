@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import s from "./BlueMap.module.scss";
+import { WaypointForm } from "../Laputa/WaypointForm";
 import {
   useFocusedWaypoint,
   useFocusedWaypointActions,
