@@ -1,32 +1,18 @@
 import clsx from "clsx";
-import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
 import { WaypointFormDialog } from "../WaypointForm";
 import { highlightString } from "~/client/highlightString";
 import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
-import CoordinateDisplay from "~/components/BaseUI/CoordinateDisplay";
-import { Separator } from "~/components/BaseUI/Separator";
-import WaypointInfo from "~/components/BaseUI/WaypointInfo/WaypointInfo";
-import {
-  EpUser,
-  EpView,
-  EpEdit,
-  EpCopyDocument,
-  WaypointTypeBuilding,
-  WaypointTypeFarm,
-  WaypointTypePortal,
-  WaypointTypePOI,
-  WaypointTypeMisc,
-} from "~/components/Icons";
+import { Stack } from "~/components/BaseUI/Stack";
+import { EpUser, EpView, EpEdit, EpCopyDocument } from "~/components/Icons";
 import {
   WaypointTypeToDisplayName,
   VisibilityToDisplayName,
   WaypointTypeToIconComponent,
 } from "~/config";
 
-import type { WaypointType } from "@prisma/client";
 import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
@@ -130,12 +116,32 @@ export function WaypointListEntry({
             {waypointName}
           </button>
         </h3>
-
-        <WaypointInfo
+        <Stack
+          className={s.waypointInfo}
+          orientation="horizontal"
+          gap="1rem"
+          separated
+        >
+          <span>{WaypointTypeToDisplayName[waypoint.waypointType]}</span>
+          <span className={s.infoShared}>
+            {type == "MY_WAYPOINTS" ? (
+              <>
+                <EpView />
+                <span>{VisibilityToDisplayName[waypoint.visibility]}</span>
+              </>
+            ) : (
+              <>
+                <EpUser />
+                <span>{waypoint.owner.username}</span>
+              </>
+            )}
+          </span>
+        </Stack>
+        {/* <WaypointInfo
           waypoint={waypoint}
           view={type}
           style={{ gridArea: "info" }}
-        />
+        /> */}
       </div>
       <div className={s.actionsOverlay}>
         {owned && (

@@ -103,3 +103,14 @@
     }
   }
 }
+
+.waypointInfo {
+  grid-area: info;
+  font-size: 0.75rem;
+}
+
+.infoShared {
+  display: flex;
+  gap: 0.25em;
+  align-items: center;
+}

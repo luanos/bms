@@ -3,13 +3,15 @@ import { WaypointFormDialog } from "../WaypointForm";
 import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useUser, useMap } from "~/client/state";
 import CoordinateDisplay from "~/components/BaseUI/CoordinateDisplay";
-import WaypointInfo from "~/components/BaseUI/WaypointInfo/WaypointInfo";
+import { Stack } from "~/components/BaseUI/Stack";
 import {
   EpArrowRightBold,
   EpCopyDocument,
   EpAim,
   EpEdit,
+  EpUser,
 } from "~/components/Icons";
+import { WaypointTypeToDisplayName } from "~/config";
 
 import type { Waypoint } from "~/types";
 interface WaypointDetailProps {
@@ -43,7 +45,18 @@ export function WaypointDetail({ waypoint }: WaypointDetailProps) {
       </div>
       <div className={s.middleSection}>
         <div className={s.info}>
-          <WaypointInfo waypoint={waypoint} />
+          <Stack
+            className={s.waypointInfo}
+            orientation="horizontal"
+            gap="1rem"
+            separated
+          >
+            <span>{WaypointTypeToDisplayName[waypoint.waypointType]}</span>
+            <span className={s.infoShared}>
+              <EpUser />
+              <span>{waypoint.owner.username}</span>
+            </span>
+          </Stack>
           <CoordinateDisplay
             world={waypoint.worldType}
             x={waypoint.xCoord}
