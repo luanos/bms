@@ -1,5 +1,7 @@
 .mapOverlay {
   position: absolute;
+  display: flex;
+  align-items: center;
   bottom: 1rem;
   right: 1rem;
 }
