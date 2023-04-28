@@ -77,7 +77,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 328px; // TODO: Diese Value funktioniert nur bei Laputa-Width von genau 400px
+    max-width: 328px; // TODO: Diese Value funktioniert nur bei Laputa-Width von genau 400px
   }
 }
 
