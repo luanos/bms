@@ -43,7 +43,8 @@ export const WaypointList = memo(
             ? waypoints.map((waypoint, index) => (
                 <WaypointListEntry
                   type={type}
-                  waypoint={waypoint}
+                  waypoint={waypoint.item}
+                  searchData={waypoint.matches ?? []}
                   key={waypoint.item.id}
                   onMouseEnter={() => setHoveredIndex(index)}
                 />
