@@ -1,4 +1,4 @@
-import { WorldType } from "@prisma/client";
+import { WorldType, WaypointType } from "@prisma/client";
 import Fuse from "fuse.js";
 import { useMemo, useRef, useState } from "react";
 
@@ -20,8 +20,6 @@ import {
   EpPlus,
 } from "~/components/Icons";
 import { waypointTypeDisplayName } from "~/displaynames";
-
-import type { WaypointType } from "@prisma/client";
 
 const useQuery = persistedState("");
 
@@ -147,6 +145,11 @@ function WaypointTabs() {
 
 type FilterValue = WaypointType | "ALL";
 
+type Filter = {
+  value: FilterValue;
+  display: string;
+};
+
 const useActiveFilter = persistedState<FilterValue>("ALL");
 const usePersistedExploreScroll = persistedScroll();
 
@@ -157,15 +160,20 @@ function TabExplore() {
   // TODO: possible bug, what happens when a filter gets removed via rt and is
   // still selected via activeFilter?
   const availableFilters = useMemo(() => {
-    const availableFilterValues: FilterValue[] = ["ALL"];
-    waypoints.forEach((waypoint) =>
-      availableFilterValues.push(waypoint.waypointType)
+    return Object.keys(WaypointType).reduce<Filter[]>(
+      (filterList, waypointType) => {
+        if (
+          waypoints.some((waypoint) => waypoint.waypointType === waypointType)
+        ) {
+          filterList.push({
+            value: waypointType as WaypointType,
+            display: waypointTypeDisplayName[waypointType as WaypointType],
+          });
+        }
+        return filterList;
+      },
+      [{ value: "ALL", display: "Alle" }]
     );
-    //
-    return Array.from(new Set(availableFilterValues)).map((value) => ({
-      value: value,
-      display: value == "ALL" ? "Alle" : waypointTypeDisplayName[value],
-    }));
   }, [waypoints]);
 
   const displayedWaypoints = waypoints.filter(
