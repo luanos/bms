@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import s from "./WaypointListEntry.module.scss";
-import { WaypointForm } from "../WaypointForm";
+import { WaypointFormDialog } from "../WaypointForm";
 import { highlightString } from "~/client/highlightString";
 import { serializeWaypoint } from "~/client/serializeWaypoint";
 import { useFocusedWaypointActions, useMap, useUser } from "~/client/state";
@@ -20,22 +20,16 @@ import {
   WaypointTypePOI,
   WaypointTypeMisc,
 } from "~/components/Icons";
-import { waypointTypeDisplayName, visibilityDisplayName } from "~/displaynames";
+import {
+  WaypointTypeToDisplayName,
+  VisibilityToDisplayName,
+  WaypointTypeToIconComponent,
+} from "~/config";
 
 import type { WaypointType } from "@prisma/client";
 import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
-
-export const waypointTypeIconComponent: Record<WaypointType, React.FC> = {
-  PRIVATE_BUILDING: WaypointTypeBuilding,
-  PUBLIC_BUILDING: WaypointTypeBuilding,
-  PRIVATE_FARM: WaypointTypeFarm,
-  PUBLIC_FARM: WaypointTypeFarm,
-  PORTAL: WaypointTypePortal,
-  POINT_OF_INTEREST: WaypointTypePOI,
-  OTHER: WaypointTypeMisc,
-};
 
 interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;
@@ -111,7 +105,7 @@ export function WaypointListEntry({
   }
 
   const owned = user.id == waypoint.owner.id;
-  const Icon = waypointTypeIconComponent[waypoint.waypointType];
+  const Icon = WaypointTypeToIconComponent[waypoint.waypointType];
   return (
     <div className={clsx(s.root, className)} {...props}>
       <div
@@ -145,11 +139,11 @@ export function WaypointListEntry({
       </div>
       <div className={s.actionsOverlay}>
         {owned && (
-          <WaypointForm waypoint={waypoint}>
+          <WaypointFormDialog waypoint={waypoint}>
             <button aria-label="Wegpunkt bearbeiten">
               <EpEdit />
             </button>
-          </WaypointForm>
+          </WaypointFormDialog>
         )}
         <button
           aria-label="Wegpunkt Link Kopieren"

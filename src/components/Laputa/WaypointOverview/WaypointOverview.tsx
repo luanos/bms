@@ -1,15 +1,14 @@
 import { WorldType, WaypointType } from "@prisma/client";
 import Fuse from "fuse.js";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 
 import s from "./WaypointOverview.module.scss";
-import { WaypointForm } from "../WaypointForm";
+import { WaypointFormDialog } from "../WaypointForm";
 import { WaypointList } from "../WaypointList";
 import { persistedScroll } from "~/client/persistedScroll";
 import { persistedState } from "~/client/persistedState";
-import { useUser, useWaypointActions, useWaypoints } from "~/client/state";
+import { useUser, useWaypoints } from "~/client/state";
 import { useDebouncedValue } from "~/client/useDebouncedValue";
-import * as Dialog from "~/components/BaseUI/Dialog";
 import * as Tabs from "~/components/BaseUI/Tabs";
 import { FilterList } from "~/components/FilterList";
 import {
@@ -19,7 +18,7 @@ import {
   EpExpand,
   EpPlus,
 } from "~/components/Icons";
-import { waypointTypeDisplayName } from "~/displaynames";
+import { WaypointTypeToDisplayName } from "~/config";
 
 const useQuery = persistedState("");
 
@@ -167,7 +166,7 @@ function TabExplore() {
         ) {
           filterList.push({
             value: waypointType as WaypointType,
-            display: waypointTypeDisplayName[waypointType as WaypointType],
+            display: WaypointTypeToDisplayName[waypointType as WaypointType],
           });
         }
         return filterList;
@@ -208,12 +207,12 @@ function TabMyWaypoints() {
   return (
     <>
       <div className={s.buttonAddWrapper}>
-        <WaypointForm>
+        <WaypointFormDialog>
           <button className={s.buttonAdd}>
             <EpPlus />
             Erstellen
           </button>
-        </WaypointForm>
+        </WaypointFormDialog>
       </div>
       <WaypointList waypoints={ownWaypoints} ref={ref} type="MY_WAYPOINTS" />
     </>

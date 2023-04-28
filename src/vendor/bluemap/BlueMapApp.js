@@ -116,7 +116,8 @@ export class BlueMapApp {
       "bm-popup",
       this.appState,
       this.events,
-      actionHandler
+      actionHandler,
+      this.mapViewer
     );
     this.popupMarkerSet.add(this.popupMarker);
     this.mapViewer.markers.add(this.popupMarkerSet);

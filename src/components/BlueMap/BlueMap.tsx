@@ -2,12 +2,15 @@
 import { useEffect, useRef, useState } from "react";
 
 import s from "./BlueMap.module.scss";
+import { WaypointForm } from "../Laputa/WaypointForm";
 import {
   useFocusedWaypoint,
   useFocusedWaypointActions,
   useMapHandle,
   useWaypoints,
 } from "~/client/state";
+import * as Dialog from "~/components/BaseUI/Dialog";
+import { BlueMapToWorldType, WorldTypeToBlueMap } from "~/config";
 import { MarkerSet } from "~/vendor/bluemap/BlueMap";
 import { BlueMapApp } from "~/vendor/bluemap/BlueMapApp";
 import { WaypointMarker } from "~/vendor/bluemap/markers/WaypointMarker";
@@ -15,18 +18,6 @@ import { WaypointMarker } from "~/vendor/bluemap/markers/WaypointMarker";
 import type { WorldType } from "@prisma/client";
 import type { Map } from "~/client/state";
 import type { Waypoint } from "~/types";
-
-const WorldTypeToBlueMap: Record<WorldType, string> = {
-  OVERWORLD: "world",
-  NETHER: "world_nether",
-  END: "world_the_end",
-};
-
-const BlueMapToWorldType: Record<string, WorldType> = {
-  world: "OVERWORLD",
-  world_nether: "NETHER",
-  world_the_end: "END",
-};
 
 export default function BlueMap() {
   const { registerMap, unregisterMap, currentWorld, setCurrentWorld } =
@@ -37,14 +28,10 @@ export default function BlueMap() {
   const [bluemap, setBluemap] = useState<BlueMapApp | null>(null);
   const waypoints = useWaypoints();
   const focusedWaypoint = useFocusedWaypoint();
-
-  // TODO: Split this useEffect into worldType and waypoint dependencies
+  const [initialWaypoint, setInitialWaypoint] =
+    useState<Partial<Waypoint> | null>(null);
   useEffect(() => {
-    if (!bluemap) return;
-    if (!markerRef.current) {
-      markerRef.current = new MarkerSet("waypoints");
-      bluemap.mapViewer.markers.add(markerRef.current);
-    }
+    if (!bluemap || !markerRef.current) return;
 
     const markerSet = markerRef.current;
 
@@ -70,9 +57,12 @@ export default function BlueMap() {
 
     const bluemap = new BlueMapApp(
       containerRef.current,
-      (x: any, z: any, y: any) => console.log(x, y, z)
+      (worldType: WorldType, xCoord: number, zCoord: number, yCoord?: number) =>
+        setInitialWaypoint({ xCoord, yCoord, zCoord, worldType })
     );
     bluemap.load().then(() => {
+      markerRef.current = new MarkerSet("waypoints");
+      bluemap.mapViewer.markers.add(markerRef.current);
       setBluemap(bluemap);
       setCurrentWorld(BlueMapToWorldType[bluemap.mapViewer.map.data.id]);
     });
@@ -102,5 +92,22 @@ export default function BlueMap() {
 
     return () => unregisterMap();
   }, [registerMap, unregisterMap, setCurrentWorld]);
-  return <div className={s.root} ref={containerRef}></div>;
+  return (
+    <>
+      <Dialog.Root
+        open={!!initialWaypoint}
+        onOpenChange={() => setInitialWaypoint(null)}
+      >
+        <Dialog.Main title="Wegpunkt Erstellen">
+          {initialWaypoint && (
+            <WaypointForm
+              onSubmit={() => setInitialWaypoint(null)}
+              waypoint={initialWaypoint}
+            />
+          )}
+        </Dialog.Main>
+      </Dialog.Root>
+      <div className={s.root} ref={containerRef}></div>
+    </>
+  );
 }

@@ -1,34 +1,9 @@
 import { Marker } from "./Marker";
 import { CSS2DObject } from "../util/CSS2DRenderer";
-import {
-  WaypointTypeBuildingHTML,
-  WaypointTypeFarmHTML,
-  WaypointTypeMiscHTML,
-  WaypointTypePOIHTML,
-  WaypointTypePortalHTML,
-} from "~/components/Icons";
+import { WaypointTypeToClassName, WaypointTypeToIconHTML } from "~/config";
 
 import type { WaypointType } from "@prisma/client";
 import type { Waypoint } from "~/types";
-const WaypointTypeToHTML: Record<WaypointType, string> = {
-  PRIVATE_BUILDING: WaypointTypeBuildingHTML,
-  PUBLIC_BUILDING: WaypointTypeBuildingHTML,
-  PRIVATE_FARM: WaypointTypeFarmHTML,
-  PUBLIC_FARM: WaypointTypeFarmHTML,
-  PORTAL: WaypointTypePortalHTML,
-  POINT_OF_INTEREST: WaypointTypePOIHTML,
-  OTHER: WaypointTypeMiscHTML,
-};
-
-const WaypointTypeToClassName: Record<WaypointType, string> = {
-  PRIVATE_BUILDING: "building",
-  PUBLIC_BUILDING: "building",
-  PRIVATE_FARM: "farm",
-  PUBLIC_FARM: "farm",
-  PORTAL: "portal",
-  POINT_OF_INTEREST: "poi",
-  OTHER: "misc",
-};
 
 export class WaypointMarker extends Marker {
   element: HTMLDivElement;
@@ -51,7 +26,7 @@ export class WaypointMarker extends Marker {
     if (highlight) element.classList.add("highlight");
     element.innerHTML = `
       <div class="icon-wrapper" data-name="${waypoint.name}">
-        ${WaypointTypeToHTML[waypoint.waypointType]}
+        ${WaypointTypeToIconHTML[waypoint.waypointType]}
       </div>
 
     `;

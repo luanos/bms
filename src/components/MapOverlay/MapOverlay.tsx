@@ -7,7 +7,7 @@ import s from "./MapOverlay.module.scss";
 import { useCurrentWorld, useLocation, useServerStatus } from "~/client/state";
 import { Pill } from "~/components/BaseUI/Pill";
 import { Separator } from "~/components/BaseUI/Separator";
-import { worldTypeDisplayName } from "~/displaynames";
+import { WorldTypeToDisplayName } from "~/config";
 
 export function MapOverlay() {
   return (
@@ -31,7 +31,7 @@ function WorldSwitch() {
     >
       {Object.keys(WorldType).map((type) => (
         <ToggleGroup.Item className={s.worldSwitchItem} value={type} key={type}>
-          {worldTypeDisplayName[type as WorldType]}
+          {WorldTypeToDisplayName[type as WorldType]}
         </ToggleGroup.Item>
       ))}
     </ToggleGroup.Root>
