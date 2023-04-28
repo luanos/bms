@@ -17,18 +17,19 @@ import type Fuse from "fuse.js";
 import type { CSSProperties, HTMLProps, ReactNode } from "react";
 import type { Waypoint } from "~/types";
 
-interface WaypointListEntryTabProps extends HTMLProps<HTMLDivElement> {
+interface WaypointListEntryProps2 extends HTMLProps<HTMLDivElement> {
   waypoint: Waypoint;
   type: "EXPLORE" | "MY_WAYPOINTS";
+  searchData?: ReadonlyArray<Fuse.FuseResultMatch>;
 }
 
-interface WaypointListEntrySearchProps extends HTMLProps<HTMLDivElement> {
-  waypoint: Fuse.FuseResult<Waypoint>;
+interface WaypointListEntryProps1 extends HTMLProps<HTMLDivElement> {
+  waypoint: Waypoint;
   type: "SEARCH";
+  searchData: ReadonlyArray<Fuse.FuseResultMatch>;
 }
-type WaypointListEntryProps =
-  | WaypointListEntrySearchProps
-  | WaypointListEntryTabProps;
+
+type WaypointListEntryProps = WaypointListEntryProps1 | WaypointListEntryProps2;
 
 interface FormattedNameProps {
   stringToFormat: string;
@@ -54,8 +55,9 @@ function FormattedName({ stringToFormat, match }: FormattedNameProps) {
 }
 
 export function WaypointListEntry({
-  waypoint: waypointOrSearchResult,
+  waypoint,
   className,
+  searchData,
   type,
   ...props
 }: WaypointListEntryProps) {
@@ -63,29 +65,22 @@ export function WaypointListEntry({
   const { focusWaypoint } = useFocusedWaypointActions();
   const map = useMap();
 
-  let waypoint: Waypoint;
   let waypointName: ReactNode;
   let ownerName: ReactNode;
-  if (type == "SEARCH") {
-    waypoint = waypointOrSearchResult.item;
+  if (type === "SEARCH") {
     waypointName = (
       <FormattedName
         stringToFormat={waypoint.name}
-        match={waypointOrSearchResult.matches?.find(
-          (match) => match.key == "name"
-        )}
+        match={searchData.find((match) => match.key == "name")}
       />
     );
     ownerName = (
       <FormattedName
         stringToFormat={waypoint.owner.username}
-        match={waypointOrSearchResult.matches?.find(
-          (match) => match.key == "owner.username"
-        )}
+        match={searchData?.find((match) => match.key == "owner.username")}
       />
     );
   } else {
-    waypoint = waypointOrSearchResult;
     waypointName = waypoint.name;
     ownerName = waypoint.owner.username;
   }
@@ -127,12 +122,12 @@ export function WaypointListEntry({
             {type == "MY_WAYPOINTS" ? (
               <>
                 <EpView />
-                <span>{VisibilityToDisplayName[waypoint.visibility]}</span>
+                {VisibilityToDisplayName[waypoint.visibility]}
               </>
             ) : (
               <>
                 <EpUser />
-                <span>{waypoint.owner.username}</span>
+                {ownerName}
               </>
             )}
           </span>
