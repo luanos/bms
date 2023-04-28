@@ -21,12 +21,17 @@ export class WaypointMarker extends Marker {
     // Customization Start
     element.addEventListener("click", onClick);
     element.classList.add(
+      `bm-marker-waypoint`,
       `waypoint-type-${WaypointTypeToClassName[waypoint.waypointType]}`
     );
     if (highlight) element.classList.add("highlight");
     element.innerHTML = `
-      <div class="icon-wrapper" data-name="${waypoint.name}">
+      <div class="bm-icon">
         ${WaypointTypeToIconHTML[waypoint.waypointType]}
+      </div>
+      <div class="bm-tooltip">
+        <div class="bm-tooltip-backdrop"></div>
+        <span>${waypoint.name}</span>
       </div>
 
     `;
