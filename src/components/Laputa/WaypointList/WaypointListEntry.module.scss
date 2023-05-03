@@ -71,6 +71,14 @@
   grid-area: name;
   color: var(--col-neutral-12);
   font-weight: bold;
+
+  button {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 328px; // TODO: Diese Value funktioniert nur bei Laputa-Width von genau 400px
+  }
 }
 
 .actionsOverlay {
