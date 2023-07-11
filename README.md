@@ -21,4 +21,4 @@ Furthermore, the app features a waypoint system. Logged-in players can
 
 ### Discover waypoints by filterung and searching
 
-<video src="assets/waypoint.mp4" controls title=""></video>
+![Alt text](assets/out.gif)
